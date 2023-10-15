@@ -1,4 +1,4 @@
-package groupWork;
+package models;
 
 public class Date {
 	private int day;
@@ -42,8 +42,5 @@ public class Date {
 	public String toString() {
 		return "Day: " + day + "\nMonth=" + month + "\nYear: " + year;
 	} 
-	
-	
-	
-	
+
 }

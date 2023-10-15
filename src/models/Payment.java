@@ -1,4 +1,4 @@
-package groupWork;
+package models;
 
 public class Payment {
 	private int paymentID;

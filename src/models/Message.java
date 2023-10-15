@@ -1,4 +1,4 @@
-package groupWork;
+package models;
 
 public class Message {
 	private int messageID;

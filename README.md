@@ -1,3 +1,7 @@
 # JJLA-APProject
 
-This is a test from lascelle
+Authors:
+Aaliyah Adebukunola
+Jodony Dunn
+Joel Anderson
+Lascelle McKenzie
