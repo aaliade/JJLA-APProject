@@ -10,17 +10,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.GuiController;
+
 public class LoginView {
 
 	private JFrame frame;
 	private JLabel userID, userPassword, title;
 	private JTextField userIdField, userPasswordField;
 	private JButton signUpBtn, loginBtn;
-	private JPanel panel1, panel2, panel3, panel4;
+	private JPanel[] panels;
+	private GuiController guiController;
 	
 	
-	public void LoginView() {
-		
+	public LoginView(GuiController gui) {
+		this.guiController = gui;
+		initializeComponents();
+		addComponentsToPanel();
+		addToPanelToFrame();
+		setWindowProperties();
+		registerListeners();
 	}
 	
 	public void initializeComponents() {
@@ -29,7 +37,7 @@ public class LoginView {
 		
 		userID = new JLabel("User ID: ");
 		userPassword = new JLabel("Password: ");
-		title = new JLabel("Grizzly’s Entertainment Equipment Rental");
+		title = new JLabel("Welcome, Login To Your Account.");
 		
 		userIdField = new JTextField();
 		userPasswordField = new JTextField();
@@ -38,32 +46,36 @@ public class LoginView {
 		signUpBtn = new JButton("Sign Up");
 		loginBtn = new JButton("Login");
 		
-		panel1 = new JPanel(new GridLayout(1,1));
-		panel2 = new JPanel(new GridLayout(1,2));
-		panel3 = new JPanel(new GridLayout(1,2));
-		panel4 = new JPanel(new GridLayout(1,2));
+		panels = new JPanel[4];
 		
+		for(int i=0;i<panels.length;i++) {
+			panels[i] = new JPanel();
+		}
+		
+		panels[0].setLayout(new GridLayout(1,1));
+		panels[1].setLayout(new GridLayout(1,2));
+		panels[2].setLayout(new GridLayout(1,2));
+		panels[3].setLayout(new GridLayout(1,2));
 	}
 	
 	
 	public void addComponentsToPanel() {
-		panel1.add(title);
+		panels[0].add(title);
 		
-		panel2.add(userID);
-		panel2.add(userIdField);
+		panels[1].add(userID);
+		panels[1].add(userIdField);
 		
-		panel3.add(userPassword);
-		panel3.add(userPasswordField);
+		panels[2].add(userPassword);
+		panels[2].add(userPasswordField);
 		
-		panel4.add(signUpBtn);
-		panel4.add(loginBtn);
+		panels[3].add(signUpBtn);
+		panels[3].add(loginBtn);
 	}
 	
 	public void addToPanelToFrame() {
-		frame.add(panel1);
-		frame.add(panel2);
-		frame.add(panel3);
-		frame.add(panel4);
+		for(int i=0;i<panels.length;i++) {
+			frame.add(panels[i]);
+		}
 	}
 	
 	public void setWindowProperties() {
@@ -74,20 +86,26 @@ public class LoginView {
 		frame.setResizable(false);
 	}
 	
-	private void registerListeners() {
+	public void registerListeners() {
 		signUpBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				clearFrame(frame);
+				guiController.signUpUser(frame); //passes frame object to function
 			}
 			
 		});
+		
 		loginBtn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 			}
 		});
+	}
+	
+	public void clearFrame(JFrame frame) {
+		frame.getContentPane().removeAll(); //Clear Frame
+		frame.repaint();
 	}
 }
