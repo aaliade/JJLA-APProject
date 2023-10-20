@@ -4,6 +4,10 @@ public class Driver {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+
+		System.out.println("Hello");
+		System.out.println("Goodbye");
+
 		System.out.println("jvdhfjring");
 		System.out.println("Bye");
 	}
