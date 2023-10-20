@@ -125,6 +125,7 @@ public class SignUpView {
 	
 	public void setWindowProperties() {
 		frame.setSize(400,600);
+		//frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
