@@ -131,7 +131,7 @@ public class SignUpView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 	}
-	
+	 
 	private void registerListeners() {
 		rbtnCustomer.addActionListener(new ActionListener() {
 			@Override
@@ -171,6 +171,8 @@ public class SignUpView {
 			}
 		});
 	}
+	
+	
 	
 	
 }

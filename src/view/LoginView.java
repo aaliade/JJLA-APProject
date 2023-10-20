@@ -90,7 +90,6 @@ public class LoginView {
 		signUpBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				clearFrame(frame);
 				guiController.signUpUser(frame); //passes frame object to function
 			}
 			
@@ -99,13 +98,8 @@ public class LoginView {
 		loginBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				guiController.loginUser(frame);
 			}
 		});
-	}
-	
-	public void clearFrame(JFrame frame) {
-		frame.getContentPane().removeAll(); //Clear Frame
-		frame.repaint();
 	}
 }
