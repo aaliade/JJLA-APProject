@@ -3,12 +3,17 @@ package view;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import controller.GuiController;
 
@@ -20,6 +25,10 @@ public class LoginView {
 	private JButton signUpBtn, loginBtn;
 	private JPanel[] panels;
 	private GuiController guiController;
+	
+//	private UtilDateModel model; 
+//	private JDatePanelImpl datePanel;
+//	private JDatePickerImpl datePicker; 
 	
 	
 	public LoginView(GuiController gui) {
@@ -56,6 +65,16 @@ public class LoginView {
 		panels[1].setLayout(new GridLayout(1,2));
 		panels[2].setLayout(new GridLayout(1,2));
 		panels[3].setLayout(new GridLayout(1,2));
+		
+		
+//		Properties p = new Properties();
+//		p.put("text.today", "Today");
+//		p.put("text.month", "Month");
+//		p.put("text.year", "Year");
+		
+//		model = new UtilDateModel();
+//		datePanel = new JDatePanelImpl(model,p);
+//		datePicker = new JDatePickerImpl(datePanel, null);
 	}
 	
 	
@@ -70,6 +89,8 @@ public class LoginView {
 		
 		panels[3].add(signUpBtn);
 		panels[3].add(loginBtn);
+		
+//		panels[4].add(datePicker);
 	}
 	
 	public void addToPanelToFrame() {
@@ -101,5 +122,14 @@ public class LoginView {
 				guiController.loginUser(frame);
 			}
 		});
+		
+		/*
+		datePicker.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String date = String.valueOf(model.getDay());
+				System.out.print(date);
+			}
+		});*/
 	}
 }
