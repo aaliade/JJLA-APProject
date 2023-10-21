@@ -170,6 +170,15 @@ public class SignUpView {
 				confirmPasswordField.setText("");
 			}
 		});
+		
+		goBackBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guiController.goBackToLoginPage(frame);
+			}
+			
+		});
 	}
 	
 	

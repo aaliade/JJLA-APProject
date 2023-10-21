@@ -31,6 +31,11 @@ public class GuiController {
 		this.customerDashboard = new CustomerDashboard(this,frame);
 	}
 	
+	public void goBackToLoginPage(JFrame frame) {
+		frame.dispose(); //terminates frame
+		this.loginView = new LoginView(this);
+	}
+	
 	public void clearFrame(JFrame frame) {
 		frame.getContentPane().removeAll(); //Clear Frame
 		frame.repaint();
