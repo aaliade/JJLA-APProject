@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import controller.GuiController;
 
 public class SignUpView {
@@ -26,6 +29,8 @@ public class SignUpView {
 	private JButton goBackBtn, submitBtn, clearBtn;
 	private JPanel[] panels;
 	
+	private static final Logger logger = LogManager.getLogger(SignUpView.class);
+	
 	
 	public SignUpView(GuiController gui, JFrame Frame) {
 		this.frame = Frame;
@@ -35,6 +40,7 @@ public class SignUpView {
 		addToPanelToFrame();
 		setWindowProperties();
 		registerListeners();
+		logger.info("Sign Up Page created");
 	}
 	
 	public void initializeComponents() {
@@ -81,7 +87,8 @@ public class SignUpView {
 		panels[8].setLayout(new GridLayout(1,1));
 		panels[9].setLayout(new GridLayout(1,1));
 		panels[10].setLayout(new GridLayout(1,3));
-
+		
+		logger.info("Sign Up Components initialized");
 	}
 	
 	
@@ -115,12 +122,14 @@ public class SignUpView {
 		panels[10].add(goBackBtn);
 		panels[10].add(clearBtn);
 		panels[10].add(submitBtn);
+		logger.info("Compenets added to Panel");
 	}
 	
 	public void addToPanelToFrame() {
 		for(int i=0;i<panels.length;i++) {
 			frame.add(panels[i]);
 		}
+		logger.info("Panel added to Frame");
 	}
 	
 	public void setWindowProperties() {
@@ -130,6 +139,7 @@ public class SignUpView {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
+		logger.info("Window Properties set");
 	}
 	 
 	private void registerListeners() {
@@ -179,6 +189,7 @@ public class SignUpView {
 			}
 			
 		});
+		logger.info("Sign Up Page Listeners initialized");
 	}
 	
 	

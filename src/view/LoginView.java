@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -26,6 +29,8 @@ public class LoginView {
 	private JPanel[] panels;
 	private GuiController guiController;
 	
+	private static final Logger logger = LogManager.getLogger(LoginView.class);
+	
 //	private UtilDateModel model; 
 //	private JDatePanelImpl datePanel;
 //	private JDatePickerImpl datePicker; 
@@ -38,6 +43,7 @@ public class LoginView {
 		addToPanelToFrame();
 		setWindowProperties();
 		registerListeners();
+		logger.info("Login Page created");
 	}
 	
 	public void initializeComponents() {
@@ -75,6 +81,7 @@ public class LoginView {
 //		model = new UtilDateModel();
 //		datePanel = new JDatePanelImpl(model,p);
 //		datePicker = new JDatePickerImpl(datePanel, null);
+		logger.info("Login Components initialized");
 	}
 	
 	
@@ -91,12 +98,14 @@ public class LoginView {
 		panels[3].add(loginBtn);
 		
 //		panels[4].add(datePicker);
+		logger.info("Compenents added to Panel");
 	}
 	
 	public void addToPanelToFrame() {
 		for(int i=0;i<panels.length;i++) {
 			frame.add(panels[i]);
 		}
+		logger.info("Panel added to Frame");
 	}
 	
 	public void setWindowProperties() {
@@ -105,6 +114,7 @@ public class LoginView {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
+		logger.info("Window Prperties set");
 	}
 	
 	public void registerListeners() {
@@ -131,5 +141,6 @@ public class LoginView {
 				System.out.print(date);
 			}
 		});*/
+		logger.info("Login Page Listeners initialized");
 	}
 }

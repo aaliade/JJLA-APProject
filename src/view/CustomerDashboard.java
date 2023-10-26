@@ -14,6 +14,9 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import controller.GuiController;
 
 public class CustomerDashboard {
@@ -21,6 +24,7 @@ public class CustomerDashboard {
 	private JDesktopPane desktop;
 	private JMenuBar menuBar;
 	
+	private static final Logger logger = LogManager.getLogger(CustomerDashboard.class);
 	
 	private JMenu cart, account;
 	private JMenuItem viewProfile, updateProfile, deleteProfile, Logout,
@@ -45,6 +49,7 @@ public class CustomerDashboard {
 		this.addComponentsToWindow();
 		this.setWindowProperties();
 		this.registerListeners();
+		logger.info("Customer Dashboard created");
 	}
 	
 	public void initializeComponents() {
@@ -72,6 +77,7 @@ public class CustomerDashboard {
 	    veiwEquipment = new DefaultMutableTreeNode("View Equiments");
 	    pastTransaction = new DefaultMutableTreeNode("View Past Transaction");
 	    message = new DefaultMutableTreeNode("Message");
+	    logger.info("Customer Dashboard components initialized");
 	}
 	
 	public void addMenuItemsToMenu() {
@@ -82,11 +88,13 @@ public class CustomerDashboard {
 		account.add(Logout);
 		
 		cart.add(viewCart);
+		logger.info("Items added to Account and Cart Menus");
 	}
 	
 	public void addMenusToMenuBar() {
 		menuBar.add(account);
 		menuBar.add(cart);
+		logger.info("Account and Cart Menus added to Menu Bar");
 	}
 	
 	public void createTreeStructure() {
@@ -94,6 +102,7 @@ public class CustomerDashboard {
 		dashBoard.add(veiwEquipment);
 		dashBoard.add(pastTransaction);
 		dashBoard.add(message);
+		logger.info("Tree Structure created");
 	}
 	
 	public void addTreeNodesToTree() {
@@ -104,11 +113,13 @@ public class CustomerDashboard {
         renderer.setLeafIcon(null);
         renderer.setClosedIcon(null);
         renderer.setOpenIcon(null);
+        logger.info("Nodes added to Tree");
 	}
 	
 	public void addComponentsToWindow(){
 		frame.add(desktop);
 		frame.add(treeView);
+		logger.info("Components added to Window");
 	}
 	
 	public void setWindowProperties() {
@@ -118,6 +129,7 @@ public class CustomerDashboard {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
+		logger.info("Window Properties set");
 	}
 	
 	public void registerListeners() {
@@ -131,6 +143,7 @@ public class CustomerDashboard {
 				 }
 			}
 		});
+		logger.info("Customer Dashboard Listeners initialized");
 	}
 	
 }
