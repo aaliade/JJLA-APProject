@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 public class DBConnectorFactory {
 	public static final Logger logger = LogManager.getLogger(DBConnectorFactory.class);
 	private static Connection dbConn = null;
+	private static final Logger logger = LogManager.getLogger(DBConnectorFactory.class);
 	
 	public static Connection getDatabaseConnection() {
 		if (dbConn == null) {
@@ -20,15 +21,28 @@ public class DBConnectorFactory {
 				
 				if (dbConn != null) {
 					JOptionPane.showMessageDialog(null, "Connection Established", "JDBC Connection Status", JOptionPane.INFORMATION_MESSAGE);
+<<<<<<< HEAD
 					logger.info("Database Connection Established");
+=======
+					logger.info("Connection Established");
+>>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 				}
 			} catch (SQLException e) {
+<<<<<<< HEAD
                 logger.error("SQL Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
             } catch (Exception e) {
                 logger.error("Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
             }
+=======
+				e.printStackTrace();
+				logger.error("Database Error" + e.getMessage());
+			}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("Something went wrong" + e.getMessage());
+			}
+>>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 		}
 		return dbConn;
 	}

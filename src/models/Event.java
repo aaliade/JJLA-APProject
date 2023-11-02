@@ -1,5 +1,6 @@
 package models;
 
+<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import factories.DBConnectorFactory;
+=======
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+>>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 
 public class Event {
 	public static final Logger logger = LogManager.getLogger(Event.class);
@@ -22,12 +27,18 @@ public class Event {
 	private Statement stmt = null;
 	private ResultSet result = null;
 	
+	private static final Logger logger = LogManager.getLogger(Event.class);
+	
 	public Event() {
 		eventID = 0;
 		eventName = "";
 		eventDate = "";
 		eventLocation = "";
+<<<<<<< HEAD
 		this.dbConn = DBConnectorFactory.getDatabaseConnection();
+=======
+		logger.info("Event initialized);
+>>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 	}
 	
 	public Event(int eventID, String eventName, String eventDate, String eventLocation) {
@@ -35,6 +46,7 @@ public class Event {
 		this.eventName = eventName;
 		this.eventDate = eventDate;
 		this.eventLocation = eventLocation;
+		logger.info("Input accepted, Event initialized");
 	}
 	
 	public int geteventID() {
@@ -43,6 +55,7 @@ public class Event {
 	
 	public void seteventID(int eventID) {
 		this.eventID = eventID;
+		logger.info("Input accepted, Event ID set");
 	}
 	
 	public String geteventName() {
@@ -51,6 +64,7 @@ public class Event {
 	
 	public void seteventName(String eventName) {
 		this.eventName = eventName;
+		logger.info("Input accepted, Event Name set");
 	}
 	
 	public String geteventDate() {
@@ -59,6 +73,7 @@ public class Event {
 	
 	public void seteventDate(String eventDate) {
 		this.eventDate = eventDate;
+		logger.info("Input accepted, Event Date set");
 	}
 	
 	public String geteventLocation() {
@@ -67,10 +82,12 @@ public class Event {
 	
 	public void seteventLocation(String eventLocation) {
 		this.eventLocation = eventLocation;
+		logger.info("Input accepted, Event Location set");
 	}
 	
 	@Override
 	public String toString() {
+		logger.info("Event information returned");
 		return "Event ID" + eventID + "Event Name" + eventName + "Event Date" + eventDate + "Event Location" + eventLocation;
 	}
 

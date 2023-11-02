@@ -1,8 +1,13 @@
 package models;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public abstract class User {
 	
 	private String username, password, firstName, lastName, phone, email;
+	
+	private static final Logger logger = LogManager.getLogger(User.class);
 
 	//Default Constructor
 	public User(){
@@ -12,6 +17,7 @@ public abstract class User {
 		this.lastName = "";
 		this.phone = "";
 		this.email = "";
+		logger.info("User initialized");
 	}
 	
 	//Primary Constructor
@@ -22,6 +28,7 @@ public abstract class User {
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
+		logger.info("Input accepted, User initialized");
 	} 
 	
 	//Copy Constructor
@@ -32,6 +39,7 @@ public abstract class User {
 		this.lastName = user.lastName;
 		this.phone = user.phone;
 		this.email = user.email;
+		logger.info("User copied");
 	}
 	
 }
