@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 public class DBConnectorFactory {
 	public static final Logger logger = LogManager.getLogger(DBConnectorFactory.class);
 	private static Connection dbConn = null;
-	private static final Logger logger = LogManager.getLogger(DBConnectorFactory.class);
 	
 	public static Connection getDatabaseConnection() {
 		if (dbConn == null) {
@@ -31,12 +30,6 @@ public class DBConnectorFactory {
                 logger.error("Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
             }
-				e.printStackTrace();
-				logger.error("Database Error" + e.getMessage());
-			}catch (Exception e) {
-				e.printStackTrace();
-				logger.error("Something went wrong" + e.getMessage());
-			}
 		}
 		return dbConn;
 	}

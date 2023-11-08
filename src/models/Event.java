@@ -1,6 +1,16 @@
 package models;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import factories.DBConnectorFactory;
 
 public class Event {
 	public static final Logger logger = LogManager.getLogger(Event.class);
@@ -11,8 +21,6 @@ public class Event {
 	private Connection dbConn = null;
 	private Statement stmt = null;
 	private ResultSet result = null;
-	 
-	private static final Logger logger = LogManager.getLogger(Event.class);
 	
 	public Event() {
 		eventID = 0;
@@ -21,7 +29,6 @@ public class Event {
 		eventLocation = "";
 		logger.info("Event initialized");
 		this.dbConn = DBConnectorFactory.getDatabaseConnection();
-		logger.info("Event initialized);
 	}
 	
 	public Event(int eventID, String eventName, String eventDate, String eventLocation) {
