@@ -7,9 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import controller.GuiController;
 
@@ -26,6 +30,8 @@ public class SignUpView {
 	private JButton goBackBtn, submitBtn, clearBtn;
 	private JPanel[] panels;
 	
+	private static final Logger logger = LogManager.getLogger(SignUpView.class);
+	
 	
 	public SignUpView(GuiController gui, JFrame Frame) {
 		this.frame = Frame;
@@ -35,6 +41,7 @@ public class SignUpView {
 		addToPanelToFrame();
 		setWindowProperties();
 		registerListeners();
+		logger.info("Sign Up Page created");
 	}
 	
 	public void initializeComponents() {
@@ -81,7 +88,8 @@ public class SignUpView {
 		panels[8].setLayout(new GridLayout(1,1));
 		panels[9].setLayout(new GridLayout(1,1));
 		panels[10].setLayout(new GridLayout(1,3));
-
+		
+		logger.info("Sign Up Components initialized");
 	}
 	
 	
@@ -115,21 +123,23 @@ public class SignUpView {
 		panels[10].add(goBackBtn);
 		panels[10].add(clearBtn);
 		panels[10].add(submitBtn);
+		logger.info("Compenets added to Panel");
 	}
 	
 	public void addToPanelToFrame() {
 		for(int i=0;i<panels.length;i++) {
 			frame.add(panels[i]);
 		}
+		logger.info("Panel added to Frame");
 	}
 	
 	public void setWindowProperties() {
 		frame.setSize(400,600);
-		//frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
+		logger.info("Window Properties set");
 	}
 	 
 	private void registerListeners() {
@@ -147,11 +157,69 @@ public class SignUpView {
 				rbtnCustomer.setEnabled(false);
 				
 			}
+		}); 
+		
+		submitBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(rbtnCustomer.isSelected()) {
+					
+					//Check if all fields are filled out
+		
+					String firstName, lastName, phoneNumber, email, userName, password, confirmPassword;
+					
+					firstName = firstNameField.getText();				
+					lastName = lastNameField.getText();
+					phoneNumber = phoneField.getText();
+					email = emailField.getText();
+					userName = userNameField.getText();
+					password = passwordField.getText();
+					confirmPassword = confirmPasswordField.getText();
+					
+					
+					//Check Database first
+					
+					//Check if the fields are empty
+					if(firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() ||
+							email.isEmpty() || userName.isEmpty() || password.isEmpty() || 
+							confirmPassword.isEmpty()) {
+						JOptionPane.showMessageDialog(frame, "Please Ensure All Fields Are Properly Filled Out.", "Field Empty",JOptionPane.ERROR_MESSAGE);
+					}
+					
+					//Check if the passwords are the same
+					if(password.equals(confirmPassword)) {
+						JOptionPane.showMessageDialog(frame, "Password correct", "Field Empty",JOptionPane.ERROR_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(frame, "Password incorrect", "Field Empty",JOptionPane.ERROR_MESSAGE);
+					} 
+					
+					//Check Database first
+					
+					//Add to data to database
+					
+					//Display Message if registration is successful
+					/*JOptionPane.showMessageDialog(frame, "You have been Successfully Registered.\r\n"
+							+ "\r\n"
+							+ "A User ID has been generated: n43rvntg\r\n"
+							+ "\r\n"
+							+ "This should be used to login. ", "Registration Complete",JOptionPane.INFORMATION_MESSAGE);*/
+					
+					//Display Message if registration is failed
+					//JOptionPane.showMessageDialog(frame, "Please Ensure All Fields Are Properly Filled Out.", "Registration Failed",JOptionPane.ERROR_MESSAGE);
+				}
+				
+				if(rbtnEmployee.isSelected()) {
+					JOptionPane.showMessageDialog(null, "Note: A code was sent by the employer please check your email for the code.");
+					String code = JOptionPane.showInputDialog(null, "Please Enter Registration Code:", 
+			                "Employee Registration", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
 		});
 		
 		clearBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				//Enable buttons
 				rbtnCustomer.setEnabled(true);
 				rbtnEmployee.setEnabled(true);
@@ -172,16 +240,12 @@ public class SignUpView {
 		});
 		
 		goBackBtn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				guiController.goBackToLoginPage(frame);
 			}
-			
 		});
+		logger.info("Sign Up Page Listeners initialized");
 	}
-	
-	
-	
 	
 }

@@ -1,15 +1,21 @@
 package models;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Employee extends User{
 	private int empID;
 	private String empRole;
 	private Date hireDate;
+	
+	private static final Logger logger = LogManager.getLogger(Employee.class);
 	
 	//Default Constructor
 	public Employee(){
 		this.empID = 0;
 		this.empRole = "";
 		this.hireDate = new Date(1,1,1111);
+		logger.info("Employee initialized");
 	}
 	
 	//Primary Constructor
@@ -18,6 +24,7 @@ public class Employee extends User{
 		this.empID = empID;
 		this.empRole = empRole;
 		this.hireDate = hireDate;
+		logger.info("Input accepted, Employee initialized");
 	}
 	
 	//Copy Constructor
@@ -26,6 +33,7 @@ public class Employee extends User{
 		this.empID = emp.empID;
 		this.empRole = emp.empRole;
 		this.hireDate = emp.hireDate;
+		logger.info("Employee copied");
 	}
 
 
@@ -36,6 +44,7 @@ public class Employee extends User{
 
 	public void setEmpID(int empID) {
 		this.empID = empID;
+		logger.info("Input accepted, Employee ID set");
 	}
 
 
@@ -46,6 +55,7 @@ public class Employee extends User{
 
 	public void setEmpRole(String empRole) {
 		this.empRole = empRole;
+		logger.info("Input accepted, Employee Role set");
 	}
 
 
@@ -56,5 +66,6 @@ public class Employee extends User{
 
 	public void setHireDate(Date hireDate) {
 		this.hireDate = hireDate;
+		logger.info("Input accepted, Employee Hire Date set");
 	}
 }

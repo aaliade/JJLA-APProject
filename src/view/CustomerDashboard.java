@@ -23,12 +23,19 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import controller.GuiController;
 
 public class CustomerDashboard {
 	private JFrame frame;
 	private JMenuBar menuBar;
 	
+
+	private static final Logger logger = LogManager.getLogger(CustomerDashboard.class);
+	
+
 	private JMenu cart, account;
 	private JMenuItem viewProfile, updateProfile, deleteProfile, Logout, viewCart;
 	
@@ -65,6 +72,7 @@ public class CustomerDashboard {
 		this.addComponentsToWindow();
 		this.setWindowProperties();
 		this.registerListeners();
+		logger.info("Customer Dashboard created");
 	}
 	
 	public void initializeComponents() {
@@ -118,12 +126,20 @@ public class CustomerDashboard {
 //		p.put("text.month", "Month");
 //		p.put("text.year", "Year");
 		
+
 //		model = new UtilDateModel();
 //		datePanel = new JDatePanelImpl(model,p);
 //		datePicker = new JDatePickerImpl(datePanel, null);
 	    
 	    //This should be in the add components to panel method
 //		panels[4].add(datePicker);
+
+		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
+	    homeNode = new DefaultMutableTreeNode("Home");  
+	    veiwEquipmentNode = new DefaultMutableTreeNode("View Equiments");
+	    pastTransactionNode = new DefaultMutableTreeNode("View Past Transaction");
+	    messageNode = new DefaultMutableTreeNode("Message");
+	    logger.info("Customer Dashboard components initialized");
 	}
 	
 	public void addMenuItemsToMenu() {
@@ -134,11 +150,13 @@ public class CustomerDashboard {
 		account.add(Logout);
 		
 		cart.add(viewCart);
+		logger.info("Items added to Account and Cart Menus");
 	}
 	
 	public void addMenusToMenuBar() {
 		menuBar.add(account);
 		menuBar.add(cart);
+		logger.info("Account and Cart Menus added to Menu Bar");
 	}
 	
 	public void createTreeStructure() {
@@ -157,6 +175,11 @@ public class CustomerDashboard {
 		messageNode.add(composeNode);
 		messageNode.add(inboxNode);
 		
+		dashBoardNode.add(homeNode);
+		dashBoardNode.add(veiwEquipmentNode);
+		dashBoardNode.add(pastTransactionNode);
+		dashBoardNode.add(messageNode);
+		logger.info("Tree Structure created");
 	}
 	
 	public void addTreeNodesToTree() {
@@ -169,6 +192,7 @@ public class CustomerDashboard {
         renderer.setLeafIcon(null);
         renderer.setClosedIcon(null);
         renderer.setOpenIcon(null);
+        logger.info("Nodes added to Tree");
 	}
 	
 	public void addComponentsToWindow(){
@@ -176,6 +200,8 @@ public class CustomerDashboard {
 		//frame.add(treeView);
 		//frame.add(viewPanel);
 		frame.add(paneSplit);
+		// frame.add(treeView);
+		logger.info("Components added to Window");
 	}
 	
 	public void setWindowProperties() {
@@ -185,6 +211,7 @@ public class CustomerDashboard {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
+		logger.info("Window Properties set");
 	}
 	
 	public void registerListeners() {
@@ -235,6 +262,7 @@ public class CustomerDashboard {
 	public void updatePanel(JPanel panel) {
 		panel.revalidate();
 		panel.repaint(); 
+		logger.info("Customer Dashboard Listeners initialized");
 	}
 	
 }

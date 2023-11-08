@@ -12,17 +12,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import controller.GuiController;
 
 public class LoginView {
 
 	private JFrame frame;
-	private JLabel userID, userPassword, title;
+	private JLabel userID, userPassword, title, errorText;
 	private JTextField userIdField, userPasswordField;
 	private JButton signUpBtn, loginBtn;
 	private JPanel[] panels;
 	private GuiController guiController; 
+	
+	private static final Logger logger = LogManager.getLogger(LoginView.class);
+	
 	
 	public LoginView(GuiController gui) {
 		this.guiController = gui;
@@ -31,15 +40,21 @@ public class LoginView {
 		addToPanelToFrame();
 		setWindowProperties();
 		registerListeners();
+		logger.info("Login Page created");
 	}
 	
 	public void initializeComponents() {
 		frame = new JFrame("Grizzly’s Entertainment Equipment Rental");
-		frame.setLayout(new GridLayout(4,1));
+		frame.setLayout(new GridLayout(5,1));
 		
 		userID = new JLabel("User ID: ");
 		userPassword = new JLabel("Password: ");
 		title = new JLabel("Welcome, Login To Your Account.");
+		errorText = new JLabel("Error: wrong password/User ID. \r\n"
+				+ "Please Try Again");
+		
+		//set error text to be invisible
+		errorText.setVisible(false);
 		
 		userIdField = new JTextField();
 		userPasswordField = new JTextField();
@@ -48,7 +63,7 @@ public class LoginView {
 		signUpBtn = new JButton("Sign Up");
 		loginBtn = new JButton("Login");
 		
-		panels = new JPanel[4];
+		panels = new JPanel[5];
 		
 		for(int i=0;i<panels.length;i++) {
 			panels[i] = new JPanel();
@@ -57,8 +72,10 @@ public class LoginView {
 		panels[0].setLayout(new GridLayout(1,1));
 		panels[1].setLayout(new GridLayout(1,2));
 		panels[2].setLayout(new GridLayout(1,2));
-		panels[3].setLayout(new GridLayout(1,2));
+		panels[3].setLayout(new GridLayout(1,1));
+		panels[4].setLayout(new GridLayout(1,2));
 		
+		logger.info("Login Components initialized");
 	}
 	
 	
@@ -71,16 +88,19 @@ public class LoginView {
 		panels[2].add(userPassword);
 		panels[2].add(userPasswordField);
 		
-		panels[3].add(signUpBtn);
-		panels[3].add(loginBtn);
+		panels[3].add(errorText);
 		
-
+		panels[4].add(signUpBtn);
+		panels[4].add(loginBtn);
+		
+		logger.info("Compenents added to Panel");
 	}
 	
 	public void addToPanelToFrame() {
 		for(int i=0;i<panels.length;i++) {
 			frame.add(panels[i]);
 		}
+		logger.info("Panel added to Frame");
 	}
 	
 	public void setWindowProperties() {
@@ -89,6 +109,7 @@ public class LoginView {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
+		logger.info("Window Prperties set");
 	}
 	
 	public void registerListeners() {
@@ -106,5 +127,6 @@ public class LoginView {
 				guiController.loginUser(frame);
 			}
 		});
+		logger.info("Login Page Listeners initialized");
 	}
 }
