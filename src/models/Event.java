@@ -1,21 +1,6 @@
 package models;
 
-<<<<<<< HEAD
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.swing.JOptionPane;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import factories.DBConnectorFactory;
-=======
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 
 public class Event {
 	public static final Logger logger = LogManager.getLogger(Event.class);
@@ -34,15 +19,9 @@ public class Event {
 		eventName = "";
 		eventDate = "";
 		eventLocation = "";
-<<<<<<< HEAD
 		logger.info("Event initialized");
-=======
-<<<<<<< HEAD
 		this.dbConn = DBConnectorFactory.getDatabaseConnection();
-=======
 		logger.info("Event initialized);
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 	}
 	
 	public Event(int eventID, String eventName, String eventDate, String eventLocation) {
