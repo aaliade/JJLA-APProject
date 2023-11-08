@@ -11,7 +11,7 @@ public class Event {
 	private Connection dbConn = null;
 	private Statement stmt = null;
 	private ResultSet result = null;
-	
+	 
 	private static final Logger logger = LogManager.getLogger(Event.class);
 	
 	public Event() {
