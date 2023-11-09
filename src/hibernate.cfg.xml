@@ -13,7 +13,7 @@
 			com.mysql.jdbc.Driver
 		</property>
 		<property name = "hibernate.connection.url">
-			jdbc:mysql//localhost:3306/Customer
+			jdbc:mysql//localhost:3306/grizzly’sentertainmentequipmentrental
 		</property>
 		<property name="connection.pool_size">
 			1
