@@ -1,5 +1,8 @@
 package networking;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
@@ -17,7 +20,7 @@ public class Server {
 	
 	Server(){
 		this.createConnection();
-		this.waitForRequests();
+		//this.waitForRequests();
 	}
 	
 	private void createConnection() {
@@ -42,28 +45,6 @@ public class Server {
 		}
 	}
 	
-	private static Connection getDatabaseConnection() {
-		if(dbConn == null) {
-			try {
-				String url = "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental";
-				dbConn = DriverManger.getConnection(url,"root","");
-				
-				JOptionPane.showMessageDialog(null,"DB Connecion Established" , "Connectin Status", JoptionPane.INFORMATION_MESSAGE);
-			}catch (SQLException ex) {
-				JoptionPane.showMessageDialog(null,"Could not connect to database\n"+ex, "Connection Failure", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		return dBConn;
-	}
 	
-	private void closeConnection() {
-		try {
-			ObjOS.close(); 
-			ObjIS.close();
-			connectionSocket();
-		}catch (IOExpection ex) {
-			ex.printStackTrace();
-		}
-	}
 	
 }
