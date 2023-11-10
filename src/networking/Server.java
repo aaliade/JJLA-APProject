@@ -1,3 +1,4 @@
+
 package networking;
 
 import java.io.EOFException;
@@ -203,5 +204,4 @@ public class Server {
 	        ex.printStackTrace();
 	    }
 	}
-
-}
+}	
