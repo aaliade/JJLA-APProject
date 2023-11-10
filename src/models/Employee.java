@@ -1,9 +1,14 @@
 package models;
 
+
+
+import java.io.Serializable;
+import java.sql.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Employee extends User{
+public class Employee extends User implements Serializable{ //in order for the class to be sent across a network it needs to be serialized 
 	private int empID;
 	private String empRole;
 	private Date hireDate;
@@ -35,8 +40,8 @@ public class Employee extends User{
 		this.hireDate = emp.hireDate;
 		logger.info("Employee copied");
 	}
-
-
+	
+	//Accessors and Mutators 
 	public int getEmpID() {
 		return empID;
 	}
@@ -64,8 +69,8 @@ public class Employee extends User{
 	}
 
 
-	public void setHireDate(Date hireDate) {
-		this.hireDate = hireDate;
+	public void setHireDate(Date date) {
+		this.hireDate = date;
 		logger.info("Input accepted, Employee Hire Date set");
 	}
 }
