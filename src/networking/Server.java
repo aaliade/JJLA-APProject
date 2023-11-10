@@ -15,6 +15,9 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import models.Customer;
 import models.Employee;
 
@@ -27,11 +30,11 @@ public class Server {
 	private Statement stmt;
 	private ResultSet result = null;
 	private static Connection dbConn = null;
+	public static final Logger logger = LogManager.getLogger(Server.class);
 	
 	public Server(){
 		this.createConnection();
 		this.waitForRequests();
-		
 	}
 	
 	private void createConnection() {
@@ -39,8 +42,10 @@ public class Server {
 	try {
 		//create new instance of the ServerSocket listening on port 3306
 		serverSocket = new ServerSocket(8888);
+		logger.info("Server started and waiting for connections");
 	}catch (IOException ex) {
 		ex.printStackTrace();
+		logger.error("Caught IOException");
 		}
 	}
 	
@@ -51,8 +56,10 @@ public class Server {
 			
 			//Instantiate the inout stream, using the getOutputStream method of the socket object as argument to the constructor 
 			ObjIS= new ObjectInputStream (connectionSocket.getInputStream());
+			 logger.info("Streams configured for communication.");
 		}catch(IOException ex) {
 			ex.printStackTrace();
+			logger.error("Caught IOException");
 		}
 	}
 	
@@ -63,9 +70,11 @@ public class Server {
 				dBConn = DriverManager.getConnection(url,"root",""); //conneting with database 
 				
 				JOptionPane.showMessageDialog(null, "DB Connection Established","Connection status",JOptionPane.INFORMATION_MESSAGE); //if connection is successful a message dialog will be shown
-				
+				logger.info("Database Connection Established.");
 			} catch (SQLException ex) { //check for exceptions
 				JOptionPane.showConfirmDialog(null, "Could not connect\n","connection failure", JOptionPane.ERROR_MESSAGE);
+				logger.error("Caught SQLException");
+				
 			}
 		}
 		return dBConn;  
@@ -76,8 +85,10 @@ public class Server {
 			ObjOS.close();  //close object output stream
 			ObjIS.close();  //close object input stream
 			connectionSocket.close();  //close connection socket 
+			logger.info("Connection closed.");
 		}catch (IOException ex) {
 			ex.printStackTrace();
+			logger.error("Caught IOException");
 		}
 	}
 	
@@ -90,13 +101,17 @@ public class Server {
 			
 			if((stmt.executeUpdate(sql)==1)) {
 				ObjOS.writeObject(true); //Return true to customer if successful
+				logger.info("Customer added to file successfully.");
 			}else {
 				ObjOS.writeObject(false); //returns false if execution fails
+				logger.warn("Failed to add customer to file.");
 			}
 		}catch (IOException ioe) {
 			ioe.printStackTrace();
+			logger.error("Caught IOException");
 		}catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("Caught SQLException");
 		}
 	}
 	
@@ -115,25 +130,30 @@ public class Server {
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();  //prints stack trace if SQLException occurs 
+			logger.error("Caught SQLException");
 		}
 		return custObj;
 	}
 	
 	private void addEmployeeToFile(Employee employee) {
 		//sql query to insert employee data to database 
-		String sql = "INSERT INTO dblab.students (stuID,empRole,hireDate)" + "VALUES ("+null+",'" + employee.getEmpID()+ "','" + employee.getEmpRole() +"'.'" +  employee.getHireDate()+ "');";
+		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental\" (empID,empRole,hireDate)" + "VALUES ("+null+",'" + employee.getEmpID()+ "','" + employee.getEmpRole() +"'.'" +  employee.getHireDate()+ "');";
 		
 		try {
 			Statement stmt = dbConn.createStatement(); //creating a statement for database connection
 			if((stmt.executeUpdate(sql)==1)) {
 				ObjOS.writeObject(true); //Return true to customer if successful
+				logger.info("Employee added to file successfully.");
 			}else {
 				ObjOS.writeObject(false); //returns false if execution fails
+				logger.warn("Failed to add employee to file.");
 			}
 		}catch (IOException ioe) {
 			ioe.printStackTrace();
+			logger.error("Caught IOException");
 		}catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("Caught SQLException");
 		}
 	}
 	
@@ -153,6 +173,7 @@ public class Server {
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();  //prints stack trace if SQLException occurs 
+			logger.error("Caught SQLException");
 		}
 		return empObj;
 	}
@@ -164,30 +185,36 @@ public class Server {
 	    try {
 	        while (true) {
 	            connectionSocket = serverSocket.accept();  // Accepting the connection socket from the server
+	            logger.info("Connection accepted");
 	            this.configureStreams(); //// Configuring the input and output streams for communication
 	            
 	            try {
 	                action = (String) ObjIS.readObject();
+	                logger.info("Received action from client");
 	                
 	                if (action.equals("Add Employee")) {  
 	                    Employee empObj = (Employee) ObjIS.readObject(); // Reading an Employee object from the Object Input Stream and adding to it
 	                    addEmployeeToFile(empObj);
 	                    ObjOS.writeObject(true);   // Writing a Boolean value to the Object Output Stream
+	                    logger.info("employee added to file");
 	                    
 	                } else if (action.equals("Find Employee")) { // Reading an int representing empID from the Object Input Stream and finding the employee
 	                    int empID = (int) ObjIS.readObject();
 	                    Employee empObj = findEmployeeById(empID);
 	                    ObjOS.writeObject(empObj); // Writing the Employee object to the Object Output Stream
+	                    logger.info("Found employee by ID: " + empObj);
 	                    
 	                } else if (action.equals("Add Customer")) {
 	                    Customer custObj = (Customer) ObjIS.readObject();   // Reading a Customer object from the Object Input Stream
 	                    addCustomerToFile(custObj);
 	                    ObjOS.writeObject(true);   // Writing a Boolean value to the Object Output Stream
+	                    logger.info("Customer added to file");
 	                    
 	                } else if (action.equals("Find Customer")) { // Reading an int representing custID from the Object Input Stream and finding the customer
 	                    int custID = (int) ObjIS.readObject();
 	                    Customer custObj = findCustomerById(custID); 
 	                    ObjOS.writeObject(custObj);
+	                    logger.info("Found customer by ID: " + custObj);
 	                }
 	            } catch (ClassNotFoundException ex) {
 	                ex.printStackTrace();
@@ -200,8 +227,10 @@ public class Server {
 	    } catch (EOFException ex) {
 	        System.out.println("Client has terminated connections with the server");  //Printing a message when the client terminates the connection
 	        ex.printStackTrace();
+	        logger.warn("Client has terminated connections with the server");
 	    } catch (IOException ex) {
 	        ex.printStackTrace();
+	        logger.error("Caught IOException");
 	    }
 	}
 }	
