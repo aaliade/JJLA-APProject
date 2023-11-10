@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2023 at 02:10 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Generation Time: Nov 10, 2023 at 09:03 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `customer` (
   `username` varchar(15) NOT NULL,
   `custID` varchar(15) NOT NULL,
   `accountBalance` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -44,7 +44,7 @@ CREATE TABLE `employee` (
   `empID` varchar(15) NOT NULL,
   `empRole` varchar(30) NOT NULL,
   `hireDate` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -57,20 +57,9 @@ CREATE TABLE `equipment` (
   `equipName` varchar(20) NOT NULL,
   `categoryID` varchar(15) NOT NULL,
   `description` varchar(70) NOT NULL,
-  `status` varchar(25) NOT NULL,
+  `status` tinyint(1) NOT NULL,
   `rentalRate` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `equipmentcategory`
---
-
-CREATE TABLE `equipmentcategory` (
-  `categoryID` varchar(15) NOT NULL,
-  `categoryName` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -84,7 +73,7 @@ CREATE TABLE `event` (
   `custID` varchar(15) NOT NULL,
   `date` date NOT NULL,
   `location` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -98,7 +87,7 @@ CREATE TABLE `message` (
   `receiverID` varchar(15) NOT NULL,
   `content` varchar(50) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -112,7 +101,7 @@ CREATE TABLE `payment` (
   `custID` varchar(15) NOT NULL,
   `paymentType` varchar(25) NOT NULL,
   `paymentDate` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -127,7 +116,7 @@ CREATE TABLE `rentaltransaction` (
   `returnDate` date NOT NULL,
   `custID` varchar(15) NOT NULL,
   `totalCost` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -144,7 +133,7 @@ CREATE TABLE `user` (
   `email` varchar(30) NOT NULL,
   `address` varchar(50) NOT NULL,
   `userType` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Indexes for dumped tables
@@ -170,12 +159,6 @@ ALTER TABLE `employee`
 ALTER TABLE `equipment`
   ADD PRIMARY KEY (`equipID`),
   ADD KEY `categoryID` (`categoryID`);
-
---
--- Indexes for table `equipmentcategory`
---
-ALTER TABLE `equipmentcategory`
-  ADD PRIMARY KEY (`categoryID`);
 
 --
 -- Indexes for table `event`
