@@ -27,7 +27,7 @@ public class Server {
 	private ResultSet result = null;
 	private static Connection dbConn = null;
 	
-	Server(){
+	public Server(){
 		this.createConnection();
 		this.waitForRequests();
 		
