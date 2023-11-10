@@ -54,7 +54,7 @@ public class Server {
 			//Instantiate the output stream, using the getOuputStream method of the socket object as argument to the constructor
 			ObjOS = new ObjectOutputStream (connectionSocket.getOutputStream());
 			
-			//Instantiate the inout stream, using the getOutputStream method of the socket object as argument to the constructor 
+			//Instantiate the input stream, using the getOutputStream method of the socket object as argument to the constructor 
 			ObjIS= new ObjectInputStream (connectionSocket.getInputStream());
 			 logger.info("Streams configured for communication.");
 		}catch(IOException ex) {
@@ -67,7 +67,7 @@ public class Server {
 		if (dBConn == null) { //checks if database connection is null
 			try {
 				String url= "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental"; //defines the URL of the connection
-				dBConn = DriverManager.getConnection(url,"root",""); //conneting with database 
+				dBConn = DriverManager.getConnection(url,"root",""); //connecting with database 
 				
 				JOptionPane.showMessageDialog(null, "DB Connection Established","Connection status",JOptionPane.INFORMATION_MESSAGE); //if connection is successful a message dialog will be shown
 				logger.info("Database Connection Established.");
@@ -94,7 +94,7 @@ public class Server {
 	
 	private void addCustomerToFile(Customer customer) {
 		//sql query to insert data information to database 
-		String sql = "INSERT INTO grizzly’sentertainmentequipmentrenta (custId,accountBalance)" + "VALUES ("+null+",'" + customer.getCustID()+ "','" + customer.getAccountBalnace()+ "');";
+		String sql = "INSERT INTO grizzly’sentertainmentequipmentrenta (custId,accountBalance)" + "VALUES ("+null+",'" + customer.getCustID()+ "','" + customer.getAccountBalance()+ "');";
 		
 		try {
 			Statement stmt = dbConn.createStatement(); //creating a statement for database connection
@@ -126,7 +126,7 @@ public class Server {
 			// Checking if the result set has any data 
 			if(result.next()) {
 				custObj.setCustID(result.getInt(0));
-				custObj.setAccountBalnace(result.getFloat(1));
+				custObj.setAccountBalance(result.getFloat(1));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();  //prints stack trace if SQLException occurs 

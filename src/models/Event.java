@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import factories.DBConnectorFactory;
-
+ 
 public class Event {
 	public static final Logger logger = LogManager.getLogger(Event.class);
 	private int eventID;

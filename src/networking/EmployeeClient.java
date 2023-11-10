@@ -14,7 +14,7 @@ import models.Employee;
 import models.Equipment;
 import models.Event;
 import models.Message;
-
+ 
 public class EmployeeClient {
 	
 	private static final Logger logger = LogManager.getLogger(Employee.class);
