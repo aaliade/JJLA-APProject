@@ -1,5 +1,4 @@
 package models;
-<<<<<<< HEAD
 
 
 import java.util.ArrayList;
@@ -16,9 +15,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-=======
- 
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -35,8 +31,7 @@ public abstract class User {
 	//@Id
 	@Column(name="username")
 	private String username;
-	
-<<<<<<< HEAD
+
 	@Transient
 	//@Column(name="password")
 	private String password;
@@ -53,9 +48,7 @@ public abstract class User {
 	//@Column(name="userType")
 	private String userType;
 	
-=======
-	protected String username, password, firstname, lastname, phone, email;
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+	//protected String username, password, firstname, lastname, phone, email;
 	
 	private static final Logger logger = LogManager.getLogger(User.class);
 
@@ -63,33 +56,28 @@ public abstract class User {
 	public User(){
 		this.username = "";
 		this.password = "";
-		this.firstname = "";
-		this.lastname = "";
+		this.firstName = "";
+		this.lastName = "";
 		this.phone = "";
 		this.email = "";
 		this.address = "";
 		this.userType = "";
 		logger.info("User initialized");
 	}
-	
-<<<<<<< HEAD
+
 	//Primary Constructor
 	public User(String username, String password, String firstName, String lastName, String phone, String email,
-			String address, String usertype) {
-=======
-	public void setUsername(String username) {
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+			String address, String userType) {
+		super();
 		this.username = username;
-<<<<<<< HEAD
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
 		this.address = address;
-		this.userType = usertype;
-		logger.info("Input accepted, User initialized");
-	} 
+		this.userType = userType;
+	}
 	
 	//Copy Constructor
 	public User(User user){
@@ -102,10 +90,7 @@ public abstract class User {
 		this.address = user.address;
 		this.userType = user.userType;
 		logger.info("User copied");
-=======
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 	}
-<<<<<<< HEAD
 
 	public String getUsername() {
 		return username;
@@ -170,53 +155,10 @@ public abstract class User {
 	public void setUserType(String userType) {
 		this.userType = userType;
 	}
-=======
-	
-	public String getUsername() {
-		return username;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-	
-	public String getFirstname() {
-		return firstname;
-	}
-	
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-	
-	public String getLastname() {
-		return lastname;
-	}
-	
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	
-	public String getPhone() {
-		return phone;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public abstract boolean login();
 
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+	public static Logger getLogger() {
+		return logger;
+	}
+
+	public abstract boolean login();
 }

@@ -1,6 +1,8 @@
 
 package networking;
 
+import models.Date;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -169,7 +171,7 @@ public class Server {
 			if(result.next()) {
 				empObj.setEmpID(result.getInt(0)); 
 				empObj.setEmpRole(result.getString(1));
-				empObj.setHireDate(result.getDate(2)); 
+				//empObj.setHireDate(result.getDate(2)); 
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();  //prints stack trace if SQLException occurs 

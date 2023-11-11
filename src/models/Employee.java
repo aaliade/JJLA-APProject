@@ -1,7 +1,7 @@
 package models;
- 
+import models.Date; 
+
 import java.io.Serializable;
-import java.sql.Date;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,24 +22,15 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.Type;
 
-<<<<<<< HEAD
 import factories.SessionFactoryBuilder;
 
 
 @Entity(name="employee")
 @Table(name = "employee")
 
-public class Employee implements Serializable{ //Composite-id class must implement Serializable
-	//username			
-	@Id
-	@Column(name = "username")
-	private String username;
-	@Column(name="empID")
-=======
 public class Employee extends User implements Serializable{ //in order for the class to be sent across a network it needs to be serialized 
 	
 	private static final long serialVersionUID = 1L;
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 	private int empID;
 	@Column(name = "empRole")
 	private String empRole;
@@ -58,12 +49,11 @@ public class Employee extends User implements Serializable{ //in order for the c
 		logger.info("Employee initialized");
 	}
 	
-<<<<<<< HEAD
+
 	/*//Primary Constructor
 	public Employee(int empID, String empRole, Date hireDate, String username, String password, String firstName, String lastName, String phone, String email,
 			String address, String usertype) {
 		super(username,password,firstName,lastName,phone,email,address,usertype);
-=======
 	//Primary Constructor
 	public Employee(String username, String password, String firstname, String lastname, String phone, String email, int empID, String empRole, Date hireDate) {
 		this.username = username;
@@ -72,7 +62,6 @@ public class Employee extends User implements Serializable{ //in order for the c
 		this.lastname = lastname;
 		this.phone = phone;
 		this.email = email;
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 		this.empID = empID;
 		this.empRole = empRole;
 		this.hireDate = hireDate;
@@ -80,11 +69,10 @@ public class Employee extends User implements Serializable{ //in order for the c
 	}*/
 	
 	//Primary Constructor 2
-	public Employee(String username, int empID, String empRole, Date hireDate) {
-			this.username = username;
+	public Employee(int empID, String empRole, Date date) {
 			this.empID = empID;
 			this.empRole = empRole;
-			this.hireDate = hireDate;
+			this.hireDate = date;
 			logger.info("Input accepted, Employee initialized");
 	}
 	
@@ -92,16 +80,8 @@ public class Employee extends User implements Serializable{ //in order for the c
 	
 	//Copy Constructor
 	public Employee(Employee emp) {
-<<<<<<< HEAD
-		//super();
-=======
-		this.username = emp.username;
-		this.password = emp.password;
-		this.firstname = emp.firstname;
-		this.lastname = emp.lastname;
-		this.phone = emp.phone;
-		this.email = emp.email;
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+		super(emp.getUsername(), emp.getPassword(), emp.getFirstName(), emp.getLastName(), emp.getPhone(), emp.getEmail(),
+				emp.getAddress(), emp.getUserType());
 		this.empID = emp.empID;
 		this.empRole = emp.empRole;
 		this.hireDate = emp.hireDate;
@@ -137,14 +117,7 @@ public class Employee extends User implements Serializable{ //in order for the c
 		this.hireDate = date;
 		logger.info("Input accepted, Employee Hire Date set");
 	}
-	
-	@Override
-	public String toString() {
-		logger.info("Employee Information returned");
-		return("Username: " + username + "Password: " + password + "First Name: " + firstname + "Last Name: " + lastname + "Phone: " + phone + "Email: " + email 
-				+ "ID: " + empID + "Role: " + empRole + "Hire Date: " + hireDate);
-	}
-	
+
 	
 	public String getDateToString() {
 		return hireDate.toString();
