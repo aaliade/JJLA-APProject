@@ -1,11 +1,10 @@
-package models;
-import models.Date; 
+package models; 
 
 import java.io.Serializable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -16,6 +15,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,13 +33,13 @@ public class Employee extends User implements Serializable{ //in order for the c
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	//no need to use @Id as the joined table is seen as a reference identifier
 	@Column(name = "empID")
 	private int empID;
 	@Column(name = "empRole")
 	private String empRole;
+	@Temporal(TemporalType.DATE) //set the type to match the data type in mysql
 	@Column(name = "hireDate")
-	@Type(type = "models.CustomDate") // Reference to UserType implementation because we made a custom date class
 	private Date hireDate;
 	
 	private static final Logger logger = LogManager.getLogger(Employee.class);
@@ -124,7 +125,7 @@ public class Employee extends User implements Serializable{ //in order for the c
 //		return false;
 //	}
 	
-	public void createemp() {
+	public void create() {
 		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		session.save(this);
@@ -132,39 +133,42 @@ public class Employee extends User implements Serializable{ //in order for the c
 		session.close();
 	}
 	
-	
 	public void update() {
 		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
-		Employee emp = (Employee) session.get(User.class, this.empID);
+		Employee emp = (Employee) session.get(Employee.class, this.empID);
 		emp.setEmpID(empID);
 		emp.setUsername(emp.getUsername());
 		emp.setEmpRole(empRole);
 		emp.setHireDate(hireDate);
+		
+		emp.setFirstName(emp.getFirstName());
+		emp.setLastName(emp.getLastName());
+		emp.setAddress(emp.getAddress());
+		emp.setEmail(emp.getEmail());
+		emp.setPassword(emp.getPassword());
+		emp.setPhone(emp.getPhone());
+		
 		session.update(emp);
 		transaction.commit();
 		session.close();
 	}
 	
-	/*
-	@SuppressWarnings("unchecked")
-	public List<User> readAll(){
-		List<User> userList = new ArrayList<>();
-		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		userList = (List<User>) session.createQuery("From user").getResultList();
-		transaction.commit();
-		session.close();
-		return userList;
-	}
-	
+	//read all method is in the user class
 	
 	public void delete() {
 		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-		User user = (User) session.get(User.class, this.username);
+		User user = (User) session.get(User.class, this.getUsername());
 		Transaction transaction = session.beginTransaction();
 		session.delete(user);
 		transaction.commit();
 		session.close();
-	}*/
+	}
+	
+	@Override
+	public boolean login() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }

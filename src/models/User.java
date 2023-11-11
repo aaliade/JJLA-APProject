@@ -4,6 +4,8 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -31,9 +33,10 @@ import factories.SessionFactoryBuilder;
  */
 
 @Entity(name="user")
-@Table(name = "user")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User {
+@Table(name = "user") 
+//each subclass has its own table, and there is a table for the superclass containing common fields.
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class User {
 	
 	
 	@Column(name="address")
@@ -172,13 +175,17 @@ public class User {
 		return logger;
 	}
 	
-	public void create() {
+	@SuppressWarnings("unchecked")
+	public List<User> readAll(){
+		List<User> userList = new ArrayList<>();
 		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
-		session.save(this);
+		userList = (List<User>) session.createQuery("From user").getResultList();
 		transaction.commit();
 		session.close();
+		return userList;
 	}
 	
-	//public abstract boolean login();
+	public abstract boolean login();
+	
 }

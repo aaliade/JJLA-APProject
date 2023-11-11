@@ -1,13 +1,28 @@
 package models;
  
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import factories.SessionFactoryBuilder;
+
+@Entity(name="customer")
+@Table(name = "customer")
 public class Customer extends User implements Serializable { //in order for the class to be sent across a network it needs to be serialized 
 	
 	private static final long serialVersionUID = 1L;
+	
+	@Column(name = "custID")
 	private int custID;
+	
+	@Column(name = "accountBalance")
 	private float accountBalance;
 	
 	private static final Logger logger = LogManager.getLogger(Customer.class);
@@ -55,10 +70,49 @@ public class Customer extends User implements Serializable { //in order for the 
 		logger.info("Input accepted, Customer Account Balance set");
 	}
 	
-//	@Override
-//	public boolean login() {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
+	public void create() {
+		Session session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		session.save(this);
+		transaction.commit();
+		session.close();
+	}
+	
+	public void update() {
+		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		Customer cust = (Customer) session.get(Customer.class, this.custID);
+		cust.setAccountBalance(accountBalance);
+		cust.setCustID(custID);
+		
+		cust.setFirstName(cust.getFirstName());
+		cust.setLastName(cust.getLastName());
+		cust.setAddress(cust.getAddress());
+		cust.setEmail(cust.getEmail());
+		cust.setPassword(cust.getPassword());
+		cust.setPhone(cust.getPhone());
+		
+		session.update(cust);
+		transaction.commit();
+		session.close();
+	}
+	
+	//read all method is in the user class
+	
+	//delete by username
+	public void delete() {
+		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
+		User user = (User) session.get(User.class, this.getUsername());
+		Transaction transaction = session.beginTransaction();
+		session.delete(user);
+		transaction.commit();
+		session.close();
+	}
+	
+	@Override
+	public boolean login() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
