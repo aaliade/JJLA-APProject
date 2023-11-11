@@ -9,11 +9,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
+
 import org.apache.logging.log4j.LogManager;
 
 
 public class Equipment{
 	private static final Logger logger = LogManager.getLogger(Equipment.class);
+	private String categoryName;
 	private int equipID;
 	private String equipName;
 	private String description;
@@ -26,6 +29,7 @@ public class Equipment{
 
 	
 	public Equipment() {
+		categoryName = "";
 		equipID = 0;
 		equipName = "";
 		description = "";
@@ -46,7 +50,19 @@ public class Equipment{
 		logger.info("Input accepted, Equipment initialized");
 	}
 
+	
+	public String getcategoryName() {
+		logger.info("Equipment Category Name returned");
+		return categoryName;
+	}
+	
+	public void setcategoryName(String categoryName) {
+		this.categoryName = categoryName;
+		logger.info("Input accepted, Category Name set");
+	}
+	
 	public int getequipID() {
+		logger.info("Equipment ID returned");
 		return equipID;
 	}
 	
@@ -56,6 +72,7 @@ public class Equipment{
 	}
 	
 	public String getequipName() {
+		logger.info("Equipment Name returned");
 		return equipName;
 	}
 	
@@ -65,6 +82,7 @@ public class Equipment{
 	}
 	
 	public String getdescription() {
+		logger.info("Equipment Description returned");
 		return description;
 	}
 	
@@ -74,6 +92,7 @@ public class Equipment{
 	}
 
 	public boolean getstatus() {
+		logger.info("Equipment Status returned");
 		return status;
 	}
 
@@ -91,7 +110,9 @@ public class Equipment{
 	}
 
 	public int getrentalRate() {
+		logger.info("Equipment Rental Rate returned");
 		return rentalRate;
+		
 	}
 
 	public void setrentalRate(int rentalRate) {
@@ -195,10 +216,65 @@ public class Equipment{
         }
     }
 
-    public void update(int equipID, boolean newStatus) {
-        String sql = "UPDATE grizzly’sentertainmentequipmentrental.equipment " +
-                     "SET status = '" + newStatus + "'" +
-                     "WHERE equipID = " + equipID + ";";
+	public void update(String UNDECIDED) {
+		String sql = "UPDATE grizzly’sentertainmentequipmentrental.event " + "SET --- = '" + UNDECIDED + "'" + " WHERE UNDECIDED = '" + UNDECIDED+ "'";
 
-}
+		try {
+			stmt = dbConn.createStatement();
+			int updated = stmt.executeUpdate(sql);
+			
+	        if (updated == 1) {
+	            JOptionPane.showMessageDialog(null, "Equipment Record Updated Successfully!", "Update Status", JOptionPane.INFORMATION_MESSAGE);
+	            logger.info("Equipment Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + ") Updated Successfully");
+	        } else {
+	            JOptionPane.showMessageDialog(null, "Equipment Record Update Failed.", "Update Status", JOptionPane.ERROR_MESSAGE);
+	            logger.error("Equipment Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + ") Update Failed");
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("SQL Exception: " + e.getMessage());
+	        logger.error("SQL Exception while updating Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + "): " + e.getMessage());
+	    } catch (Exception e) {
+	        System.err.println("Unexpected Error: " + e.getMessage());
+	        logger.error("Unexpected Error while updating Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + "): " + e.getMessage());
+	    } finally {
+	        try {
+	            stmt.close();
+	        } catch (SQLException e) {
+	            System.err.println("Error while closing statement: " + e.getMessage());
+	            logger.error("Error while closing statement: " + e.getMessage());
+	        }
+	    }
+	}
+
+	public void delete(int equipId) {
+		String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.event WHERE equipID = " + equipId + ";";
+
+		try {
+			stmt = dbConn.createStatement();
+			int deleted = stmt.executeUpdate(sql);
+			if (deleted == 1) {
+				JOptionPane.showMessageDialog(null, "Equipment Record Deleted!", "Deletion Status",
+						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Equipment Record (ID: " + equipId + ") Deleted");
+			} else {
+				JOptionPane.showMessageDialog(null, "Equipment Record Deletion Failed.", "Deletion Status",
+						JOptionPane.ERROR_MESSAGE);
+				logger.error("Equipment Record (ID: " + equipId + ") Deletion Failed");
+			}
+		} catch (SQLException e) {
+			System.err.println("SQL Exception: " + e.getMessage());
+	        logger.error("SQL Exception while deleting Event Record (ID: " + equipId + "): " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("Unexpected Error: " + e.getMessage());
+	        logger.error("Unexpected Error while deleting Event Record (ID: " + equipId + "): " + e.getMessage());
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement: " + e.getMessage());	
+				logger.error("Error while closing statement: " + e.getMessage());
+			}
+		}
+	}	
+
 }

@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import factories.DBConnectorFactory;
-
+ 
 public class Event {
 	public static final Logger logger = LogManager.getLogger(Event.class);
 	private int eventID;
@@ -40,6 +40,7 @@ public class Event {
 	}
 	
 	public int geteventID() {
+		logger.info("Event ID returned");
 		return eventID;
 	}
 	
@@ -49,6 +50,7 @@ public class Event {
 	}
 	
 	public String geteventName() {
+		logger.info("Event Name returned");
 		return eventName;
 	}
 	
@@ -58,6 +60,7 @@ public class Event {
 	}
 	
 	public String geteventDate() {
+		logger.info("Event Date returned");
 		return eventDate;
 	}
 	
@@ -67,6 +70,7 @@ public class Event {
 	}
 	
 	public String geteventLocation() {
+		logger.info("Event Location returned");
 		return eventLocation;
 	}
 	
@@ -78,7 +82,7 @@ public class Event {
 	@Override
 	public String toString() {
 		logger.info("Event information returned");
-		return "Event ID" + eventID + "Event Name" + eventName + "Event Date" + eventDate + "Event Location" + eventLocation;
+		return "Event ID: " + eventID + "Event Name: " + eventName + "Event Date: " + eventDate + "Event Location: " + eventLocation;
 	}
 
 	// add select methods

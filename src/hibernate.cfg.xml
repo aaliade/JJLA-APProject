@@ -10,10 +10,10 @@
 			true
 		</property>
 		<property name = "hibernate.connection.driver_class">
-			com.mysql.jdbc.Driver
+			com.mysql.cj.jdbc.Driver
 		</property>
 		<property name = "hibernate.connection.url">
-			jdbc:mysql//localhost:3306/grizzly’sentertainmentequipmentrental
+			jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental
 		</property>
 		<property name="connection.pool_size">
 			1
@@ -26,7 +26,8 @@
 			root
 		</property>
 		<property name = "hibernate.connection.password">
-			root
+			password
+			<!-- Change back password to "root" for the other group members -->
 		</property>
 		<property name = "current_session_context_class">
 			thread
@@ -34,7 +35,12 @@
 		<property name = "hibernate.show_sql">
 			true
 		</property>
-		<mapping resource = "Staff.hbm.sml"/>
+		<property name="connection.pool_size">1</property>
+		
+		
+		<!-- 
+			</property>	<mapping resource = "Staff.hbm.sml"> </property>/>
+		 -->
 	</session-factory>
 	
 </hibernate-configuration>
