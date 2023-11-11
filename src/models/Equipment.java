@@ -2,9 +2,10 @@ package models;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
-public class Equipment extends EquipmentCategory{
+ 
+public class Equipment {
 	
+	private String categoryName;
 	private int equipID;
 	private String equipName;
 	private String description;
@@ -14,6 +15,7 @@ public class Equipment extends EquipmentCategory{
 	private static final Logger logger = LogManager.getLogger(Equipment.class);
 	
 	public Equipment() {
+		categoryName = "";
 		equipID = 0;
 		equipName = "";
 		description = "";
@@ -22,7 +24,8 @@ public class Equipment extends EquipmentCategory{
 		logger.info("Equipment initialized");
 	}
 	
-	public Equipment(int equipID, String equipName, String description, String status, int rentalRate) {
+	public Equipment(String categoryName, int equipID, String equipName, String description, String status, int rentalRate) {
+		this.categoryName = categoryName;
 		this.equipID = equipID;
 		this.equipName = equipName;
 		this.description = description;
@@ -31,7 +34,18 @@ public class Equipment extends EquipmentCategory{
 		logger.info("Input accepted, Equipment initialized");
 	}
 	
+	public String getcategoryName() {
+		logger.info("Equipment Category Name returned");
+		return categoryName;
+	}
+	
+	public void setcategoryName(String categoryName) {
+		this.categoryName = categoryName;
+		logger.info("Input accepted, Category Name set");
+	}
+	
 	public int getequipID() {
+		logger.info("Equipment ID returned");
 		return equipID;
 	}
 	
@@ -41,6 +55,7 @@ public class Equipment extends EquipmentCategory{
 	}
 	
 	public String getequipName() {
+		logger.info("Equipment Name returned");
 		return equipName;
 	}
 	
@@ -50,6 +65,7 @@ public class Equipment extends EquipmentCategory{
 	}
 	
 	public String getdescription() {
+		logger.info("Equipment Description returned");
 		return description;
 	}
 	
@@ -59,6 +75,7 @@ public class Equipment extends EquipmentCategory{
 	}
 
 	public String getstatus() {
+		logger.info("Equipment Status returned");
 		return status;
 	}
 
@@ -68,7 +85,9 @@ public class Equipment extends EquipmentCategory{
 	}
 
 	public int getrentalRate() {
+		logger.info("Equipment Rental Rate returned");
 		return rentalRate;
+		
 	}
 
 	public void setrentalRate(int rentalRate) {
@@ -79,11 +98,8 @@ public class Equipment extends EquipmentCategory{
 	@Override
 	public String toString() {
 		logger.info("Equipment information returned");
-		return "Category ID" + categoryID + "Category Name" + categoryName + "Equipment ID" + equipID + 
-				"Equipment Name" + equipName + "Description" + description + "Status" + status + "rentalRate" + rentalRate;	
-	}
-	
-	
-	
+		return "Category Name: " + categoryName + "Equipment ID: " + equipID + 
+				"Equipment Name: " + equipName + "Description: " + description + "Status: " + status + "rentalRate: " + rentalRate;	
+	}	
 
 }
