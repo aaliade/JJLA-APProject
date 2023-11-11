@@ -9,7 +9,7 @@ import models.User;
 public class SessionFactoryBuilder {
 	
 private static SessionFactory sessionFactory;
-	
+	 
 	public static SessionFactory getUserSessionFactroy(){
 		if (sessionFactory == null) {
 			sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass (User.class).buildSessionFactory();
