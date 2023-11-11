@@ -52,5 +52,4 @@ public class Date {
 		logger.info("Date returned");
 		return "Day: " + day + "\nMonth=" + month + "\nYear: " + year;
 	} 
-
 }

@@ -21,7 +21,7 @@ public class Event {
 	private Connection dbConn = null;
 	private Statement stmt = null;
 	private ResultSet result = null;
-	
+
 	public Event() {
 		eventID = 0;
 		eventName = "";
@@ -30,7 +30,7 @@ public class Event {
 		logger.info("Event initialized");
 		this.dbConn = DBConnectorFactory.getDatabaseConnection();
 	}
-	
+
 	public Event(int eventID, String eventName, String eventDate, String eventLocation) {
 		this.eventID = eventID;
 		this.eventName = eventName;
@@ -38,110 +38,147 @@ public class Event {
 		this.eventLocation = eventLocation;
 		logger.info("Input accepted, Event initialized");
 	}
-	
+
 	public int geteventID() {
 		return eventID;
 	}
-	
+
 	public void seteventID(int eventID) {
 		this.eventID = eventID;
 		logger.info("Input accepted, Event ID set");
 	}
-	
+
 	public String geteventName() {
 		return eventName;
 	}
-	
+
 	public void seteventName(String eventName) {
 		this.eventName = eventName;
 		logger.info("Input accepted, Event Name set");
 	}
-	
+
 	public String geteventDate() {
 		return eventDate;
 	}
-	
+
 	public void seteventDate(String eventDate) {
 		this.eventDate = eventDate;
 		logger.info("Input accepted, Event Date set");
 	}
-	
+
 	public String geteventLocation() {
 		return eventLocation;
 	}
-	
+
 	public void seteventLocation(String eventLocation) {
 		this.eventLocation = eventLocation;
 		logger.info("Input accepted, Event Location set");
 	}
-	
+
 	@Override
 	public String toString() {
 		logger.info("Event information returned");
-		return "Event ID" + eventID + "Event Name" + eventName + "Event Date" + eventDate + "Event Location" + eventLocation;
+		return "Event ID" + eventID + "Event Name" + eventName + "Event Date" + eventDate + "Event Location"
+				+ eventLocation;
 	}
 
-	// add select methods
-	
+	public void selectAll() {
+		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.event;";
+
+		try {
+			stmt = dbConn.createStatement();
+			result = stmt.executeQuery(sql);
+
+			while (result.next()) {
+				int eventId = result.getInt("eventID");
+				String eventName = result.getString("eventName");
+				String eventDate = result.getString("eventDate");
+				String eventLocation = result.getString("eventLocation");
+
+				System.out.println("Event ID: " + eventId + "\nEvent Name: " + eventName + "\nEvent Date: " + eventDate
+						+ "\nEvent Location: " + eventLocation + "\n");
+			}
+		} catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            logger.error("SQL Exception while selecting events: " + e.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                result.close();
+            } catch (SQLException e) {
+                System.err.println("Error while closing statement/result: " + e.getMessage());
+                logger.error("Error while closing statement/result: " + e.getMessage());
+            }
+        }
+	}
+
 	public void insert(int eventID, String eventName, String eventDate, String eventLocation) {
-		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.event (eventID, eventName, eventDate, eventLocation)" + "VALUES ('" + eventID + "', '"
-				+ eventName + "', '" + eventDate + "', '" + eventLocation + "');";
+		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.event (eventID, eventName, eventDate, eventLocation)"
+				+ "VALUES ('" + eventID + "', '" + eventName + "', '" + eventDate + "', '" + eventLocation + "');";
 
-	    try {
-	        stmt = dbConn.createStatement();
+		try {
+			stmt = dbConn.createStatement();
 
-	        int inserted = stmt.executeUpdate(sql);
-	        if (inserted == 1) {
-	            JOptionPane.showMessageDialog(null, "Event Record Inserted Successfully!", "Insertion Status", JOptionPane.INFORMATION_MESSAGE);
-	            logger.info("Event Record (ID: " + eventID + ") Inserted Successfully");
-	        } else {
-	            JOptionPane.showMessageDialog(null, "Event Record Insertion Failed.", "Insertion Status", JOptionPane.ERROR_MESSAGE);
-	            logger.error("Event Record (ID: " + eventID + ") Insertion Failed");
-	        }
-	    } catch (SQLException e) {
-	        System.err.println("SQL Exception: " + e.getMessage());
-	        logger.error("SQL Exception while inserting Event Record (ID: " + eventID + "): " + e.getMessage());
-	    } catch (Exception e) {
-	        System.err.println("Unexpected Error: " + e.getMessage());
-	        logger.error("Unexpected Error while inserting Event Record (ID: " + eventID + "): " + e.getMessage());
-	    } finally {
-	        try {
-	            stmt.close();
-	        } catch (SQLException e) {
-	            System.err.println("Error while closing statement: " + e.getMessage());
-	            logger.error("Error while closing statement: " + e.getMessage());
-	        }
-	    }
+			int inserted = stmt.executeUpdate(sql);
+			if (inserted == 1) {
+				JOptionPane.showMessageDialog(null, "Event Record Inserted Successfully!", "Insertion Status",
+						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Event Record (ID: " + eventID + ") Inserted Successfully");
+			} else {
+				JOptionPane.showMessageDialog(null, "Event Record Insertion Failed.", "Insertion Status",
+						JOptionPane.ERROR_MESSAGE);
+				logger.error("Event Record (ID: " + eventID + ") Insertion Failed");
+			}
+		} catch (SQLException e) {
+			System.err.println("SQL Exception: " + e.getMessage());
+			logger.error("SQL Exception while inserting Event Record (ID: " + eventID + "): " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("Unexpected Error: " + e.getMessage());
+			logger.error("Unexpected Error while inserting Event Record (ID: " + eventID + "): " + e.getMessage());
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement: " + e.getMessage());
+				logger.error("Error while closing statement: " + e.getMessage());
+			}
+		}
 	}
 
 	public void update(String UNDECIDED) {
-		String sql = "UPDATE grizzly’sentertainmentequipmentrental.event " + "SET --- = '" + UNDECIDED + "'" + " WHERE UNDECIDED = '" + UNDECIDED+ "'";
+		String sql = "UPDATE grizzly’sentertainmentequipmentrental.event " + "SET --- = '" + UNDECIDED + "'"
+				+ " WHERE UNDECIDED = '" + UNDECIDED + "'";
 
 		try {
 			stmt = dbConn.createStatement();
 			int updated = stmt.executeUpdate(sql);
-			
-	        if (updated == 1) {
-	            JOptionPane.showMessageDialog(null, "Event Record Updated Successfully!", "Update Status", JOptionPane.INFORMATION_MESSAGE);
-	            logger.info("Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + ") Updated Successfully");
-	        } else {
-	            JOptionPane.showMessageDialog(null, "Event Record Update Failed.", "Update Status", JOptionPane.ERROR_MESSAGE);
-	            logger.error("Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + ") Update Failed");
-	        }
-	    } catch (SQLException e) {
-	        System.err.println("SQL Exception: " + e.getMessage());
-	        logger.error("SQL Exception while updating Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + "): " + e.getMessage());
-	    } catch (Exception e) {
-	        System.err.println("Unexpected Error: " + e.getMessage());
-	        logger.error("Unexpected Error while updating Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + "): " + e.getMessage());
-	    } finally {
-	        try {
-	            stmt.close();
-	        } catch (SQLException e) {
-	            System.err.println("Error while closing statement: " + e.getMessage());
-	            logger.error("Error while closing statement: " + e.getMessage());
-	        }
-	    }
+
+			if (updated == 1) {
+				JOptionPane.showMessageDialog(null, "Event Record Updated Successfully!", "Update Status",
+						JOptionPane.INFORMATION_MESSAGE);
+				logger.info(
+						"Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + ") Updated Successfully");
+			} else {
+				JOptionPane.showMessageDialog(null, "Event Record Update Failed.", "Update Status",
+						JOptionPane.ERROR_MESSAGE);
+				logger.error("Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED + ") Update Failed");
+			}
+		} catch (SQLException e) {
+			System.err.println("SQL Exception: " + e.getMessage());
+			logger.error("SQL Exception while updating Event Record (Column: " + UNDECIDED + ", Condition: " + UNDECIDED
+					+ "): " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("Unexpected Error: " + e.getMessage());
+			logger.error("Unexpected Error while updating Event Record (Column: " + UNDECIDED + ", Condition: "
+					+ UNDECIDED + "): " + e.getMessage());
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement: " + e.getMessage());
+				logger.error("Error while closing statement: " + e.getMessage());
+			}
+		}
 	}
 
 	public void delete(int eventId) {
@@ -161,17 +198,17 @@ public class Event {
 			}
 		} catch (SQLException e) {
 			System.err.println("SQL Exception: " + e.getMessage());
-	        logger.error("SQL Exception while deleting Event Record (ID: " + eventId + "): " + e.getMessage());
+			logger.error("SQL Exception while deleting Event Record (ID: " + eventId + "): " + e.getMessage());
 		} catch (Exception e) {
 			System.err.println("Unexpected Error: " + e.getMessage());
-	        logger.error("Unexpected Error while deleting Event Record (ID: " + eventId + "): " + e.getMessage());
+			logger.error("Unexpected Error while deleting Event Record (ID: " + eventId + "): " + e.getMessage());
 		} finally {
 			try {
 				stmt.close();
 			} catch (SQLException e) {
-				System.err.println("Error while closing statement: " + e.getMessage());	
+				System.err.println("Error while closing statement: " + e.getMessage());
 				logger.error("Error while closing statement: " + e.getMessage());
 			}
-		}
+		} 
 	}
 }

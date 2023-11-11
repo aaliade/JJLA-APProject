@@ -15,7 +15,7 @@ public class DBConnectorFactory {
 	
 	public static Connection getDatabaseConnection() {
 		if (dbConn == null) {
-			try {
+			try { 
 				dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental", "root", "");
 				
 				if (dbConn != null) {
@@ -26,7 +26,7 @@ public class DBConnectorFactory {
 			} catch (SQLException e) {
                 logger.error("SQL Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
-            } catch (Exception e) {
+            }catch (Exception e) {
                 logger.error("Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
             }
