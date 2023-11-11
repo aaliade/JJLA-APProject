@@ -36,6 +36,12 @@
 			true
 		</property>
 		<property name="connection.pool_size">1</property>
+		
+		<!-- Mapping for Person class -->
+        <mapping class="models.User" />
+
+        <!-- Mapping for Employee class -->
+        <mapping class="models.Employee" />
 		<!-- 
 			</property>	<mapping resource = "Staff.hbm.sml"> </property>/>
 		 -->

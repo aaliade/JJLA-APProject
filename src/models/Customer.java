@@ -55,10 +55,10 @@ public class Customer extends User implements Serializable { //in order for the 
 		logger.info("Input accepted, Customer Account Balance set");
 	}
 	
-	@Override
-	public boolean login() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	@Override
+//	public boolean login() {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.InheritanceType;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.DiscriminatorType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,33 +25,43 @@ import org.hibernate.annotations.Columns;
 
 import factories.SessionFactoryBuilder;
 
+/* Created to superclass to not be abstract so 
+ * that we can create a user object to send to the 
+ * database.
+ */
 
-@MappedSuperclass
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
-
-	//@Id
+@Entity(name="user")
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class User {
+	
+	
+	@Column(name="address")
+	private String address;
+	
+	@Column(name="email")
+	private String email;
+	
+	@Column(name="firstName")
+	private String firstName;
+	
+	@Column(name="lastName")
+	private String lastName;
+	
+	@Column(name="password")
+	private String password;
+	
+	@Column(name="phoneNum")
+	private String phone;
+	
+	@Column(name="userType")
+	private String userType;
+	
+	@Id
 	@Column(name="username")
 	private String username;
 
-	@Transient
-	//@Column(name="password")
-	private String password;
-	//@Column(name="firstName")
-	private String firstName;
-	//@Column(name="lastName")
-	private String lastName;
-	//@Column(name="phoneNum")
-	private String phone;
-	//@Column(name="email")
-	private String email;
-	//@Column(name="address")
-	private String address;
-	//@Column(name="userType")
-	private String userType;
-	
-	//protected String username, password, firstname, lastname, phone, email;
-	
+
 	private static final Logger logger = LogManager.getLogger(User.class);
 
 	//Default Constructor
@@ -159,6 +171,14 @@ public abstract class User {
 	public static Logger getLogger() {
 		return logger;
 	}
-
-	public abstract boolean login();
+	
+	public void create() {
+		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		session.save(this);
+		transaction.commit();
+		session.close();
+	}
+	
+	//public abstract boolean login();
 }

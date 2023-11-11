@@ -12,6 +12,7 @@ import org.hibernate.Session;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -27,10 +28,12 @@ import factories.SessionFactoryBuilder;
 
 @Entity(name="employee")
 @Table(name = "employee")
-
 public class Employee extends User implements Serializable{ //in order for the class to be sent across a network it needs to be serialized 
 	
 	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@Column(name = "empID")
 	private int empID;
 	@Column(name = "empRole")
 	private String empRole;
@@ -50,23 +53,15 @@ public class Employee extends User implements Serializable{ //in order for the c
 	}
 	
 
-	/*//Primary Constructor
+	//Primary Constructor
 	public Employee(int empID, String empRole, Date hireDate, String username, String password, String firstName, String lastName, String phone, String email,
 			String address, String usertype) {
 		super(username,password,firstName,lastName,phone,email,address,usertype);
-	//Primary Constructor
-	public Employee(String username, String password, String firstname, String lastname, String phone, String email, int empID, String empRole, Date hireDate) {
-		this.username = username;
-		this.password = password;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.phone = phone;
-		this.email = email;
 		this.empID = empID;
 		this.empRole = empRole;
 		this.hireDate = hireDate;
 		logger.info("Input accepted, Employee initialized");
-	}*/
+	}
 	
 	//Primary Constructor 2
 	public Employee(int empID, String empRole, Date date) {
@@ -123,13 +118,13 @@ public class Employee extends User implements Serializable{ //in order for the c
 		return hireDate.toString();
 	}
 
-	@Override
-	public boolean login() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	@Override
+//	public boolean login() {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
 	
-	public void createEmp() {
+	public void createemp() {
 		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		session.save(this);
@@ -137,24 +132,21 @@ public class Employee extends User implements Serializable{ //in order for the c
 		session.close();
 	}
 	
-	/*
+	
 	public void update() {
 		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
-		User user = (User) session.get(User.class, this.username);
-		user.setAddress(address);
-		user.setEmail(email);
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setPassword(password);
-		user.setPhone(phone);
-		user.setUsername(username);
-		user.setUserType(userType);
-		session.update(user);
+		Employee emp = (Employee) session.get(User.class, this.empID);
+		emp.setEmpID(empID);
+		emp.setUsername(emp.getUsername());
+		emp.setEmpRole(empRole);
+		emp.setHireDate(hireDate);
+		session.update(emp);
 		transaction.commit();
 		session.close();
 	}
 	
+	/*
 	@SuppressWarnings("unchecked")
 	public List<User> readAll(){
 		List<User> userList = new ArrayList<>();
