@@ -11,6 +11,7 @@ import java.sql.Statement;
 
 import org.apache.logging.log4j.LogManager;
 
+
 public class Equipment{
 	private static final Logger logger = LogManager.getLogger(Equipment.class);
 	private int equipID;
@@ -19,9 +20,10 @@ public class Equipment{
 	private boolean status;
 	private String category;
 	private int rentalRate;
-    private Connection dbConn = null;
-    private Statement stmt = null;
-    private ResultSet result = null;
+	private Connection dbConn = null;
+	private Statement stmt = null;
+	private ResultSet result = null;
+
 	
 	public Equipment() {
 		equipID = 0;
@@ -133,7 +135,7 @@ public class Equipment{
             }
         }
     }
-	
+
 	public void selectAvailableEquipmentByCategory(String category) {
 	    String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment WHERE category = '" + category + "' AND status = 'Available';";
 
@@ -192,61 +194,11 @@ public class Equipment{
             }
         }
     }
-	
+
     public void update(int equipID, boolean newStatus) {
         String sql = "UPDATE grizzly’sentertainmentequipmentrental.equipment " +
                      "SET status = '" + newStatus + "'" +
                      "WHERE equipID = " + equipID + ";";
 
-        try {
-            stmt = dbConn.createStatement();
-            int updated = stmt.executeUpdate(sql);
-
-            if (updated == 1) {
-                System.out.println("Equipment Record Updated Successfully!");
-                logger.info("Equipment Record (ID: " + equipID + ") Updated Successfully");
-            } else {
-                System.out.println("Equipment Record Update Failed.");
-                logger.error("Equipment Record (ID: " + equipID + ") Update Failed");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            logger.error("SQL Exception while updating Equipment Record (ID: " + equipID + "): " + e.getMessage());
-        } finally {
-            try {
-                stmt.close();
-                result.close();
-            } catch (SQLException e) {
-                System.err.println("Error while closing statement: " + e.getMessage());
-                logger.error("Error while closing statement: " + e.getMessage());
-            }
-        }
-    }
-
-    public void delete(int equipID) {
-        String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.equipment WHERE equipID = " + equipID + ";";
-
-        try {
-            stmt = dbConn.createStatement();
-            int deleted = stmt.executeUpdate(sql);
-            if (deleted == 1) {
-                System.out.println("Equipment Record Deleted!");
-                logger.info("Equipment Record (ID: " + equipID + ") Deleted");
-            } else {
-                System.out.println("Equipment Record Deletion Failed.");
-                logger.error("Equipment Record (ID: " + equipID + ") Deletion Failed");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            logger.error("SQL Exception while deleting Equipment Record (ID: " + equipID + "): " + e.getMessage());
-        } finally {
-            try {
-                stmt.close();
-                result.close();
-            } catch (SQLException e) {
-                System.err.println("Error while closing statement: " + e.getMessage());
-                logger.error("Error while closing statement: " + e.getMessage());
-            }
-        }
-    }
+}
 }

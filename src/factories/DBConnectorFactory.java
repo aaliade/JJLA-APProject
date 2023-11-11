@@ -26,7 +26,7 @@ public class DBConnectorFactory {
 			} catch (SQLException e) {
                 logger.error("SQL Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 logger.error("Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
             }

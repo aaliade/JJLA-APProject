@@ -53,4 +53,6 @@ public class Payment {
 		logger.info("Input accepted, Payment Date initialized");
 	}
 	
+	
+	
 }

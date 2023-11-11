@@ -47,4 +47,5 @@ public class Message {
 		logger.info("Input accepted, Message TimeStamp initialized");
 	} 
 	
+	
 }
