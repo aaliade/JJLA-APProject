@@ -124,43 +124,73 @@ public class Employee extends User implements Serializable{ //in order for the c
 //	}
 	
 	public void create() {
-		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		session.save(this);
-		transaction.commit();
-		session.close();
+	    Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
+	    Transaction transaction = null;
+
+	    try {
+	        transaction = session.beginTransaction();
+	        session.save(this);
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        logger.error("Error occurred during create operation", e);
+	    } finally {
+	        session.close();
+	    }
 	}
 	
 	public void update() {
-		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		Employee emp = (Employee) session.get(Employee.class, this.empID);
-		emp.setEmpID(empID);
-		emp.setUsername(emp.getUsername());
-		emp.setEmpRole(empRole);
-		emp.setHireDate(hireDate);
-		
-		emp.setFirstName(emp.getFirstName());
-		emp.setLastName(emp.getLastName());
-		emp.setAddress(emp.getAddress());
-		emp.setEmail(emp.getEmail());
-		emp.setPassword(emp.getPassword());
-		emp.setPhone(emp.getPhone());
-		
-		session.update(emp);
-		transaction.commit();
-		session.close();
+	    Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
+	    Transaction transaction = null;
+	
+	    try {
+	        transaction = session.beginTransaction();
+	        Employee emp = (Employee) session.get(Employee.class, this.empID);
+			emp.setEmpID(empID);
+			emp.setUsername(emp.getUsername());
+			emp.setEmpRole(empRole);
+			emp.setHireDate(hireDate);
+			
+			emp.setFirstName(emp.getFirstName());
+			emp.setLastName(emp.getLastName());
+			emp.setAddress(emp.getAddress());
+			emp.setEmail(emp.getEmail());
+			emp.setPassword(emp.getPassword());
+			emp.setPhone(emp.getPhone());
+	
+	        session.update(emp);
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        logger.error("Error occurred during update operation", e);
+	    } finally {
+	        session.close();
+	    }
 	}
 	
 	//read all method is in the user class
 	
 	public void delete() {
-		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-		User user = (User) session.get(User.class, this.getUsername());
-		Transaction transaction = session.beginTransaction();
-		session.delete(user);
-		transaction.commit();
-		session.close();
+	    Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
+	    Transaction transaction = null;
+	
+	    try {
+	        transaction = session.beginTransaction();
+	        User user = (User) session.get(User.class, this.getUsername());
+	        session.delete(user);
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        logger.error("Error occurred during delete operation", e);
+	    } finally {
+	        session.close();
+	    }
 	}
 	
 	@Override

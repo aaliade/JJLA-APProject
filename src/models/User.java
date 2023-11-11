@@ -176,16 +176,27 @@ public abstract class User {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<User> readAll(){
-		List<User> userList = new ArrayList<>();
-		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		userList = (List<User>) session.createQuery("From user").getResultList();
-		transaction.commit();
-		session.close();
-		return userList;
+	public List<User> readAll() {
+	    List<User> userList = new ArrayList<>();
+	    Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
+	    Transaction transaction = null;
+
+	    try {
+	        transaction = session.beginTransaction();
+	        userList = (List<User>) session.createQuery("FROM User").getResultList();
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        logger.error("Error occurred during readAll operation", e);
+	    } finally {
+	        session.close();
+	    }
+
+	    return userList;
 	}
-	
+
 	public abstract boolean login();
 	
 }

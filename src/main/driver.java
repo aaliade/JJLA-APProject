@@ -23,7 +23,6 @@ public class driver {
 			e.printStackTrace();
 		}
 		
-		
 //		User user = new User("Lascelle12", "Lascelle68659", "Lascelle", "Mckenzie",
 //				"18768857845745", "4uiegkitg@gmail.com",
 //				"Somewhere", "Employee");
