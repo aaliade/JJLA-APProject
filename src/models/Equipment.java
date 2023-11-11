@@ -16,20 +16,17 @@ import org.apache.logging.log4j.LogManager;
 
 public class Equipment{
 	private static final Logger logger = LogManager.getLogger(Equipment.class);
-	private String categoryName;
 	private int equipID;
 	private String equipName;
 	private String description;
 	private boolean status;
 	private String category;
-	private int rentalRate;
+	private double rentalRate;
 	private Connection dbConn = null;
 	private Statement stmt = null;
 	private ResultSet result = null;
 
-	
 	public Equipment() {
-		categoryName = "";
 		equipID = 0;
 		equipName = "";
 		description = "";
@@ -40,7 +37,7 @@ public class Equipment{
 		this.dbConn = DBConnectorFactory.getDatabaseConnection();
 	}
 	
-	public Equipment(int equipID, String equipName, String description, boolean status, String category, int rentalRate) {
+	public Equipment(int equipID, String equipName, String description, boolean status, String category, double rentalRate) {
 		this.equipID = equipID;
 		this.equipName = equipName;
 		this.description = description;
@@ -50,17 +47,6 @@ public class Equipment{
 		logger.info("Input accepted, Equipment initialized");
 	}
 
-	
-	public String getcategoryName() {
-		logger.info("Equipment Category Name returned");
-		return categoryName;
-	}
-	
-	public void setcategoryName(String categoryName) {
-		this.categoryName = categoryName;
-		logger.info("Input accepted, Category Name set");
-	}
-	
 	public int getequipID() {
 		logger.info("Equipment ID returned");
 		return equipID;
@@ -102,20 +88,21 @@ public class Equipment{
 	}
 	
 	public String getCategory() {
+		logger.info("Equipment Status returned");
 		return category;
 	}
 
 	public void setCategory(String category) {
 		this.category = category;
+		logger.info("Input accepted, Equipment Status set");
 	}
 
-	public int getrentalRate() {
+	public double getrentalRate() {
 		logger.info("Equipment Rental Rate returned");
 		return rentalRate;
-		
 	}
 
-	public void setrentalRate(int rentalRate) {
+	public void setrentalRate(double rentalRate) {
 		this.rentalRate = rentalRate;
 		logger.info("Input accepted, Equipment Rental Rate set");
 	}
@@ -123,9 +110,9 @@ public class Equipment{
 	@Override
 	public String toString() {
 		logger.info("Equipment information returned");
-		return "Equipment ID" + equipID + "Equipment Name" + equipName + "Description" + description + "Status" + status + "Rental Rate" + rentalRate;	
+		return "Equipment ID: " + equipID + "\nEquipment Name: " + equipName + "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate;	
 	}
-	
+
 	public void selectAll() {
         String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment;";
 
@@ -137,11 +124,12 @@ public class Equipment{
                 int equipID = result.getInt("equipID");
                 String equipName = result.getString("equipName");
                 String description = result.getString("description");
+                String category = result.getString("catgeory");
                 boolean status = result.getBoolean("status");
-                int rentalRate = result.getInt("rentalRate");
+                double rentalRate = result.getInt("rentalRate");
 
                 System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
-                        "\nDescription: " + description + "\nStatus: " + status + "\nRental Rate: " + rentalRate + "\n");
+                        "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
             }
         } catch (SQLException e) {
             System.err.println("SQL Exception: " + e.getMessage());
@@ -169,10 +157,11 @@ public class Equipment{
                 String equipName = result.getString("equipName");
                 String description = result.getString("description");
                 boolean status = result.getBoolean("status");
-                int rentalRate = result.getInt("rentalRate");
+                String category1 = result.getString("catgeory");
+                double rentalRate = result.getInt("rentalRate");
 
                 System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
-                        "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
+                        "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category1 + "\nRental Rate: " + rentalRate + "\n");
             }
 	    } catch (SQLException e) {
 	        System.err.println("SQL Exception: " + e.getMessage());
@@ -188,9 +177,9 @@ public class Equipment{
 	    }
 	}
 	
-	public void insert(int equipID, String equipName, String description, boolean status, int rentalRate) {
-        String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.equipment (equipID, equipName, description, status, rentalRate)"
-                + "VALUES ('" + equipID + "', '" + equipName + "', '" + description + "', '" + status + "', '" + rentalRate + "');";
+	public void insert(int equipID, String equipName, String description, boolean status, String category, int rentalRate) {
+		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.equipment (equipID, equipName, description, status, category, rentalRate)"
+	            + "VALUES ('" + equipID + "', '" + equipName + "', '" + description + "', '" + status + "', '" + category + "', '" + rentalRate + "');";
 
         try {
             stmt = dbConn.createStatement();
@@ -217,7 +206,7 @@ public class Equipment{
     }
 
 	public void update(String UNDECIDED) {
-		String sql = "UPDATE grizzly’sentertainmentequipmentrental.event " + "SET --- = '" + UNDECIDED + "'" + " WHERE UNDECIDED = '" + UNDECIDED+ "'";
+		String sql = "UPDATE grizzly’sentertainmentequipmentrental.equipment " + "SET --- = '" + UNDECIDED + "'" + " WHERE UNDECIDED = '" + UNDECIDED+ "'";
 
 		try {
 			stmt = dbConn.createStatement();
@@ -247,7 +236,7 @@ public class Equipment{
 	}
 
 	public void delete(int equipId) {
-		String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.event WHERE equipID = " + equipId + ";";
+		String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.equipment WHERE equipID = " + equipId + ";";
 
 		try {
 			stmt = dbConn.createStatement();
@@ -276,5 +265,4 @@ public class Equipment{
 			}
 		}
 	}	
-
 }

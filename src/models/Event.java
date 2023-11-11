@@ -84,8 +84,66 @@ public class Event {
 		logger.info("Event information returned");
 		return "Event ID: " + eventID + "Event Name: " + eventName + "Event Date: " + eventDate + "Event Location: " + eventLocation;
 	}
+    
+    public void selectAll() {
+        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.event;";
 
-	// add select methods
+        try {
+            stmt = dbConn.createStatement();
+            result = stmt.executeQuery(sql);
+
+            while (result.next()) {
+                int eventID = result.getInt("eventID");
+                String eventName = result.getString("eventName");
+                String eventDate = result.getString("eventDate");
+                String eventLocation = result.getString("eventLocation");
+
+                System.out.println("Event ID: " + eventID + "\nEvent Name: " + eventName +
+                        "\nEvent Date: " + eventDate + "\nEvent Location: " + eventLocation + "\n");
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            logger.error("SQL Exception while selecting events: " + e.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                result.close();
+            } catch (SQLException e) {
+                System.err.println("Error while closing statement/result: " + e.getMessage());
+                logger.error("Error while closing statement/result: " + e.getMessage());
+            }
+        }
+    }
+
+    public void selectEventById(int eventID) {
+        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.event WHERE eventID = " + eventID + ";";
+
+        try {
+            stmt = dbConn.createStatement();
+            result = stmt.executeQuery(sql);
+
+            while (result.next()) {
+                int id = result.getInt("eventID");
+                String eventName = result.getString("eventName");
+                String eventDate = result.getString("eventDate");
+                String eventLocation = result.getString("eventLocation");
+
+                System.out.println("Event ID: " + id + "\nEvent Name: " + eventName +
+                        "\nEvent Date: " + eventDate + "\nEvent Location: " + eventLocation + "\n");
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            logger.error("SQL Exception while selecting events by ID: " + e.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                result.close();
+            } catch (SQLException e) {
+                System.err.println("Error while closing statement/result: " + e.getMessage());
+                logger.error("Error while closing statement/result: " + e.getMessage());
+            }
+        }
+    }
 	
 	public void insert(int eventID, String eventName, String eventDate, String eventLocation) {
 		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.event (eventID, eventName, eventDate, eventLocation)" + "VALUES ('" + eventID + "', '"

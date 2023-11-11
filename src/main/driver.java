@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 import models.Customer;
 import models.Employee;
+import models.Equipment;
 import models.User;
 import java.util.Date;
 public class driver {
@@ -26,13 +27,25 @@ public class driver {
 //		User user = new User("Lascelle12", "Lascelle68659", "Lascelle", "Mckenzie",
 //				"18768857845745", "4uiegkitg@gmail.com",
 //				"Somewhere", "Employee");
-		Employee emp = new Employee(1234, "supervisor",specificDate , "Lascelle12", "Lascelle68659", "Lascelle", "Mckenzie",
+		/*Employee emp = new Employee(1234, "supervisor",specificDate , "Lascelle12", "Lascelle68659", "Lascelle", "Mckenzie",
 				"18768857845745", "4uiegkitg@gmail.com",
 				"Somewhere", "Employee");
 		Customer customer = new Customer("RichieB", "rich123", "Richard", "Hendricks","193984","Somewhere", "richH@gmail","Customer", 123443, 0.0f);
 		
-		emp.create();
+		emp.create();*/
 		//customer.create();
+		
+		 // Test equipment creation and update
+        Equipment equipment = new Equipment();
+        equipment.insert(1, "Stage Light", "High-intensity stage light", true, "Lighting", 50);
+        equipment.insert(2, "Microphone", "Professional microphone for events", true, "Audio", 30);
+        equipment.insert(3, "Power Generator", "High-capacity power generator", true, "Power", 70);
+        equipment.insert(4, "Sound System", "Professional sound system for events", false, "Sound", 100);
+        equipment.insert(5, "Microphone Stand", "Adjustable microphone stand", true, "Sound", 20);
+        equipment.insert(6, "Spotlight", "Focused spotlight for stage events", false, "Lighting", 40);
+        equipment.insert(7, "Extension Cables", "Long power extension cables", true, "Power", 15);
+        equipment.insert(8, "Stage Monitor", "Monitor speaker for stage performances", true, "Sound", 60);
+        equipment.insert(9, "Stage Platform", "Adjustable stage platform for events", false, "Staging", 50);
+        equipment.insert(10, "LED Stage Lights", "Colorful LED lights for stage illumination", true, "Lighting", 30);
 	}
-
 }
