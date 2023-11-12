@@ -19,23 +19,18 @@ public class DBConnectorFactory {
 				//if u have it without password just uncomment
 				dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental", "root", "password");
 				//dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental", "root", "");
-				if (dbConn != null) {
-					JOptionPane.showMessageDialog(null, "Connection Established", "JDBC Connection Status", JOptionPane.INFORMATION_MESSAGE);
-					logger.info("Database Connection Established");
-					logger.info("Connection Established");
-				}
+				JOptionPane.showMessageDialog(null, "Connection Established", "JDBC Connection Status", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Database Connection Established");
+				logger.info("Connection Established");
 			} catch (SQLException e) {
                 logger.error("SQL Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
-            } catch (Exception e) {
+            }catch (Exception e) {
                 logger.error("Exception while establishing a database connection: " + e.getMessage());
                 e.printStackTrace();
             }
 		}
 		return dbConn;
 	}
-	
-	public void Hello() {
-		
-	}
+
 }

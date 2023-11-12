@@ -52,6 +52,7 @@ public class Message {
 		logger.info("Input accepted, Message TimeStamp initialized");
 	} 
 	
+
 	@Override
 	public String toString() {
 		logger.info("Message Information returned");

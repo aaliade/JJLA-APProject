@@ -1,6 +1,5 @@
-package models; 
 
-import java.io.Serializable;
+package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -74,7 +73,6 @@ public class Employee extends User implements Serializable{ //in order for the c
 	}
 	
 	
-	
 	//Copy Constructor
 	public Employee(Employee emp) {
 		super(emp.getUsername(), emp.getPassword(), emp.getFirstName(), emp.getLastName(), emp.getPhone(), emp.getEmail(),
@@ -120,6 +118,7 @@ public class Employee extends User implements Serializable{ //in order for the c
 		return hireDate.toString();
 	}
 	
+
 	public boolean create() {
 		 Session session = null;
 	     Transaction transaction = null;
@@ -152,7 +151,8 @@ public class Employee extends User implements Serializable{ //in order for the c
             }
         }
 		return false;
-	}
+		}
+	
 	
 	public void update() {
 		Session session = null;
@@ -193,8 +193,9 @@ public class Employee extends User implements Serializable{ //in order for the c
             }
         }
 		session.close();
-	}
+		}
 	
+
 	//read all method is in the user class
 	public void delete() {
 		Session session = null;

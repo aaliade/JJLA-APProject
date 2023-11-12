@@ -104,40 +104,59 @@ public class Customer extends User implements Serializable { //in order for the 
         }
 		return false;
 	}
-	
+
 	public void update() {
-		Session session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		Customer cust = (Customer) session.get(Customer.class, this.custID);
-		cust.setAccountBalance(accountBalance);
-		cust.setCustID(custID);
-		
-		cust.setFirstName(cust.getFirstName());
-		cust.setLastName(cust.getLastName());
-		cust.setAddress(cust.getAddress());
-		cust.setEmail(cust.getEmail());
-		cust.setPassword(cust.getPassword());
-		cust.setPhone(cust.getPhone());
-		
-		session.update(cust);
-		transaction.commit();
-		session.close();
+	    Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
+	    Transaction transaction = null;
+
+	    try {
+	        transaction = session.beginTransaction();
+	        Customer cust = (Customer) session.get(Customer.class, this.custID);
+	        cust.setAccountBalance(accountBalance);
+	        cust.setCustID(custID);
+	        cust.setFirstName(cust.getFirstName());
+			cust.setLastName(cust.getLastName());
+			cust.setAddress(cust.getAddress());
+			cust.setEmail(cust.getEmail());
+			cust.setPassword(cust.getPassword());
+			cust.setPhone(cust.getPhone());
+
+	        session.update(cust);
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        logger.error("Error occurred during update operation", e);
+	    } finally {
+	        session.close();
+	    }
 	}
-	
+
 	//read all method is in the user class
 	
 	//I should try to remove from customer first then from user
-	
+
 	//delete by username
 	public void delete() {
-		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-		User user = (User) session.get(User.class, this.getUsername());
-		Transaction transaction = session.beginTransaction();
-		session.delete(user);
-		transaction.commit();
-		session.close();
+	    Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
+	    User user = (User) session.get(User.class, this.getUsername());
+	    Transaction transaction = null;
+
+	    try {
+	        transaction = session.beginTransaction();
+	        session.delete(user);
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        logger.error("Error occurred during delete operation", e);
+	    } finally {
+	        session.close();
+	    }
 	}
-	
+
 	@Override
 	public boolean login() {
 		// TODO Auto-generated method stub

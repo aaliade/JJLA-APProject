@@ -58,6 +58,7 @@ public class Payment {
 		logger.info("Input accepted, Payment Date initialized");
 	}
 	
+
 	@Override
 	public String toString() {
 		logger.info("Payment Information returned");

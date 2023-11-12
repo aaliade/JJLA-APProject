@@ -42,7 +42,7 @@ public class Server {
 	
 	private void createConnection() {
 	try {
-		//create new instance of the ServerSocket listening on port 3306
+		//create new instance of the ServerSocket listening on port 8888
 		serverSocket = new ServerSocket(8888);
 		logger.info("Server started and waiting for connections");
 	}catch (IOException ex) {
