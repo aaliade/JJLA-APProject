@@ -33,6 +33,7 @@ public class EmployeeClient {
 	private void createConnection() {
 		try {
 			connectionSocket = new Socket("127.0.0.1", 8888);
+			System.out.println("Employee Client established connection");
 			logger.info("Employee Client established connection");
 		} catch (IOException ex) {
 			ex.printStackTrace();

@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -70,16 +71,42 @@ public class Customer extends User implements Serializable { //in order for the 
 		logger.info("Input accepted, Customer Account Balance set");
 	}
 	
-	public void create() {
-		Session session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		session.save(this);
-		transaction.commit();
-		session.close();
+	public boolean create() {
+		 Session session = null;
+	     Transaction transaction = null;
+		try {
+			session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
+			transaction = session.beginTransaction();
+			session.save(this);
+			transaction.commit();
+			session.close();
+			return true;
+		}catch (HibernateException e) {
+            // Handle HibernateException
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+                session.close();
+                return false;
+            }
+            e.printStackTrace(); // Log or handle the exception as appropriate
+        } catch (Exception e) {
+            // Handle other exceptions
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+                session.close();
+                return false;
+            }
+            e.printStackTrace(); // Log or handle the exception as appropriate
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+		return false;
 	}
 	
 	public void update() {
-		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
+		Session session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		Customer cust = (Customer) session.get(Customer.class, this.custID);
 		cust.setAccountBalance(accountBalance);
@@ -98,6 +125,8 @@ public class Customer extends User implements Serializable { //in order for the 
 	}
 	
 	//read all method is in the user class
+	
+	//I should try to remove from customer first then from user
 	
 	//delete by username
 	public void delete() {

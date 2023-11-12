@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import javax.persistence.AttributeOverride;
@@ -118,50 +119,109 @@ public class Employee extends User implements Serializable{ //in order for the c
 	public String getDateToString() {
 		return hireDate.toString();
 	}
-
-//	@Override
-//	public boolean login() {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
 	
-	public void create() {
-		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		session.save(this);
-		transaction.commit();
-		session.close();
+	public boolean create() {
+		 Session session = null;
+	     Transaction transaction = null;
+		try {
+			session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
+			transaction = session.beginTransaction();
+			session.save(this);
+			transaction.commit();
+			session.close();
+			return true;
+		}catch (HibernateException e) {
+            // Handle HibernateException
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+                session.close();
+                return false;
+            }
+            e.printStackTrace(); // Log or handle the exception as appropriate
+        } catch (Exception e) {
+            // Handle other exceptions
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+                session.close();
+                return false;
+            }
+            e.printStackTrace(); // Log or handle the exception as appropriate
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+		return false;
 	}
 	
 	public void update() {
-		Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		Employee emp = (Employee) session.get(Employee.class, this.empID);
-		emp.setEmpID(empID);
-		emp.setUsername(emp.getUsername());
-		emp.setEmpRole(empRole);
-		emp.setHireDate(hireDate);
-		
-		emp.setFirstName(emp.getFirstName());
-		emp.setLastName(emp.getLastName());
-		emp.setAddress(emp.getAddress());
-		emp.setEmail(emp.getEmail());
-		emp.setPassword(emp.getPassword());
-		emp.setPhone(emp.getPhone());
-		
-		session.update(emp);
-		transaction.commit();
+		Session session = null;
+	    Transaction transaction = null;
+	    try {
+	    	session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
+			transaction = session.beginTransaction();
+			Employee emp = (Employee) session.get(Employee.class, this.empID);
+			emp.setEmpID(empID);
+			emp.setUsername(emp.getUsername());
+			emp.setEmpRole(empRole);
+			emp.setHireDate(hireDate);
+			
+			emp.setFirstName(emp.getFirstName());
+			emp.setLastName(emp.getLastName());
+			emp.setAddress(emp.getAddress());
+			emp.setEmail(emp.getEmail());
+			emp.setPassword(emp.getPassword());
+			emp.setPhone(emp.getPhone());
+			
+			session.update(emp);
+			transaction.commit();
+	    }catch (HibernateException e) {
+            // Handle HibernateException
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception as appropriate
+        } catch (Exception e) {
+            // Handle other exceptions
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception as appropriate
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
 		session.close();
 	}
 	
 	//read all method is in the user class
-	
 	public void delete() {
-		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-		User user = (User) session.get(User.class, this.getUsername());
-		Transaction transaction = session.beginTransaction();
-		session.delete(user);
-		transaction.commit();
+		Session session = null;
+	    Transaction transaction = null;
+	    try {
+	    	session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
+			User user = (User) session.get(User.class, this.getUsername());
+			transaction = session.beginTransaction();
+			session.delete(user);
+			transaction.commit();
+	    }catch (HibernateException e) {
+            // Handle HibernateException
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception as appropriate
+        } catch (Exception e) {
+            // Handle other exceptions
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception as appropriate
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
 		session.close();
 	}
 	

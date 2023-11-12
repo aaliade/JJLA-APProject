@@ -1,8 +1,13 @@
 package view;
 
+
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +22,8 @@ import org.apache.logging.log4j.Logger;
 
 import controller.GuiController;
 
+
+
 public class SignUpView {
 
 	private GuiController guiController;
@@ -29,6 +36,8 @@ public class SignUpView {
 	private JRadioButton rbtnCustomer, rbtnEmployee;
 	private JButton goBackBtn, submitBtn, clearBtn;
 	private JPanel[] panels;
+	
+	private String firstName, lastName, phoneNumber, email, userName, password, confirmPassword;
 	
 	private static final Logger logger = LogManager.getLogger(SignUpView.class);
 	
@@ -142,6 +151,49 @@ public class SignUpView {
 		logger.info("Window Properties set");
 	}
 	 
+	
+	public void GetFields() {
+		this.firstName = firstNameField.getText();				
+		this.lastName = lastNameField.getText();
+		this.phoneNumber = phoneField.getText();
+		this.email = emailField.getText();
+		this.userName = userNameField.getText();
+		this.password = passwordField.getText();
+		this.confirmPassword = confirmPasswordField.getText();
+	}
+	
+	public boolean CheckFields() {
+		//Check if the fields are empty
+		if(this.firstName.isEmpty() || this.lastName.isEmpty() || this.phoneNumber.isEmpty() ||
+				this.email.isEmpty() || this.userName.isEmpty() || this.password.isEmpty() || 
+				this.confirmPassword.isEmpty()) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public boolean CheckPassword() {
+		//Check if the passwords are the same
+		if(password.equals(confirmPassword)) {
+			JOptionPane.showMessageDialog(frame, "Password correctly matched", "Field Empty",JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		}else {
+			JOptionPane.showMessageDialog(frame, "Password not matched", "Field Empty",JOptionPane.ERROR_MESSAGE);
+			return false;
+		} 
+		
+	}
+	
+	public int GenerateRandomID() {
+		int min = 1000;  
+		int max = 10000;  
+		int IDNum = (int)(Math.random()*(max-min+1)+min);
+		return IDNum;
+	}
+	
+	
+	
 	private void registerListeners() {
 		rbtnCustomer.addActionListener(new ActionListener() {
 			@Override
@@ -149,7 +201,6 @@ public class SignUpView {
 				rbtnEmployee.setEnabled(false);
 			}
 		});
-		
 		
 		rbtnEmployee.addActionListener(new ActionListener() {
 			@Override
@@ -160,58 +211,59 @@ public class SignUpView {
 		}); 
 		
 		submitBtn.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(rbtnCustomer.isSelected()) {
-					
-					//Check if all fields are filled out
+				
+				int IDNumber = GenerateRandomID();
+				
+				//get the value of the fields from the window
+				GetFields();
+				
+				//if all the fields are filled out and the password is similar
+				if(CheckFields() && CheckPassword()) {
+					JOptionPane.showMessageDialog(null, "Properly Filled Out.", "Field Empty",JOptionPane.INFORMATION_MESSAGE);
+					if(rbtnCustomer.isSelected()) {	
+						//Check the Database first to see if there is any instance of the user
+						
+						//Check if ID exists in database
+						guiController.CreateCustomerObject(userName, password, firstName, lastName, phoneNumber,"Address",email,rbtnCustomer.getText(), IDNumber, 0.0f);
+					}
+						
+						//Add to data to database if the user doesnt exist
+						//Display Message if registration is successful
+						/*JOptionPane.showMessageDialog(frame, "You have been Successfully Registered.\r\n"
+								+ "\r\n"
+								+ "A User ID has been generated: n43rvntg\r\n"
+								+ "\r\n"
+								+ "This should be used to login. ", "Registration Complete",JOptionPane.INFORMATION_MESSAGE);*/
 		
-					String firstName, lastName, phoneNumber, email, userName, password, confirmPassword;
+						
+						
+						//if they exist then tell them
+						//Display Message if registration is failed
+						//JOptionPane.showMessageDialog(frame, "This user already exists in our database please please log in", "Registration Failed",JOptionPane.ERROR_MESSAGE);
 					
-					firstName = firstNameField.getText();				
-					lastName = lastNameField.getText();
-					phoneNumber = phoneField.getText();
-					email = emailField.getText();
-					userName = userNameField.getText();
-					password = passwordField.getText();
-					confirmPassword = confirmPasswordField.getText();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String dateString = "1111-01-01"; // Format: yyyy-MM-dd
+					Date specificDate = null;
 					
-					
-					//Check Database first
-					
-					//Check if the fields are empty
-					if(firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() ||
-							email.isEmpty() || userName.isEmpty() || password.isEmpty() || 
-							confirmPassword.isEmpty()) {
-						JOptionPane.showMessageDialog(frame, "Please Ensure All Fields Are Properly Filled Out.", "Field Empty",JOptionPane.ERROR_MESSAGE);
+					try {
+						specificDate = dateFormat.parse(dateString);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 					
-					//Check if the passwords are the same
-					if(password.equals(confirmPassword)) {
-						JOptionPane.showMessageDialog(frame, "Password correct", "Field Empty",JOptionPane.ERROR_MESSAGE);
-					}else {
-						JOptionPane.showMessageDialog(frame, "Password incorrect", "Field Empty",JOptionPane.ERROR_MESSAGE);
-					} 
+					if(rbtnEmployee.isSelected()) {
+						JOptionPane.showMessageDialog(null, "Note: A code was sent by the employer please check your email for the code.");
+						String code = JOptionPane.showInputDialog(null, "Please Enter Registration Code:", 
+				                "Employee Registration", JOptionPane.INFORMATION_MESSAGE);
+						guiController.CreateEmployeeObject(IDNumber, "Supervisor", specificDate, userName, password, firstName, lastName, phoneNumber,email,"Address",rbtnEmployee.getText());
 					
-					//Check Database first
-					
-					//Add to data to database
-					
-					//Display Message if registration is successful
-					/*JOptionPane.showMessageDialog(frame, "You have been Successfully Registered.\r\n"
-							+ "\r\n"
-							+ "A User ID has been generated: n43rvntg\r\n"
-							+ "\r\n"
-							+ "This should be used to login. ", "Registration Complete",JOptionPane.INFORMATION_MESSAGE);*/
-					
-					//Display Message if registration is failed
-					//JOptionPane.showMessageDialog(frame, "Please Ensure All Fields Are Properly Filled Out.", "Registration Failed",JOptionPane.ERROR_MESSAGE);
-				}
-				
-				if(rbtnEmployee.isSelected()) {
-					JOptionPane.showMessageDialog(null, "Note: A code was sent by the employer please check your email for the code.");
-					String code = JOptionPane.showInputDialog(null, "Please Enter Registration Code:", 
-			                "Employee Registration", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Please Ensure All Fields Are Properly Filled Out.", "Field Empty",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

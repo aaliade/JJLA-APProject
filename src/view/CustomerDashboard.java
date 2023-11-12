@@ -234,6 +234,13 @@ public class CustomerDashboard {
 					 clearPanel(viewPanel);
 				 }*/
 				 
+				 if(nodeName == "View Equipments") {
+					 System.out.println("Message");
+					 clearPanel(viewPanel);
+					 
+					 updatePanel(viewPanel);
+				 }
+				 
 				 if(nodeName.equals("Message")) {
 					 System.out.println("Message");
 					 clearPanel(viewPanel);

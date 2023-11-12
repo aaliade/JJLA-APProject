@@ -32,11 +32,10 @@ private static SessionFactory sessionFactory;
 		return sessionFactory;
 	}
 	
-	
 	public static void closeSessionFactory() {
 		if(sessionFactory != null) {
 			sessionFactory.close();
 		}
 	}
+	
 }
-
