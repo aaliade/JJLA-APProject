@@ -1,4 +1,6 @@
 package models;
+ 
+import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +29,7 @@ public class Payment {
 	
 	//getters and setters 
 	public int getPaymentID() {
+		logger.info("Payment ID returned");
 		return paymentID;
 	}
 
@@ -36,6 +39,7 @@ public class Payment {
 	}
 
 	public String getPaymentType() {
+		logger.info("Payment Type returned");
 		return paymentType;
 	}
 
@@ -45,12 +49,20 @@ public class Payment {
 	}
 
 	public Date getDate() {
+		logger.info("Payment Date returned");
 		return paymentDate;
 	}
 
 	public void setDate(Date date) {
 		this.paymentDate = date;
 		logger.info("Input accepted, Payment Date initialized");
+	}
+	
+
+	@Override
+	public String toString() {
+		logger.info("Payment Information returned");
+		return "Payment ID: " + paymentID + "Payment Type: " + paymentType + "Date: " + paymentDate;
 	}
 	
 }
