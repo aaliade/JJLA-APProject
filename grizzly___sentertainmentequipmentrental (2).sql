@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 10, 2023 at 09:03 PM
+-- Host: localhost
+-- Generation Time: Nov 11, 2023 at 10:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -46,6 +46,13 @@ CREATE TABLE `employee` (
   `hireDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`username`, `empID`, `empRole`, `hireDate`) VALUES
+('Lascelle12', '1234', 'supervisor', '1111-01-01');
+
 -- --------------------------------------------------------
 
 --
@@ -55,11 +62,27 @@ CREATE TABLE `employee` (
 CREATE TABLE `equipment` (
   `equipID` varchar(15) NOT NULL,
   `equipName` varchar(20) NOT NULL,
-  `categoryID` varchar(15) NOT NULL,
+  `category` varchar(15) NOT NULL,
   `description` varchar(70) NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `status` varchar(25) NOT NULL,
   `rentalRate` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `equipment`
+--
+
+INSERT INTO `equipment` (`equipID`, `equipName`, `category`, `description`, `status`, `rentalRate`) VALUES
+('1', 'Stage Light', 'Lighting', 'High-intensity stage light', 'true', '50'),
+('10', 'LED Stage Lights', 'Lighting', 'Colorful LED lights for stage illumination', 'true', '30'),
+('2', 'Microphone', 'Audio', 'Professional microphone for events', 'true', '30'),
+('3', 'Power Generator', 'Power', 'High-capacity power generator', 'true', '70'),
+('4', 'Sound System', 'Sound', 'Professional sound system for events', 'false', '100'),
+('5', 'Microphone Stand', 'Sound', 'Adjustable microphone stand', 'true', '20'),
+('6', 'Spotlight', 'Lighting', 'Focused spotlight for stage events', 'false', '40'),
+('7', 'Extension Cables', 'Power', 'Long power extension cables', 'true', '15'),
+('8', 'Stage Monitor', 'Sound', 'Monitor speaker for stage performances', 'true', '60'),
+('9', 'Stage Platform', 'Staging', 'Adjustable stage platform for events', 'false', '50');
 
 -- --------------------------------------------------------
 
@@ -136,6 +159,13 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`username`, `password`, `firstName`, `lastName`, `phoneNum`, `email`, `address`, `userType`) VALUES
+('Lascelle12', 'Lascelle68659', 'Lascelle', 'Mckenzie', '18768857845745', '4uiegkitg@gmail.com', 'Somewhere', 'Employee');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -157,8 +187,7 @@ ALTER TABLE `employee`
 -- Indexes for table `equipment`
 --
 ALTER TABLE `equipment`
-  ADD PRIMARY KEY (`equipID`),
-  ADD KEY `categoryID` (`categoryID`);
+  ADD PRIMARY KEY (`equipID`);
 
 --
 -- Indexes for table `event`
@@ -210,12 +239,6 @@ ALTER TABLE `customer`
 --
 ALTER TABLE `employee`
   ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
-
---
--- Constraints for table `equipment`
---
-ALTER TABLE `equipment`
-  ADD CONSTRAINT `equipment_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `equipmentcategory` (`categoryID`);
 
 --
 -- Constraints for table `event`
