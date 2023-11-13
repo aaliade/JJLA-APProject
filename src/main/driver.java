@@ -10,14 +10,19 @@ import models.User;
 import networking.EmployeeClient;
 import networking.Server;
 import multiThreading.MultiThreadServer;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Date;
 public class driver {
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+		System.out.println("config loaded");
+		Employee emp = (Employee)context.getBean("employee");
+		System.out.println(emp.toString());
+
+/*
 		//start employee client
 		EmployeeClient client = new EmployeeClient();
 		
@@ -31,7 +36,7 @@ public class driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 //		User user = new User("Lascelle12", "Lascelle68659", "Lascelle", "Mckenzie",
 //				"18768857845745", "4uiegkitg@gmail.com",
 //				"Somewhere", "Employee");

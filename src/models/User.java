@@ -1,6 +1,5 @@
 package models;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.InheritanceType;
@@ -32,43 +31,41 @@ import factories.SessionFactoryBuilder;
  * database.
  */
 
-@Entity(name="user")
-@Table(name = "user") 
+@Entity(name = "user")
+@Table(name = "user")
 //each subclass has its own table, and there is a table for the superclass containing common fields.
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
-	
-	
-	@Column(name="address")
-	private String address;
-	
-	@Column(name="email")
-	private String email;
-	
-	@Column(name="firstName")
-	private String firstName;
-	
-	@Column(name="lastName")
-	private String lastName;
-	
-	@Column(name="password")
-	private String password;
-	
-	@Column(name="phoneNum")
-	private String phone;
-	
-	@Column(name="userType")
-	private String userType;
-	
-	@Id
-	@Column(name="username")
-	private String username;
 
+	@Column(name = "address")
+	private String address;
+
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "firstName")
+	private String firstName;
+
+	@Column(name = "lastName")
+	private String lastName;
+
+	@Column(name = "password")
+	private String password;
+
+	@Column(name = "phoneNum")
+	private String phone;
+
+	@Column(name = "userType")
+	private String userType;
+
+	@Id
+	@Column(name = "username")
+	private String username;
 
 	private static final Logger logger = LogManager.getLogger(User.class);
 
-	//Default Constructor
-	public User(){
+	// Default Constructor
+	public User() {
 		this.username = "";
 		this.password = "";
 		this.firstName = "";
@@ -80,7 +77,7 @@ public abstract class User {
 		logger.info("User initialized");
 	}
 
-	//Primary Constructor
+	// Primary Constructor
 	public User(String username, String password, String firstName, String lastName, String phone, String email,
 			String address, String userType) {
 		super();
@@ -93,9 +90,9 @@ public abstract class User {
 		this.address = address;
 		this.userType = userType;
 	}
-	
-	//Copy Constructor
-	public User(User user){
+
+	// Copy Constructor
+	public User(User user) {
 		this.username = user.username;
 		this.password = user.password;
 		this.firstName = user.firstName;
@@ -174,20 +171,40 @@ public abstract class User {
 	public static Logger getLogger() {
 		return logger;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<User> readAll(){
-		List<User> userList = new ArrayList<>();
-		Session session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		userList = (List<User>) session.createQuery("From user").getResultList();
-		transaction.commit();
-		session.close();
-		return userList;
-	}
-	
 
+    @SuppressWarnings("unchecked")
+    public List<User> readAll() {
+        List<User> userList = new ArrayList<>();
+        Session session = null;
+        Transaction transaction = null;
+        Logger logger = LogManager.getLogger(User.class);
+
+        try {
+            session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
+            transaction = session.beginTransaction();
+            userList = (List<User>) session.createQuery("From User").getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            // Log the exception
+            logger.error("Error occurred while reading users", e);
+
+            // Rollback the transaction if it is still active
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+
+            // Rethrow the exception or handle it accordingly based on your requirements
+            throw new RuntimeException("Error occurred while reading users", e);
+        } finally {
+            // Close the session in a finally block to ensure it is always closed
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+
+        return userList;
+    }
 
 	public abstract boolean login();
-	
+
 }

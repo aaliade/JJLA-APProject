@@ -37,7 +37,6 @@
 		</property>
 		<property name="connection.pool_size">1</property>
 		
-		
 		<!-- 
 			</property>	<mapping resource = "Staff.hbm.sml"> </property>/>
 		 -->

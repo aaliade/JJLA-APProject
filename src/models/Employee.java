@@ -26,57 +26,55 @@ import org.hibernate.annotations.Type;
 
 import factories.SessionFactoryBuilder;
 
-
-@Entity(name="employee")
+@Entity(name = "employee")
 @Table(name = "employee")
-public class Employee extends User implements Serializable{ //in order for the class to be sent across a network it needs to be serialized 
-	
+public class Employee extends User implements Serializable { // in order for the class to be sent across a network it
+																// needs to be serialized
+
 	private static final long serialVersionUID = 1L;
-	
-	//no need to use @Id as the joined table is seen as a reference identifier
+
+	// no need to use @Id as the joined table is seen as a reference identifier
 	@Column(name = "empID")
 	private int empID;
 	@Column(name = "empRole")
 	private String empRole;
-	@Temporal(TemporalType.DATE) //set the type to match the data type in mysql
+	@Temporal(TemporalType.DATE) // set the type to match the data type in mysql
 	@Column(name = "hireDate")
 	private Date hireDate;
-	
+
 	private static final Logger logger = LogManager.getLogger(Employee.class);
-	
-	//Default Constructor
-	public Employee(){
+
+	// Default Constructor
+	public Employee() {
 		super();
 		this.empID = 0;
 		this.empRole = "";
 		this.hireDate = null;
 		logger.info("Employee initialized");
 	}
-	
 
-	//Primary Constructor
-	public Employee(int empID, String empRole, Date hireDate, String username, String password, String firstName, String lastName, String phone, String email,
-			String address, String usertype) {
-		super(username,password,firstName,lastName,phone,email,address,usertype);
+	// Primary Constructor
+	public Employee(int empID, String empRole, Date hireDate, String username, String password, String firstName,
+			String lastName, String phone, String email, String address, String usertype) {
+		super(username, password, firstName, lastName, phone, email, address, usertype);
 		this.empID = empID;
 		this.empRole = empRole;
 		this.hireDate = hireDate;
 		logger.info("Input accepted, Employee initialized");
 	}
-	
-	//Primary Constructor 2
+
+	// Primary Constructor 2
 	public Employee(int empID, String empRole, Date date) {
-			this.empID = empID;
-			this.empRole = empRole;
-			this.hireDate = date;
-			logger.info("Input accepted, Employee initialized");
+		this.empID = empID;
+		this.empRole = empRole;
+		this.hireDate = date;
+		logger.info("Input accepted, Employee initialized");
 	}
-	
-	
-	//Copy Constructor
+
+	// Copy Constructor
 	public Employee(Employee emp) {
-		super(emp.getUsername(), emp.getPassword(), emp.getFirstName(), emp.getLastName(), emp.getPhone(), emp.getEmail(),
-				emp.getAddress(), emp.getUserType());
+		super(emp.getUsername(), emp.getPassword(), emp.getFirstName(), emp.getLastName(), emp.getPhone(),
+				emp.getEmail(), emp.getAddress(), emp.getUserType());
 		this.empID = emp.empID;
 		this.empRole = emp.empRole;
 		this.hireDate = emp.hireDate;
@@ -100,7 +98,6 @@ public class Employee extends User implements Serializable{ //in order for the c
 
 	public void setEmpRole(String empRole) {
 		this.empRole = empRole;
-		logger.info("Input accepted, Employee Role set");
 	}
 
 	public Date getHireDate() {
@@ -113,123 +110,123 @@ public class Employee extends User implements Serializable{ //in order for the c
 		logger.info("Input accepted, Employee Hire Date set");
 	}
 
-	
 	public String getDateToString() {
 		return hireDate.toString();
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Employee [empID=" + empID + ", empRole=" + empRole + ", hireDate=" + hireDate + "]";
+	}
 
 	public boolean create() {
-		 Session session = null;
-	     Transaction transaction = null;
+		Session session = null;
+		Transaction transaction = null;
+		Logger logger = LogManager.getLogger(getClass());
+
 		try {
 			session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
 			transaction = session.beginTransaction();
 			session.save(this);
 			transaction.commit();
-			session.close();
 			return true;
-		}catch (HibernateException e) {
-            // Handle HibernateException
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-                session.close();
-                return false;
-            }
-            e.printStackTrace(); // Log or handle the exception as appropriate
-        } catch (Exception e) {
-            // Handle other exceptions
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-                session.close();
-                return false;
-            }
-            e.printStackTrace(); // Log or handle the exception as appropriate
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-		return false;
+		} catch (HibernateException e) {
+			// Log and handle HibernateException
+			logger.error("Error occurred while creating employee", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+			return false;
+		} catch (Exception e) {
+			// Log and handle other exceptions
+			logger.error("Error occurred while creating employee", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+			return false;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
 		}
-	
-	
+	}
+
 	public void update() {
 		Session session = null;
-	    Transaction transaction = null;
-	    try {
-	    	session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
+		Transaction transaction = null;
+		Logger logger = LogManager.getLogger(getClass());
+
+		try {
+			session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
 			transaction = session.beginTransaction();
 			Employee emp = (Employee) session.get(Employee.class, this.empID);
 			emp.setEmpID(empID);
 			emp.setUsername(emp.getUsername());
 			emp.setEmpRole(empRole);
 			emp.setHireDate(hireDate);
-			
+
 			emp.setFirstName(emp.getFirstName());
 			emp.setLastName(emp.getLastName());
 			emp.setAddress(emp.getAddress());
 			emp.setEmail(emp.getEmail());
 			emp.setPassword(emp.getPassword());
 			emp.setPhone(emp.getPhone());
-			
+
 			session.update(emp);
 			transaction.commit();
-	    }catch (HibernateException e) {
-            // Handle HibernateException
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace(); // Log or handle the exception as appropriate
-        } catch (Exception e) {
-            // Handle other exceptions
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace(); // Log or handle the exception as appropriate
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-		session.close();
+		} catch (HibernateException e) {
+			// Log and handle HibernateException
+			logger.error("Error occurred while updating employee", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		} catch (Exception e) {
+			// Log and handle other exceptions
+			logger.error("Error occurred while updating employee", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
 		}
-	
+	}
 
-	//read all method is in the user class
 	public void delete() {
 		Session session = null;
-	    Transaction transaction = null;
-	    try {
-	    	session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
+		Transaction transaction = null;
+		Logger logger = LogManager.getLogger(getClass());
+
+		try {
+			session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
 			User user = (User) session.get(User.class, this.getUsername());
 			transaction = session.beginTransaction();
 			session.delete(user);
 			transaction.commit();
-	    }catch (HibernateException e) {
-            // Handle HibernateException
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace(); // Log or handle the exception as appropriate
-        } catch (Exception e) {
-            // Handle other exceptions
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace(); // Log or handle the exception as appropriate
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-		session.close();
+		} catch (HibernateException e) {
+			// Log and handle HibernateException
+			logger.error("Error occurred while deleting user", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		} catch (Exception e) {
+			// Log and handle other exceptions
+			logger.error("Error occurred while deleting user", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
 	}
-	
+
 	@Override
 	public boolean login() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 }
