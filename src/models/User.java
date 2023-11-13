@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.InheritanceType;
@@ -35,8 +36,10 @@ import factories.SessionFactoryBuilder;
 @Table(name = "user")
 //each subclass has its own table, and there is a table for the superclass containing common fields.
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public abstract class User implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Column(name = "address")
 	private String address;
 
@@ -204,6 +207,7 @@ public abstract class User {
 
         return userList;
     }
+
 
 	public abstract boolean login();
 

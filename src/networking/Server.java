@@ -35,6 +35,7 @@ public class Server {
 	private static Connection dbConn = null;
 	public static final Logger logger = LogManager.getLogger(Server.class);
 	
+	
 	public Server(){
 		this.createConnection();
 		this.waitForRequests();
@@ -193,7 +194,8 @@ public class Server {
 	                    logger.info("Found employee by ID: " + empObj);
 	                    
 	                } else if (action.equals("Add Customer")) {
-	                    Customer custObj = (Customer) ObjIS.readObject();   // Reading a Customer object from the Object Input Stream
+	                	Customer custObj = null;
+	                    custObj = (Customer) ObjIS.readObject();   // Reading a Customer object from the Object Input Stream
 	                    addCustomerToFile(custObj);
 	                    ObjOS.writeObject(true);   // Writing a Boolean value to the Object Output Stream
 	                    logger.info("Customer added to file");

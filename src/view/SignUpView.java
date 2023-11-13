@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -29,15 +30,15 @@ public class SignUpView {
 	private GuiController guiController;
 	private JFrame frame;
 	private JTextField firstNameField, lastNameField, phoneField, emailField,
-						userNameField, passwordField, confirmPasswordField;
+						userNameField, passwordField, confirmPasswordField, addressField;
 	private JLabel titleLabel, firstNameLabel, lastNameLabel,
 					phoneNumberLabel, emailLabel, userNameLabel, passwordLabel, 
-					confirmPasswordLabel;
+					confirmPasswordLabel, addressLabel;
 	private JRadioButton rbtnCustomer, rbtnEmployee;
 	private JButton goBackBtn, submitBtn, clearBtn;
 	private JPanel[] panels;
 	
-	private String firstName, lastName, phoneNumber, email, userName, password, confirmPassword;
+	private String firstName, lastName, phoneNumber, email, userName, password, confirmPassword, address;
 	
 	private static final Logger logger = LogManager.getLogger(SignUpView.class);
 	
@@ -55,7 +56,7 @@ public class SignUpView {
 	
 	public void initializeComponents() {
 		
-		frame.setLayout(new GridLayout(11,1)); 
+		frame.setLayout(new GridLayout(12,1)); 
 		
 		titleLabel = new JLabel("Sign Up");
 		firstNameLabel = new JLabel("First Name: ");
@@ -65,6 +66,7 @@ public class SignUpView {
 		userNameLabel = new JLabel("Username: ");
 		passwordLabel = new JLabel("Password: ");
 		confirmPasswordLabel = new JLabel("Confirm Password: ");
+		addressLabel  = new JLabel("Address: ");
 		
 		firstNameField = new JTextField();
 		lastNameField = new JTextField();
@@ -73,6 +75,7 @@ public class SignUpView {
 		userNameField = new JTextField();
 		passwordField = new JTextField();
 		confirmPasswordField = new JTextField();
+		addressField = new JTextField();
 		
 		rbtnCustomer = new JRadioButton("Customer");
 		rbtnEmployee = new JRadioButton("Employee");
@@ -81,7 +84,7 @@ public class SignUpView {
 		submitBtn = new JButton("Submit");
 		clearBtn = new JButton("Clear");
 		
-		panels = new JPanel[11];
+		panels = new JPanel[12];
 		for(int i=0;i<panels.length;i++) {
 			panels[i] = new JPanel();
 		}
@@ -94,9 +97,10 @@ public class SignUpView {
 		panels[5].setLayout(new GridLayout(1,2));
 		panels[6].setLayout(new GridLayout(1,2));
 		panels[7].setLayout(new GridLayout(1,2));
-		panels[8].setLayout(new GridLayout(1,1));
+		panels[8].setLayout(new GridLayout(1,2));
 		panels[9].setLayout(new GridLayout(1,1));
-		panels[10].setLayout(new GridLayout(1,3));
+		panels[10].setLayout(new GridLayout(1,1));
+		panels[11].setLayout(new GridLayout(1,3));
 		
 		logger.info("Sign Up Components initialized");
 	}
@@ -120,18 +124,21 @@ public class SignUpView {
 		panels[5].add(userNameLabel);
 		panels[5].add(userNameField);
 		
-		panels[6].add(passwordLabel);
-		panels[6].add(passwordField);
+		panels[6].add(addressLabel);
+		panels[6].add(addressField);
 		
-		panels[7].add(confirmPasswordLabel);
-		panels[7].add(confirmPasswordField);
+		panels[7].add(passwordLabel);
+		panels[7].add(passwordField);
 		
-		panels[8].add(rbtnCustomer);
-		panels[9].add(rbtnEmployee);
+		panels[8].add(confirmPasswordLabel);
+		panels[8].add(confirmPasswordField);
 		
-		panels[10].add(goBackBtn);
-		panels[10].add(clearBtn);
-		panels[10].add(submitBtn);
+		panels[9].add(rbtnCustomer);
+		panels[10].add(rbtnEmployee);
+		
+		panels[11].add(goBackBtn);
+		panels[11].add(clearBtn);
+		panels[11].add(submitBtn);
 		logger.info("Compenets added to Panel");
 	}
 	
@@ -160,13 +167,14 @@ public class SignUpView {
 		this.userName = userNameField.getText();
 		this.password = passwordField.getText();
 		this.confirmPassword = confirmPasswordField.getText();
+		this.address = addressField.getText();
 	}
 	
 	public boolean CheckFields() {
 		//Check if the fields are empty
 		if(this.firstName.isEmpty() || this.lastName.isEmpty() || this.phoneNumber.isEmpty() ||
 				this.email.isEmpty() || this.userName.isEmpty() || this.password.isEmpty() || 
-				this.confirmPassword.isEmpty()) {
+				this.confirmPassword.isEmpty() || this.address.isEmpty()) {
 			return false;
 		}else {
 			return true;
@@ -227,7 +235,7 @@ public class SignUpView {
 						//Check the Database first to see if there is any instance of the user
 						
 						//Check if ID exists in database
-						guiController.CreateCustomerObject(userName, password, firstName, lastName, phoneNumber,"Address",email,rbtnCustomer.getText(), IDNumber, 0.0f);
+						guiController.CreateCustomerObject(userName, password, firstName, lastName, phoneNumber,address,email,rbtnCustomer.getText(), IDNumber, 0.0f);
 					}
 						
 						//Add to data to database if the user doesnt exist
@@ -244,22 +252,27 @@ public class SignUpView {
 						//Display Message if registration is failed
 						//JOptionPane.showMessageDialog(frame, "This user already exists in our database please please log in", "Registration Failed",JOptionPane.ERROR_MESSAGE);
 					
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-					String dateString = "1111-01-01"; // Format: yyyy-MM-dd
-					Date specificDate = null;
-					
-					try {
-						specificDate = dateFormat.parse(dateString);
-					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
 					if(rbtnEmployee.isSelected()) {
+						
+						
+						
 						JOptionPane.showMessageDialog(null, "Note: A code was sent by the employer please check your email for the code.");
 						String code = JOptionPane.showInputDialog(null, "Please Enter Registration Code:", 
 				                "Employee Registration", JOptionPane.INFORMATION_MESSAGE);
-						guiController.CreateEmployeeObject(IDNumber, "Supervisor", specificDate, userName, password, firstName, lastName, phoneNumber,email,"Address",rbtnEmployee.getText());
+						String dateString = JOptionPane.showInputDialog(null, "Please Enter Your Hire Date In the Format YYYY-MM-DD", 
+				                "Employee Registration", JOptionPane.INFORMATION_MESSAGE);
+						
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+						Date specificDate = null;
+						
+						try {
+							specificDate = dateFormat.parse(dateString);
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						guiController.CreateEmployeeObject(IDNumber, "Supervisor", specificDate, userName, password, firstName, lastName, phoneNumber,email,address,rbtnEmployee.getText());
 					
 					}
 				}else {
@@ -288,6 +301,7 @@ public class SignUpView {
 				userNameField.setText("");
 				passwordField.setText("");
 				confirmPasswordField.setText("");
+				addressField.setText("");
 			}
 		});
 		

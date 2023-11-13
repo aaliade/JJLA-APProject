@@ -26,8 +26,8 @@
 			root
 		</property>
 		<property name = "hibernate.connection.password">
-			
-			<!-- Change back password to "root" for the other group members -->
+			password
+			<!-- Change back password to " " for the other group members -->
 		</property>
 		<property name = "current_session_context_class">
 			thread

@@ -122,33 +122,13 @@ public class Employee extends User implements Serializable { // in order for the
 	public boolean create() {
 		Session session = null;
 		Transaction transaction = null;
-		Logger logger = LogManager.getLogger(getClass());
-
-		try {
+//		Logger logger = LogManager.getLogger(getClass());
 			session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
 			transaction = session.beginTransaction();
 			session.save(this);
 			transaction.commit();
+			session.close();
 			return true;
-		} catch (HibernateException e) {
-			// Log and handle HibernateException
-			logger.error("Error occurred while creating employee", e);
-			if (transaction != null && transaction.isActive()) {
-				transaction.rollback();
-			}
-			return false;
-		} catch (Exception e) {
-			// Log and handle other exceptions
-			logger.error("Error occurred while creating employee", e);
-			if (transaction != null && transaction.isActive()) {
-				transaction.rollback();
-			}
-			return false;
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
 	}
 
 	public void update() {

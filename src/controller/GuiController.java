@@ -74,6 +74,7 @@ public class GuiController {
 		System.out.println("Object sent");
 		customerClient.receiveResponse();
 		System.out.println("Response recieved");
+		customerClient.closeConnection();
 	}
 	
 	public void CreateEmployeeObject(int empID, String empRole, Date hireDate, String username, String password, String firstName, String lastName, String phone, String email,
@@ -87,6 +88,7 @@ public class GuiController {
 		System.out.println("Object sent");
 		employeeClient.receiveResponse();
 		System.out.println("Response recieved");
+		employeeClient.closeConnection();
 	}
 	
 	public static void main(String args[]) {
