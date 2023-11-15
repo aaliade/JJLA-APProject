@@ -19,9 +19,10 @@ public class driver {
 		// TODO Auto-generated method stub
 		
 		
-		 Customer customer = new Customer();
-		 
-		 customer.findCustomer("marysmi");
+//		Employee employee = new Employee();
+//		employee.findEmployee("newemp");
+		 //Customer customer = new Customer();
+		 //customer.findCustomer("marysmi");
 		
 		
 //		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");

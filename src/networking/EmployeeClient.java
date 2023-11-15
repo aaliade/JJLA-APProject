@@ -24,6 +24,8 @@ public class EmployeeClient {
 	private ObjectInputStream objIs;
 	private String action;
 	
+	private Employee employee;
+	
 	public EmployeeClient() {
 		this.createConnection();
 		this.configureStreams();
@@ -125,6 +127,10 @@ public class EmployeeClient {
 		}
 	}
 	
+	public Employee getEmployee() {
+		return employee;
+	}
+	
 	public void receiveResponse() {
 		try {
 			if (action.equalsIgnoreCase("Add Employee")) {
@@ -160,12 +166,7 @@ public class EmployeeClient {
 				}
 			}
 			if (action.equalsIgnoreCase("Find Employee")) {
-				Boolean flag = (Boolean) objIs.readObject();
-				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Employee Successfully Found",
-							"Search Employee Records", JOptionPane.INFORMATION_MESSAGE);
-					logger.info("Employee found from database");
-				}
+				this.employee = (Employee) objIs.readObject();
 			}
 		} catch (ClassCastException ex) {
 			ex.printStackTrace();

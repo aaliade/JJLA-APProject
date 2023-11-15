@@ -65,13 +65,43 @@ public class GuiController {
 	}
 	
 	public boolean FindEmployee(String username) {
+		employeeClient = new EmployeeClient();
+		employeeClient.sendAction("Find Employee");
+		employeeClient.findEmployee(username);
+		employeeClient.receiveResponse();
+		Employee employee = employeeClient.getEmployee();
+		if(employee!=null) {
+			System.out.println(employee.getUsername());
+			System.out.println(employee.getFirstName());
+			System.out.println(employee.getLastName());
+			System.out.println(employee.getAddress());
+			System.out.println(employee.getEmpID());
+			System.out.println(employee.getEmail());
+			return true;
+		}else {
+			return false;
+		}
 		
-		
-		return true;
 	}
 	
 	public boolean FindCustomer(String username) {
-		return true;
+		customerClient = new CustomerClient();
+		customerClient.sendAction("Find Customer");
+		customerClient.findCustomer(username);
+		customerClient.receiveResponse();
+		Customer customer = customerClient.getCustomer();
+		if(customer!=null) {
+			System.out.println(customer.getUsername());
+			System.out.println(customer.getFirstName());
+			System.out.println(customer.getLastName());
+			System.out.println(customer.getAddress());
+			System.out.println(customer.getCustID());
+			System.out.println(customer.getEmail());
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 	
 	public boolean CreateCustomerObject(String username, String password, String firstName, String lastName, String phone,String address, String email,String usertype, int custID, float accountBalance){

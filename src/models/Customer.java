@@ -106,50 +106,36 @@ public class Customer extends User implements Serializable { //in order for the 
 	    }
 	}
 	
-	public boolean findCustomer(String username) {
+	public Customer findCustomer(String username) {
 		Session session = null;
 	    Transaction transaction = null;
 	    Logger logger = LogManager.getLogger(getClass());
+	    Customer customer = null;
 		 try {
 			 session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
 			 transaction = session.beginTransaction();
-			 Customer customer = session.get(Customer.class, username);
-			 
-			 if(customer!=null) {
-				System.out.println(customer.getUsername());
-				System.out.println(customer.getFirstName());
-				System.out.println(customer.getLastName());
-				System.out.println(customer.getAddress());
-				System.out.println(customer.getCustID());
-				System.out.println(customer.getEmail());
-				transaction.commit();
-				session.close();
-				return true;
-			 }else {
-				 System.out.println("Customer Not Found");
-				 transaction.commit();
-				 session.close();
-				 return false;
-			 }
+			 customer = session.get(Customer.class, username);
+			 transaction.commit();
+			 session.close();
+			 return customer;
 		 }catch (HibernateException e) {
 		        // Log and handle HibernateException
 		        logger.error("Error occurred while searching for customer", e);
 		        if (transaction != null && transaction.isActive()) {
 		            transaction.rollback();
 		        }
-		        return false;
 		    } catch (Exception e) {
 		        // Log and handle other exceptions
 		        logger.error("Error occurred while searching for customer", e);
 		        if (transaction != null && transaction.isActive()) {
 		            transaction.rollback();
 		        }
-		        return false;
 		    } finally {
 		        if (session != null && session.isOpen()) {
 		            session.close();
 		        }
 		    }
+		 return customer;
 	}
 
 	public void update() {
@@ -189,30 +175,7 @@ public class Customer extends User implements Serializable { //in order for the 
 	
 	//I should try to remove from customer first then from user
 
-	// Delete by username
-	public void delete() {
-	    Session session = null;
-	    Transaction transaction = null;
-	    Logger logger = LogManager.getLogger(getClass());
-
-	    try {
-	        session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-	        User user = (User) session.get(User.class, this.getUsername());
-	        transaction = session.beginTransaction();
-	        session.delete(user);
-	        transaction.commit();
-	    } catch (Exception e) {
-	        // Log and handle exceptions
-	        logger.error("Error occurred during delete operation", e);
-	        if (transaction != null) {
-	            transaction.rollback();
-	        }
-	    } finally {
-	        if (session != null && session.isOpen()) {
-	            session.close();
-	        }
-	    }
-	}
+	
 
 	@Override
 	public boolean login() {

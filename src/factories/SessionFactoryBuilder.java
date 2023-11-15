@@ -8,34 +8,34 @@ import models.Employee;
 import models.User;
 
 public class SessionFactoryBuilder {
-	
-private static SessionFactory sessionFactory;
-	 
-	public static SessionFactory getUserSessionFactroy(){
-		if (sessionFactory == null) {
-			sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass (User.class).buildSessionFactory();
-		}
-		return sessionFactory;
-	}
+	private static SessionFactory employeeSessionFactory;
+	private static SessionFactory customerSessionFactory;
 	
 	public static SessionFactory getEmployeeSessionFactroy(){
-		if (sessionFactory == null) {
-			sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass (Employee.class).buildSessionFactory();
+		if (employeeSessionFactory == null) {
+			employeeSessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass (Employee.class).buildSessionFactory();
 		}
-		return sessionFactory;
+		return employeeSessionFactory;
 	}
 	
 	public static SessionFactory getCustomerSessionFactroy(){
-		if (sessionFactory == null) {
-			sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass (Customer.class).buildSessionFactory();
+		if (customerSessionFactory == null) {
+			customerSessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass (Customer.class).buildSessionFactory();
 		}
-		return sessionFactory;
+		return customerSessionFactory;
 	}
 	
-	public static void closeSessionFactory() {
-		if(sessionFactory != null) {
-			sessionFactory.close();
-		}
+	public static void closeCustomerSessionFactory() {
+	    if (customerSessionFactory != null && !customerSessionFactory.isClosed()) {
+	    	customerSessionFactory.close();
+	    }
 	}
+	
+	public static void closeEmployeeeSessionFactory() {
+	    if (employeeSessionFactory != null && !employeeSessionFactory.isClosed()) {
+	    	employeeSessionFactory.close();
+	    }
+	}
+	
 	
 }

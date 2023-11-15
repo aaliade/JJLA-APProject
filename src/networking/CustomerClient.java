@@ -1,7 +1,6 @@
 package networking;
 
  
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import models.Customer;
+import models.Employee;
 import models.Message;
 import models.Payment;
 
@@ -24,6 +24,8 @@ public class CustomerClient {
 	private static ObjectOutputStream objOs;
 	private ObjectInputStream objIs;
 	private String action;
+	
+	private Customer customer;
 	
 	public CustomerClient() {
 		this.createConnection();
@@ -105,6 +107,20 @@ public class CustomerClient {
 		}
 	}
 	
+	public void findCustomer(String username) {
+		try {
+			objOs.writeObject(username);
+			logger.info("Username sent to server");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			logger.error("Error Sending username " + ex.getMessage());
+		}
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+	
 	public void receiveResponse() {
 		try {
 			if (action.equalsIgnoreCase("Add Customer")) {
@@ -130,7 +146,10 @@ public class CustomerClient {
 							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Payment added to Database");
 				}
+			}if (action.equalsIgnoreCase("Find Customer")) {
+				this.customer = (Customer) objIs.readObject();
 			}
+			
 		} catch (ClassCastException ex) {
 			ex.printStackTrace();
 			logger.error("Class Cast exception: " + ex.getMessage());

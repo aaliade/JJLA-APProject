@@ -27,10 +27,6 @@ import org.hibernate.annotations.Columns;
 
 import factories.SessionFactoryBuilder;
 
-/* Created to superclass to not be abstract so 
- * that we can create a user object to send to the 
- * database.
- */
 
 @Entity(name = "user")
 @Table(name = "user")
@@ -174,40 +170,6 @@ public abstract class User implements Serializable {
 	public static Logger getLogger() {
 		return logger;
 	}
-
-    @SuppressWarnings("unchecked")
-    public List<User> readAll() {
-        List<User> userList = new ArrayList<>();
-        Session session = null;
-        Transaction transaction = null;
-        Logger logger = LogManager.getLogger(User.class);
-
-        try {
-            session = SessionFactoryBuilder.getUserSessionFactroy().getCurrentSession();
-            transaction = session.beginTransaction();
-            userList = (List<User>) session.createQuery("From User").getResultList();
-            transaction.commit();
-        } catch (Exception e) {
-            // Log the exception
-            logger.error("Error occurred while reading users", e);
-
-            // Rollback the transaction if it is still active
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-
-            // Rethrow the exception or handle it accordingly based on your requirements
-            throw new RuntimeException("Error occurred while reading users", e);
-        } finally {
-            // Close the session in a finally block to ensure it is always closed
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-
-        return userList;
-    }
-
 
 	public abstract boolean login();
 

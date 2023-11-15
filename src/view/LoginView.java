@@ -133,9 +133,9 @@ public class LoginView {
 			public void actionPerformed(ActionEvent e) {
 				getLoginDetails();
 				if(guiController.FindEmployee(username)) {
-					
+					JOptionPane.showMessageDialog(null, "Employee Found", "Found",JOptionPane.INFORMATION_MESSAGE);
 				}else if(guiController.FindCustomer(username)) {
-					
+					JOptionPane.showMessageDialog(null, "Customer  Found", "Found",JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					JOptionPane.showMessageDialog(null, "User Not Found", "User Not Found",JOptionPane.ERROR_MESSAGE);
 				}
