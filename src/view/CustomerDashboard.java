@@ -32,10 +32,8 @@ public class CustomerDashboard {
 	private JFrame frame;
 	private JMenuBar menuBar;
 	
-
 	private static final Logger logger = LogManager.getLogger(CustomerDashboard.class);
 	
-
 	private JMenu cart, account;
 	private JMenuItem viewProfile, updateProfile, deleteProfile, Logout, viewCart;
 	
@@ -260,6 +258,10 @@ public class CustomerDashboard {
 		});*/
 	}
 	
+	
+	public void GetCustomerDetails() {
+		
+	}
 	
 	public void clearPanel(JPanel panel) {
 		panel.removeAll();

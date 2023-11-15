@@ -18,13 +18,6 @@ public class driver {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
-//		Employee employee = new Employee();
-//		employee.findEmployee("newemp");
-		 //Customer customer = new Customer();
-		 //customer.findCustomer("marysmi");
-		
-		
 //		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 //		System.out.println("config loaded");
 //		Employee emp = (Employee)context.getBean("employee");

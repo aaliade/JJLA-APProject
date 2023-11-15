@@ -13,6 +13,7 @@ import models.User;
 import networking.CustomerClient;
 import networking.EmployeeClient;
 import view.CustomerDashboard;
+import view.EmployeeDashboard;
 import view.LoginView;
 import view.SignUpView;
 
@@ -22,15 +23,15 @@ public class GuiController {
 	private LoginView loginView;
 	private SignUpView signupView;
 	private CustomerDashboard customerDashboard;
+	private EmployeeDashboard employeeDashBoard;
 	
 	//Clients
 	private CustomerClient customerClient;
 	private EmployeeClient employeeClient;
 	
 	//Models
-	private User user;
-//	private Employee employee;
-//	private Customer customer;
+	private Employee employee;
+	private Customer customer;
 	
 	//Logger
 	private static final Logger logger = LogManager.getLogger(GuiController.class);
@@ -46,10 +47,16 @@ public class GuiController {
 		logger.info("Sign up page displayed");
 	}
 	
-	public void loginUser(JFrame frame) {
+	public void loginCustomer(JFrame frame) {
 		clearFrame(frame);
 		this.customerDashboard = new CustomerDashboard(this,frame);
 		logger.info("Customer logged in, Dashboard displayed");
+	}
+	
+	public void loginEmployee(JFrame frame) {
+		clearFrame(frame);
+		this.employeeDashBoard = new EmployeeDashboard(this,frame);
+		logger.info("Employee logged in, Dashboard displayed");
 	}
 	
 	public void goBackToLoginPage(JFrame frame) {
@@ -69,19 +76,29 @@ public class GuiController {
 		employeeClient.sendAction("Find Employee");
 		employeeClient.findEmployee(username);
 		employeeClient.receiveResponse();
-		Employee employee = employeeClient.getEmployee();
+		employee = employeeClient.getEmployee();
 		if(employee!=null) {
-			System.out.println(employee.getUsername());
-			System.out.println(employee.getFirstName());
-			System.out.println(employee.getLastName());
-			System.out.println(employee.getAddress());
-			System.out.println(employee.getEmpID());
-			System.out.println(employee.getEmail());
 			return true;
 		}else {
 			return false;
 		}
-		
+	}
+	
+	public boolean checkPassword(String password, String user) {
+		if(user.equals("Employee")) {
+			if(employee.getPassword().equals(password)) {
+				return true;
+			}else {
+				return false;
+			}
+		}else if(user.equals("Customer")){
+			if(customer.getPassword().equals(password)) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		return false; //will never reach here	
 	}
 	
 	public boolean FindCustomer(String username) {
@@ -89,19 +106,12 @@ public class GuiController {
 		customerClient.sendAction("Find Customer");
 		customerClient.findCustomer(username);
 		customerClient.receiveResponse();
-		Customer customer = customerClient.getCustomer();
+		customer = customerClient.getCustomer();
 		if(customer!=null) {
-			System.out.println(customer.getUsername());
-			System.out.println(customer.getFirstName());
-			System.out.println(customer.getLastName());
-			System.out.println(customer.getAddress());
-			System.out.println(customer.getCustID());
-			System.out.println(customer.getEmail());
 			return true;
 		}else {
 			return false;
 		}
-		
 	}
 	
 	public boolean CreateCustomerObject(String username, String password, String firstName, String lastName, String phone,String address, String email,String usertype, int custID, float accountBalance){
