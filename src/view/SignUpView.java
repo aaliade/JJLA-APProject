@@ -235,27 +235,20 @@ public class SignUpView {
 						//Check the Database first to see if there is any instance of the user
 						
 						//Check if ID exists in database
-						guiController.CreateCustomerObject(userName, password, firstName, lastName, phoneNumber,address,email,rbtnCustomer.getText(), IDNumber, 0.0f);
+						if(guiController.CreateCustomerObject(userName, password, firstName, lastName, phoneNumber,address,email,rbtnCustomer.getText(), IDNumber, 0.0f)) {
+							JOptionPane.showMessageDialog(frame, "You have been Successfully Registered.\r\n"
+									+ "\r\n"
+									+ "A User ID has been generated: '" + IDNumber + "'\r\n"
+									+ "\r\n"
+									+ "This should be used to login. ", "Registration Complete",JOptionPane.INFORMATION_MESSAGE);
+							guiController.goBackToLoginPage(frame);
+						}
 					}
-						
-						//Add to data to database if the user doesnt exist
-						//Display Message if registration is successful
-						/*JOptionPane.showMessageDialog(frame, "You have been Successfully Registered.\r\n"
-								+ "\r\n"
-								+ "A User ID has been generated: n43rvntg\r\n"
-								+ "\r\n"
-								+ "This should be used to login. ", "Registration Complete",JOptionPane.INFORMATION_MESSAGE);*/
-		
-						
-						
 						//if they exist then tell them
 						//Display Message if registration is failed
 						//JOptionPane.showMessageDialog(frame, "This user already exists in our database please please log in", "Registration Failed",JOptionPane.ERROR_MESSAGE);
 					
 					if(rbtnEmployee.isSelected()) {
-						
-						
-						
 						JOptionPane.showMessageDialog(null, "Note: A code was sent by the employer please check your email for the code.");
 						String code = JOptionPane.showInputDialog(null, "Please Enter Registration Code:", 
 				                "Employee Registration", JOptionPane.INFORMATION_MESSAGE);
@@ -272,8 +265,16 @@ public class SignUpView {
 							e1.printStackTrace();
 						}
 						
-						guiController.CreateEmployeeObject(IDNumber, "Supervisor", specificDate, userName, password, firstName, lastName, phoneNumber,email,address,rbtnEmployee.getText());
-					
+						//If successfully created and sent to database
+						if(guiController.CreateEmployeeObject(IDNumber, "Supervisor", specificDate, userName, password,
+								firstName, lastName, phoneNumber,email,
+								address,rbtnEmployee.getText())) {
+							JOptionPane.showMessageDialog(frame, "You have been Successfully Registered.\r\n"
+									+ "\r\n"
+									+ "A User ID has been generated: '" + IDNumber + "'\r\n"
+									+ "\r\n", "Registration Complete",JOptionPane.INFORMATION_MESSAGE);
+							guiController.goBackToLoginPage(frame);
+						}
 					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Please Ensure All Fields Are Properly Filled Out.", "Field Empty",JOptionPane.ERROR_MESSAGE);

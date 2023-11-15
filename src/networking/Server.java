@@ -78,11 +78,7 @@ public class Server {
 				logger.error("Caught IOException");
 			}
 		}
-	
-		  
-		    	
-		    
-	
+		
 	private static Connection getDatabaseConnection() {
 		if (dBConn == null) { //checks if database connection is null
 			try {

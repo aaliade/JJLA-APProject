@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,7 @@ import org.hibernate.Transaction;
 import factories.SessionFactoryBuilder;
 
 @Entity(name="customer")
+@PrimaryKeyJoinColumn(name = "username")
 @Table(name = "customer")
 public class Customer extends User implements Serializable { //in order for the class to be sent across a network it needs to be serialized 
 	
@@ -81,6 +83,7 @@ public class Customer extends User implements Serializable { //in order for the 
 	        transaction = session.beginTransaction();
 	        session.save(this);
 	        transaction.commit();
+	        session.close();
 	        return true;
 	    } catch (HibernateException e) {
 	        // Log and handle HibernateException
@@ -101,6 +104,52 @@ public class Customer extends User implements Serializable { //in order for the 
 	            session.close();
 	        }
 	    }
+	}
+	
+	public boolean findCustomer(String username) {
+		Session session = null;
+	    Transaction transaction = null;
+	    Logger logger = LogManager.getLogger(getClass());
+		 try {
+			 session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
+			 transaction = session.beginTransaction();
+			 Customer customer = session.get(Customer.class, username);
+			 
+			 if(customer!=null) {
+				System.out.println(customer.getUsername());
+				System.out.println(customer.getFirstName());
+				System.out.println(customer.getLastName());
+				System.out.println(customer.getAddress());
+				System.out.println(customer.getCustID());
+				System.out.println(customer.getEmail());
+				transaction.commit();
+				session.close();
+				return true;
+			 }else {
+				 System.out.println("Customer Not Found");
+				 transaction.commit();
+				 session.close();
+				 return false;
+			 }
+		 }catch (HibernateException e) {
+		        // Log and handle HibernateException
+		        logger.error("Error occurred while searching for customer", e);
+		        if (transaction != null && transaction.isActive()) {
+		            transaction.rollback();
+		        }
+		        return false;
+		    } catch (Exception e) {
+		        // Log and handle other exceptions
+		        logger.error("Error occurred while searching for customer", e);
+		        if (transaction != null && transaction.isActive()) {
+		            transaction.rollback();
+		        }
+		        return false;
+		    } finally {
+		        if (session != null && session.isOpen()) {
+		            session.close();
+		        }
+		    }
 	}
 
 	public void update() {
@@ -164,7 +213,6 @@ public class Customer extends User implements Serializable { //in order for the 
 	        }
 	    }
 	}
-
 
 	@Override
 	public boolean login() {

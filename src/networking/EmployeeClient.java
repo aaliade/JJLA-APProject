@@ -115,6 +115,16 @@ public class EmployeeClient {
 		}
 	}
 	
+	public void findEmployee(String username) {
+		try {
+			objOs.writeObject(username);
+			logger.info("Username sent to server");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			logger.error("Error Sending username " + ex.getMessage());
+		}
+	}
+	
 	public void receiveResponse() {
 		try {
 			if (action.equalsIgnoreCase("Add Employee")) {
@@ -147,6 +157,14 @@ public class EmployeeClient {
 					JOptionPane.showMessageDialog(null, "Event Added Successfully",
 							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Event added to Database");
+				}
+			}
+			if (action.equalsIgnoreCase("Find Employee")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Employee Successfully Found",
+							"Search Employee Records", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Employee found from database");
 				}
 			}
 		} catch (ClassCastException ex) {

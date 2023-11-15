@@ -12,7 +12,6 @@ public class MultiThreadServer {
 	private Socket connectionSocket;
 	private int clientCount;
 	
-	
 	public MultiThreadServer() {
 		try {
 			

@@ -8,6 +8,7 @@ import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -24,11 +25,12 @@ import controller.GuiController;
 public class LoginView {
 
 	private JFrame frame;
-	private JLabel userID, userPassword, title, errorText;
-	private JTextField userIdField, userPasswordField;
+	private JLabel usernametext, userPassword, title, errorText;
+	private JTextField usernameField, userPasswordField;
 	private JButton signUpBtn, loginBtn;
 	private JPanel[] panels;
 	private GuiController guiController; 
+	private String password, username;
 	
 	private static final Logger logger = LogManager.getLogger(LoginView.class);
 	
@@ -47,7 +49,7 @@ public class LoginView {
 		frame = new JFrame("Grizzly’s Entertainment Equipment Rental");
 		frame.setLayout(new GridLayout(5,1));
 		
-		userID = new JLabel("User ID: ");
+		usernametext = new JLabel("Username: ");
 		userPassword = new JLabel("Password: ");
 		title = new JLabel("Welcome, Login To Your Account.");
 		errorText = new JLabel("Error: wrong password/User ID. \r\n"
@@ -56,7 +58,7 @@ public class LoginView {
 		//set error text to be invisible
 		errorText.setVisible(false);
 		
-		userIdField = new JTextField();
+		usernameField = new JTextField();
 		userPasswordField = new JTextField();
 		
 		
@@ -82,8 +84,8 @@ public class LoginView {
 	public void addComponentsToPanel() {
 		panels[0].add(title);
 		
-		panels[1].add(userID);
-		panels[1].add(userIdField);
+		panels[1].add(usernametext);
+		panels[1].add(usernameField);
 		
 		panels[2].add(userPassword);
 		panels[2].add(userPasswordField);
@@ -112,6 +114,11 @@ public class LoginView {
 		logger.info("Window Prperties set");
 	}
 	
+	public void getLoginDetails() {
+		this.password = userPasswordField.getText();
+		this.username = usernameField.getText();
+	}
+	
 	public void registerListeners() {
 		signUpBtn.addActionListener(new ActionListener() {
 			@Override
@@ -124,7 +131,15 @@ public class LoginView {
 		loginBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				guiController.loginUser(frame);
+				getLoginDetails();
+				if(guiController.FindEmployee(username)) {
+					
+				}else if(guiController.FindCustomer(username)) {
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "User Not Found", "User Not Found",JOptionPane.ERROR_MESSAGE);
+				}
+				//guiController.loginUser(frame);
 			}
 		});
 		logger.info("Login Page Listeners initialized");

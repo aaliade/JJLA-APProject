@@ -64,7 +64,17 @@ public class GuiController {
 		logger.info("Page cleared");
 	}
 	
-	public void CreateCustomerObject(String username, String password, String firstName, String lastName, String phone,String address, String email,String usertype, int custID, float accountBalance){
+	public boolean FindEmployee(String username) {
+		
+		
+		return true;
+	}
+	
+	public boolean FindCustomer(String username) {
+		return true;
+	}
+	
+	public boolean CreateCustomerObject(String username, String password, String firstName, String lastName, String phone,String address, String email,String usertype, int custID, float accountBalance){
 		customerClient = new CustomerClient();
 		Customer customer = new Customer(username, password,  firstName,  lastName,  phone, address,  email, usertype,  custID,  accountBalance);
 		
@@ -75,9 +85,10 @@ public class GuiController {
 		customerClient.receiveResponse();
 		System.out.println("Response recieved");
 		customerClient.closeConnection();
+		return true;
 	}
 	
-	public void CreateEmployeeObject(int empID, String empRole, Date hireDate, String username, String password, String firstName, String lastName, String phone, String email,
+	public boolean CreateEmployeeObject(int empID, String empRole, Date hireDate, String username, String password, String firstName, String lastName, String phone, String email,
 			String address, String usertype){
 		employeeClient = new EmployeeClient();
 		Employee employee = new Employee( empID,  empRole,  hireDate,  username,  password,  firstName,  lastName,  phone,  email, address,  usertype);
@@ -89,6 +100,7 @@ public class GuiController {
 		employeeClient.receiveResponse();
 		System.out.println("Response recieved");
 		employeeClient.closeConnection();
+		return true;
 	}
 	
 	public static void main(String args[]) {

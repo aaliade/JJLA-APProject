@@ -29,6 +29,7 @@
 			password
 			<!-- Change back password to " " for the other group members -->
 		</property>
+		
 		<property name = "current_session_context_class">
 			thread
 		</property>
@@ -36,7 +37,6 @@
 			true
 		</property>
 		<property name="connection.pool_size">1</property>
-		
 		<!-- 
 			</property>	<mapping resource = "Staff.hbm.sml"> </property>/>
 		 -->
