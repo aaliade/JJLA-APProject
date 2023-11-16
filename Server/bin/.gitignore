@@ -1,5 +1,2 @@
-/Beans.xml
-/factories/
-/hibernate.cfg.xml
-/models/
-/networking/
+.classpath
+/src/

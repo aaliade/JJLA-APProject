@@ -5,7 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Date;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +17,9 @@ import models.Employee;
 import models.Equipment;
 import models.Event;
 import models.Message;
+import views.DashBoard;
+import views.Login;
+import views.SignUp;
 
 public class EmployeeClientController {
 	private static final Logger logger = LogManager.getLogger(EmployeeClientController.class);
@@ -24,9 +29,19 @@ public class EmployeeClientController {
 	private ObjectInputStream objIs;
 	private String action;
 
-	private Employee employee;
+	//Models
+	private Employee employee = null;
+	
+	//Views
+	private Login loginView;
+	private SignUp signupView;
+	private DashBoard DashboardView;
+	
+	
 	
 	public EmployeeClientController() {
+		this.loginView = new Login(this);
+		
 		this.createConnection();
 		this.configureStreams();
 		logger.info("Employee Client initialized");
@@ -63,6 +78,52 @@ public class EmployeeClientController {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			logger.error("Employee Client failed to close connection: " + ex.getMessage());
+		}
+	}
+	
+	public void signUpUser(JFrame frame) {
+		clearFrame(frame);
+		this.signupView = new SignUp(this,frame);
+		logger.info("Sign up page displayed");
+	}
+	
+	public void loginCustomer(JFrame frame) {
+		clearFrame(frame);
+		this.DashboardView = new DashBoard(this,frame);
+		logger.info("Customer logged in, Dashboard displayed");
+	}
+	
+	public void goBackToLoginPage(JFrame frame) {
+		frame.dispose(); //terminates frame
+		this.loginView = new Login(this);
+		logger.info("Returned to Login page");
+	}
+	
+	public void clearFrame(JFrame frame) {
+		frame.getContentPane().removeAll(); //Clear Frame
+		frame.repaint();
+		logger.info("Page cleared");
+	}
+	
+	public boolean CreateEmployeeObject(int empID, String empRole, Date hireDate, String username, String password, String firstName, String lastName, String phone, String email,
+			String address, String usertype){
+		Employee addemployee = new Employee( empID,  empRole,  hireDate,  username,  password,  firstName,  lastName,  phone,  email, address,  usertype);
+		
+		sendAction("Add Employee");
+		System.out.println("Action sent");
+		sendEmployee(addemployee);
+		System.out.println("Object sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+		closeConnection();
+		return true;
+	}
+	
+	public boolean checkPassword(String password, String user) {
+		if(employee.getPassword().equals(password)) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 	
@@ -126,7 +187,7 @@ public class EmployeeClientController {
 			logger.error("Error Sending username " + ex.getMessage());
 		}
 	}
-
+	
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -172,6 +233,7 @@ public class EmployeeClientController {
 							"Search Employee Records", JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Employee found from database");
 				}
+				this.employee = null;
 				this.employee = (Employee) objIs.readObject();
 			}
 		} catch (ClassCastException ex) {
