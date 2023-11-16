@@ -11,36 +11,35 @@ import javax.swing.JOptionPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import models.Customer;
+import models.Employee;
+import models.Equipment;
+import models.Event;
 import models.Message;
-import models.Payment;
 
-
-
-public class CustomerClientController {
-
+public class EmployeeClientController {
+	private static final Logger logger = LogManager.getLogger(EmployeeClientController.class);
+	
 	private Socket connectionSocket;
 	private static ObjectOutputStream objOs;
 	private ObjectInputStream objIs;
 	private String action;
+
+	private Employee employee;
 	
-	private static final Logger logger = LogManager.getLogger(CustomerClientController.class);
-	
-	private Customer customer;
-	
-	public CustomerClientController() {
+	public EmployeeClientController() {
 		this.createConnection();
 		this.configureStreams();
-		logger.info("Customer Client initialized");
+		logger.info("Employee Client initialized");
 	}
 	
 	private void createConnection() {
 		try {
 			connectionSocket = new Socket(InetAddress.getLocalHost(), 8888);
-			logger.info("Customer Client established connection");
+			System.out.println("Employee Client established connection");
+			logger.info("Employee Client established connection");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Customer Client failed to establish connection: " + ex.getMessage());
+			logger.error("Employee Client failed to establish connection: " + ex.getMessage());
 		}
 	}
 	
@@ -48,10 +47,10 @@ public class CustomerClientController {
 		try {
 			objIs = new ObjectInputStream(connectionSocket.getInputStream());
 			objOs = new ObjectOutputStream(connectionSocket.getOutputStream());
-			logger.info("Customer Client streams initialized");
+			logger.info("Employee Client streams initialized");
 		} catch(IOException ex) {
 			ex.printStackTrace();
-			logger.error("Customer Client failed to initialise streams: " + ex.getMessage());
+			logger.error("Employee Client failed to initialise streams: " + ex.getMessage());
 		}
 	}
 	
@@ -60,10 +59,10 @@ public class CustomerClientController {
 			objOs.close();
 			objIs.close();
 			connectionSocket.close();
-			logger.info("Customer Client connection closed");
+			logger.info("Employee Client connection closed");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Customer Client failed to close connection: " + ex.getMessage());
+			logger.error("Employee Client failed to close connection: " + ex.getMessage());
 		}
 	}
 	
@@ -78,37 +77,47 @@ public class CustomerClientController {
 		}
 	}
 	
-	public void sendCustomer(Customer customer) {
+	public void sendEmployee(Employee employee) {
 		try {
-			objOs.writeObject(customer);
-			logger.info("Customer sent to Server");
+			objOs.writeObject(employee);
+			logger.info("Employee sent to Server");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Customer failed to be sent: " + ex.getMessage());
+			logger.error("Employee failed to be sent: " + ex.getMessage());
 		}
 	}
 	
 	public void sendMessage(Message message) {
 		try {
 			objOs.writeObject(message);
-			logger.info("Customer Message sent to Server");
+			logger.info("Employee Message sent to Server");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Customer Message failed to be sent: " + ex.getMessage());
+			logger.error("Employee Message failed to be sent: " + ex.getMessage());
 		}
 	}
 	
-	public void sendPayment(Payment payment) {
+	public void sendEquipment(Equipment equipment) {
 		try {
-			objOs.writeObject(payment);
-			logger.info("Payment sent to Server");
+			objOs.writeObject(equipment);
+			logger.info("Equipment sent to Server");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Payment failed: " + ex.getMessage());
+			logger.error("Equipment failed to be sent: " + ex.getMessage());
 		}
 	}
 	
-	public void findCustomer(String username) {
+	public void sendEvent(Event event) {
+		try {
+			objOs.writeObject(event);
+			logger.info("Event sent to Server");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			logger.error("Event failed to be sent: " + ex.getMessage());
+		}
+	}
+	
+	public void findEmployee(String username) {
 		try {
 			objOs.writeObject(username);
 			logger.info("Username sent to server");
@@ -117,15 +126,19 @@ public class CustomerClientController {
 			logger.error("Error Sending username " + ex.getMessage());
 		}
 	}
-	
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
 	public void receiveResponse() {
 		try {
-			if (action.equalsIgnoreCase("Add Customer")) {
+			if (action.equalsIgnoreCase("Add Employee")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Customer Added Successfully",
+					JOptionPane.showMessageDialog(null, "Employee Added Successfully",
 							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
-					logger.info("Customer Record added to Database");
+					logger.info("Employee Record added to Database");
 				}
 			}
 			if (action.equalsIgnoreCase("Send Message")) {
@@ -136,17 +149,31 @@ public class CustomerClientController {
 					logger.info("Message added to Database");
 				}
 			}
-			if (action.equalsIgnoreCase("Add Payment")) {
+			if (action.equalsIgnoreCase("Add Equipment")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Payment Processed Successfully",
+					JOptionPane.showMessageDialog(null, "Equipment Added Successfully",
 							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
-					logger.info("Payment added to Database");
+					logger.info("Equipment added to Database");
 				}
-			}if (action.equalsIgnoreCase("Find Customer")) {
-				this.customer = (Customer) objIs.readObject();
 			}
-
+			if (action.equalsIgnoreCase("Add Event")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Event Added Successfully",
+							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Event added to Database");
+				}
+			}
+			if (action.equalsIgnoreCase("Find Employee")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Employee Successfully Found",
+							"Search Employee Records", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Employee found from database");
+				}
+				this.employee = (Employee) objIs.readObject();
+			}
 		} catch (ClassCastException ex) {
 			ex.printStackTrace();
 			logger.error("Class Cast exception: " + ex.getMessage());
