@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 11, 2023 at 10:12 PM
+-- Generation Time: Nov 16, 2023 at 11:39 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -32,6 +32,25 @@ CREATE TABLE `customer` (
   `custID` varchar(15) NOT NULL,
   `accountBalance` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`username`, `custID`, `accountBalance`) VALUES
+('aaliade', '6976', 0),
+('lasmack', '8496', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_message`
+--
+
+CREATE TABLE `customer_message` (
+  `custID` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `messageID` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -64,25 +83,9 @@ CREATE TABLE `equipment` (
   `equipName` varchar(20) NOT NULL,
   `category` varchar(15) NOT NULL,
   `description` varchar(70) NOT NULL,
-  `status` varchar(25) NOT NULL,
-  `rentalRate` varchar(20) NOT NULL
+  `status` tinyint(1) NOT NULL,
+  `rentalRate` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `equipment`
---
-
-INSERT INTO `equipment` (`equipID`, `equipName`, `category`, `description`, `status`, `rentalRate`) VALUES
-('1', 'Stage Light', 'Lighting', 'High-intensity stage light', 'true', '50'),
-('10', 'LED Stage Lights', 'Lighting', 'Colorful LED lights for stage illumination', 'true', '30'),
-('2', 'Microphone', 'Audio', 'Professional microphone for events', 'true', '30'),
-('3', 'Power Generator', 'Power', 'High-capacity power generator', 'true', '70'),
-('4', 'Sound System', 'Sound', 'Professional sound system for events', 'false', '100'),
-('5', 'Microphone Stand', 'Sound', 'Adjustable microphone stand', 'true', '20'),
-('6', 'Spotlight', 'Lighting', 'Focused spotlight for stage events', 'false', '40'),
-('7', 'Extension Cables', 'Power', 'Long power extension cables', 'true', '15'),
-('8', 'Stage Monitor', 'Sound', 'Monitor speaker for stage performances', 'true', '60'),
-('9', 'Stage Platform', 'Staging', 'Adjustable stage platform for events', 'false', '50');
 
 -- --------------------------------------------------------
 
@@ -93,10 +96,23 @@ INSERT INTO `equipment` (`equipID`, `equipName`, `category`, `description`, `sta
 CREATE TABLE `event` (
   `eventID` varchar(15) NOT NULL,
   `eventName` varchar(30) NOT NULL,
-  `custID` varchar(15) NOT NULL,
   `date` date NOT NULL,
-  `location` varchar(50) NOT NULL
+  `location` varchar(254) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice`
+--
+
+CREATE TABLE `invoice` (
+  `invoiceNum` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `custID` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `rentDate` date NOT NULL,
+  `returnDate` date NOT NULL,
+  `cost` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -108,38 +124,33 @@ CREATE TABLE `message` (
   `messageID` varchar(15) NOT NULL,
   `senderID` varchar(15) NOT NULL,
   `receiverID` varchar(15) NOT NULL,
-  `content` varchar(50) NOT NULL,
+  `content` varchar(255) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payment`
+-- Table structure for table `receipt`
 --
 
-CREATE TABLE `payment` (
-  `paymentID` varchar(15) NOT NULL,
-  `rentalID` varchar(15) NOT NULL,
-  `custID` varchar(15) NOT NULL,
-  `paymentType` varchar(25) NOT NULL,
-  `paymentDate` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE `receipt` (
+  `receiptNum` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `payType` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `payDate` date NOT NULL,
+  `payAmt` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rentaltransaction`
+-- Table structure for table `transaction`
 --
 
-CREATE TABLE `rentaltransaction` (
-  `rentalID` varchar(15) NOT NULL,
-  `equipID` varchar(15) NOT NULL,
-  `rentDate` date NOT NULL,
-  `returnDate` date NOT NULL,
-  `custID` varchar(15) NOT NULL,
-  `totalCost` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE `transaction` (
+  `receiptNum` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `equipID` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -153,8 +164,8 @@ CREATE TABLE `user` (
   `firstName` varchar(25) NOT NULL,
   `lastName` varchar(25) NOT NULL,
   `phoneNum` varchar(15) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `address` varchar(50) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `address` varchar(254) NOT NULL,
   `userType` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -163,7 +174,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`username`, `password`, `firstName`, `lastName`, `phoneNum`, `email`, `address`, `userType`) VALUES
-('Lascelle12', 'Lascelle68659', 'Lascelle', 'Mckenzie', '18768857845745', '4uiegkitg@gmail.com', 'Somewhere', 'Employee');
+('aaliade', 'aali', 'aali', 'ade', '6789', 'ghjj', 'ghjk', 'Customer'),
+('Lascelle12', 'Lascelle68659', 'Lascelle', 'Mckenzie', '18768857845745', '4uiegkitg@gmail.com', 'Somewhere', 'Employee'),
+('lasmack', 'lass', 'lassy', 'macky', '45678', 'fghjk', 'wsdfdg', 'Customer');
 
 --
 -- Indexes for dumped tables
@@ -175,6 +188,14 @@ INSERT INTO `user` (`username`, `password`, `firstName`, `lastName`, `phoneNum`,
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`custID`),
   ADD KEY `username` (`username`);
+
+--
+-- Indexes for table `customer_message`
+--
+ALTER TABLE `customer_message`
+  ADD PRIMARY KEY (`custID`,`messageID`),
+  ADD KEY `messageID` (`messageID`),
+  ADD KEY `custID` (`custID`);
 
 --
 -- Indexes for table `employee`
@@ -193,30 +214,35 @@ ALTER TABLE `equipment`
 -- Indexes for table `event`
 --
 ALTER TABLE `event`
-  ADD PRIMARY KEY (`eventID`),
-  ADD KEY `custID` (`custID`);
+  ADD PRIMARY KEY (`eventID`);
+
+--
+-- Indexes for table `invoice`
+--
+ALTER TABLE `invoice`
+  ADD PRIMARY KEY (`invoiceNum`),
+  ADD KEY `custFK` (`custID`);
 
 --
 -- Indexes for table `message`
 --
 ALTER TABLE `message`
-  ADD PRIMARY KEY (`messageID`);
+  ADD PRIMARY KEY (`messageID`),
+  ADD KEY `senderFK` (`senderID`),
+  ADD KEY `receiverFK` (`receiverID`);
 
 --
--- Indexes for table `payment`
+-- Indexes for table `receipt`
 --
-ALTER TABLE `payment`
-  ADD PRIMARY KEY (`paymentID`),
-  ADD KEY `custID` (`custID`),
-  ADD KEY `rentalID` (`rentalID`);
+ALTER TABLE `receipt`
+  ADD PRIMARY KEY (`receiptNum`);
 
 --
--- Indexes for table `rentaltransaction`
+-- Indexes for table `transaction`
 --
-ALTER TABLE `rentaltransaction`
-  ADD PRIMARY KEY (`rentalID`),
-  ADD KEY `custID` (`custID`),
-  ADD KEY `equipID` (`equipID`);
+ALTER TABLE `transaction`
+  ADD PRIMARY KEY (`receiptNum`,`equipID`),
+  ADD KEY `equipFK` (`equipID`);
 
 --
 -- Indexes for table `user`
@@ -235,30 +261,37 @@ ALTER TABLE `customer`
   ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
 
 --
+-- Constraints for table `customer_message`
+--
+ALTER TABLE `customer_message`
+  ADD CONSTRAINT `custID` FOREIGN KEY (`custID`) REFERENCES `customer` (`custID`),
+  ADD CONSTRAINT `messageID` FOREIGN KEY (`messageID`) REFERENCES `message` (`messageID`);
+
+--
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
   ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
 
 --
--- Constraints for table `event`
+-- Constraints for table `invoice`
 --
-ALTER TABLE `event`
-  ADD CONSTRAINT `event_ibfk_1` FOREIGN KEY (`custID`) REFERENCES `customer` (`custID`);
+ALTER TABLE `invoice`
+  ADD CONSTRAINT `custFK` FOREIGN KEY (`custID`) REFERENCES `customer` (`custID`);
 
 --
--- Constraints for table `payment`
+-- Constraints for table `message`
 --
-ALTER TABLE `payment`
-  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`custID`) REFERENCES `customer` (`custID`),
-  ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`rentalID`) REFERENCES `rentaltransaction` (`rentalID`);
+ALTER TABLE `message`
+  ADD CONSTRAINT `receiverFK` FOREIGN KEY (`receiverID`) REFERENCES `user` (`username`),
+  ADD CONSTRAINT `senderFK` FOREIGN KEY (`senderID`) REFERENCES `user` (`username`);
 
 --
--- Constraints for table `rentaltransaction`
+-- Constraints for table `transaction`
 --
-ALTER TABLE `rentaltransaction`
-  ADD CONSTRAINT `rentaltransaction_ibfk_1` FOREIGN KEY (`custID`) REFERENCES `customer` (`custID`),
-  ADD CONSTRAINT `rentaltransaction_ibfk_2` FOREIGN KEY (`equipID`) REFERENCES `equipment` (`equipID`);
+ALTER TABLE `transaction`
+  ADD CONSTRAINT `equipFK` FOREIGN KEY (`equipID`) REFERENCES `equipment` (`equipID`),
+  ADD CONSTRAINT `receiptFK` FOREIGN KEY (`receiptNum`) REFERENCES `receipt` (`receiptNum`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
