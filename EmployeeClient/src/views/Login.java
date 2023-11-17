@@ -47,7 +47,7 @@ public class Login {
 
 		usernametext = new JLabel("Username: ");
 		userPassword = new JLabel("Password: ");
-		title = new JLabel("Welcome, Login To Your Account.");
+		title = new JLabel("Welcome Employee, Login To Your Account.");
 		errorText = new JLabel("Error: wrong password/User ID. \r\n"
 				+ "Please Try Again");
 

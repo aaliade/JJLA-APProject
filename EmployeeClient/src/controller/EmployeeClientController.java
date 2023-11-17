@@ -39,7 +39,6 @@ public class EmployeeClientController {
 	private SignUp signupView;
 	private DashBoard DashboardView;
 	
-	
 	public EmployeeClientController() {
 		this.loginView = new Login(this);
 		this.createConnection();

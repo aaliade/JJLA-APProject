@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 import models.Customer;
 import models.Employee;
+import models.Equipment;
 import factories.DBConnectorFactory;
 
 public class Server {
@@ -135,6 +136,16 @@ public class Server {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(searchCust.findCustomer(action));
 									logger.info("Found customer by username");
+								}
+							}else if(action.equals("Get Equipment")) {
+								Equipment defaulEquip = new Equipment();
+								Equipment[] equipment = defaulEquip.selectAll();
+								if(equipment == null) {
+									ObjOS.writeObject(false);
+								}else {
+									ObjOS.writeObject(true);
+									ObjOS.writeObject(equipment);
+									logger.info("Found equipments in database");
 								}
 							}
 						} catch (ClassNotFoundException ex) {

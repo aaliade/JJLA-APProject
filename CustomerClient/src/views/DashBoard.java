@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Vector;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,10 +13,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.TableView;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -40,17 +45,20 @@ public class DashBoard {
 	//SubTree Nodes Level 2
 	private DefaultMutableTreeNode homeNode, veiwEquipmentNode, pastTransactionNode, messageNode; 
 	//SubTree Nodes Level 3
-	private DefaultMutableTreeNode stagingNode, lightingNode, powerNode, soundNode, inboxNode, composeNode;
+	private DefaultMutableTreeNode stagingNode, lightingNode, powerNode, soundNode, inboxNode, composeNode, recieptsNode, 
+									invoiceNode;
 	
 	private JPanel dashBoardPanel, viewPanel;
+	
+	private JTable equipmentTable;
 	
 	private JLabel welcomeLabel;
 	
 	
-	private CustomerClientController controller;
+	private CustomerClientController Dashboardcontroller;
 	
 	public DashBoard(CustomerClientController controller, JFrame Frame) {
-		this.controller = controller;
+		this.Dashboardcontroller = controller;
 		this.frame = Frame;
 		
 		this.initializeComponents();
@@ -67,7 +75,6 @@ public class DashBoard {
 	
 	public void initializeComponents() {
 		//frame.setLayout(new GridLayout(1,2));
-		
 		menuBar = new JMenuBar();
 		
 		//Menu Items and Mnemonic for each
@@ -90,8 +97,8 @@ public class DashBoard {
 		//Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
 	    homeNode = new DefaultMutableTreeNode("Home");  
-	    veiwEquipmentNode = new DefaultMutableTreeNode("View Equiments");
-	    pastTransactionNode = new DefaultMutableTreeNode("View Past Transaction");
+	    veiwEquipmentNode = new DefaultMutableTreeNode("Equipment");
+	    pastTransactionNode = new DefaultMutableTreeNode("Transactions");
 	    messageNode = new DefaultMutableTreeNode("Message");
 	    
 	    stagingNode = new DefaultMutableTreeNode("Staging");
@@ -100,6 +107,8 @@ public class DashBoard {
 	    soundNode = new DefaultMutableTreeNode("Sound");
 	    inboxNode = new DefaultMutableTreeNode("Inbox");
 	    composeNode = new DefaultMutableTreeNode("Compose");
+	    recieptsNode = new DefaultMutableTreeNode("Reciepts");
+		invoiceNode = new DefaultMutableTreeNode("Invoice");
 	    
 	    //Welcome Label
 	    welcomeLabel = new JLabel("<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
@@ -110,6 +119,9 @@ public class DashBoard {
 	    welcomeLabel.setForeground(new Color(120, 90, 40));
 	    welcomeLabel.setBackground(new Color(100, 20, 70));
 	    
+	    
+	    
+	   
 	    
 //		Properties p = new Properties();
 //		p.put("text.today", "Today");
@@ -122,11 +134,7 @@ public class DashBoard {
 	    
 	    //This should be in the add components to panel method
 //		panels[4].add(datePicker);
-		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
-	    homeNode = new DefaultMutableTreeNode("Home");  
-	    veiwEquipmentNode = new DefaultMutableTreeNode("View Equiments");
-	    pastTransactionNode = new DefaultMutableTreeNode("View Past Transaction");
-	    messageNode = new DefaultMutableTreeNode("Message");
+	    
 	    logger.info("Customer Dashboard components initialized");
 	}
 	
@@ -163,6 +171,9 @@ public class DashBoard {
 		messageNode.add(composeNode);
 		messageNode.add(inboxNode);
 		
+		pastTransactionNode.add(invoiceNode);
+		pastTransactionNode.add(recieptsNode);
+		
 		dashBoardNode.add(homeNode);
 		dashBoardNode.add(veiwEquipmentNode);
 		dashBoardNode.add(pastTransactionNode);
@@ -173,7 +184,8 @@ public class DashBoard {
 	public void addTreeNodesToTree() {
 		treeView = new JTree(dashBoardNode);
 		
-		treeView.setSize(100,100);
+		
+		treeView.setSize(100,400);
 		
 		// Remove default JTree icons
         DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
@@ -185,10 +197,7 @@ public class DashBoard {
 	
 	public void addComponentsToWindow(){
 		JSplitPane paneSplit = new JSplitPane(SwingConstants.VERTICAL, treeView, viewPanel); 
-		//frame.add(treeView);
-		//frame.add(viewPanel);
 		frame.add(paneSplit);
-		// frame.add(treeView);
 		logger.info("Components added to Window");
 	}
 	
@@ -215,23 +224,95 @@ public class DashBoard {
 					 viewPanel.add(welcomeLabel);
 					 updatePanel(viewPanel);
 				 }
-				 
-				 //cant compare with white spaces
-				 /*if(nodeName.trim().replaceAll("\\s+", " ").equals("ViewEquipments")) {
-					 System.out.println("View Equipments");
+				 if(nodeName.equals("Equipment")) {
+					 System.out.println("Equipment");
 					 clearPanel(viewPanel);
-				 }*/
-
-				 if(nodeName == "View Equipments") {
-					 System.out.println("Message");
-					 clearPanel(viewPanel);
-
+					 
+					 Dashboardcontroller.getEquipmentsFromDatabase();
+					 
+					 if(Dashboardcontroller.getCurrentEquipmentCount()>0) {
+						 System.out.print(Dashboardcontroller.getCurrentEquipmentCount());
+						 	String column[]={"Name","Category","Rental Rate", "Description"}; 
+						    // Create an empty table model with column names
+						    DefaultTableModel tableModel = new DefaultTableModel(column, 0);
+						    //add model to table
+						    equipmentTable =new JTable(tableModel);
+						    Vector<Object> row = new Vector<>();
+						    for(int i=0;i<Dashboardcontroller.getCurrentEquipmentCount();i++) {
+						    	tableModel.addRow(Dashboardcontroller.updateEquipmentViewPanel(row,i));
+						    }
+						    viewPanel.add(equipmentTable);
+					 }
+					 //Add Something to panel
 					 updatePanel(viewPanel);
 				 }
-
+				 if(nodeName.equals("Light")) {
+					 System.out.println("Light");
+					 clearPanel(viewPanel);
+					 //Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 }
+				 if(nodeName.equals("Sound")) {
+					 System.out.println("Sound");
+					 clearPanel(viewPanel);
+					 //Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 }
+				 if(nodeName.equals("Power")) {
+					 System.out.println("Power");
+					 clearPanel(viewPanel);
+					 //Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 }
+				 if(nodeName.equals("Staging")) {
+					 System.out.println("Staging");
+					 clearPanel(viewPanel);
+					 //Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 }
+				 if(nodeName.equals("Transactions")) {
+					 System.out.println("Transactions");
+					 clearPanel(viewPanel);
+					 //Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 }
+				 if(nodeName.equals("Invoice")) {
+					 System.out.println("Invoice");
+					 clearPanel(viewPanel);
+					 //Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 }
+				 if(nodeName.equals("Reciepts")) {
+					 System.out.println("Reciepts");
+					 clearPanel(viewPanel);
+					 //Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 }
 				 if(nodeName.equals("Message")) {
 					 System.out.println("Message");
 					 clearPanel(viewPanel);
+					//Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 } 
+				 if(nodeName.equals("Inbox")) {
+					 System.out.println("Message");
+					 clearPanel(viewPanel);
+					//Add Something to panel
+					 
+					 updatePanel(viewPanel);
+				 }
+				 if(nodeName.equals("Compose")) {
+					 System.out.println("Message");
+					 clearPanel(viewPanel);
+					//Add Something to panel
 					 
 					 updatePanel(viewPanel);
 				 } 
@@ -251,7 +332,6 @@ public class DashBoard {
 	
 	public void clearPanel(JPanel panel) {
 		panel.removeAll();
-		//add your elements
 	}
 	
 	public void updatePanel(JPanel panel) {
@@ -259,5 +339,4 @@ public class DashBoard {
 		panel.repaint(); 
 		logger.info("Customer Dashboard Listeners initialized");
 	}
-	
 }

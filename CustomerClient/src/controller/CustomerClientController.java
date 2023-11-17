@@ -1,19 +1,23 @@
 package controller;
 
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import models.Customer;
 import models.Employee;
+import models.Equipment;
 import models.Message;
 import views.DashBoard;
 import views.Login;
@@ -30,12 +34,12 @@ public class CustomerClientController {
 	
 	//Models
 	private Customer customer = null;
+	private Equipment[] equipment = null;
 		
 	//Views
 	private Login loginView;
 	private SignUp signupView;
 	private DashBoard DashboardView;
-	
 	
 	public CustomerClientController() {
 		this.loginView = new Login(this);
@@ -198,6 +202,22 @@ public class CustomerClientController {
 					logger.info("Customer not found from database");
 				}
 			}
+			if (action.equalsIgnoreCase("Get Equipment")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Equipment were successfully found in database",
+							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+//					equipment = null;
+					equipment = (Equipment[]) objIs.readObject();
+					System.out.println(equipment[0].getequipName());
+					System.out.println(equipment[1].getequipName());
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "No Equipment was found in database, Will Update Shortly",
+							"Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Customer not found from database");
+				}
+			}
 		} catch (ClassCastException ex) {
 			ex.printStackTrace();
 			logger.error("Class Cast exception: " + ex.getMessage());
@@ -209,6 +229,13 @@ public class CustomerClientController {
 		}
 	}
 	
+	public void getEquipmentsFromDatabase() {
+		sendAction("Get Equipment");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
 	public boolean CreateCustomerObject(String username, String password, String firstName, String lastName, String phone,String address, String email,String usertype, int custID, float accountBalance){
 		Customer customer = new Customer(username, password,  firstName,  lastName,  phone, address,  email, usertype,  custID,  accountBalance);
 		sendAction("Add Customer");
@@ -218,6 +245,19 @@ public class CustomerClientController {
 		receiveResponse();
 		System.out.println("Response recieved");
 		return true;
+	}
+	
+	public int getCurrentEquipmentCount() {
+		return equipment.length;
+	}
+	
+	public Vector<Object> updateEquipmentViewPanel(Vector<Object> row, int index) {
+		 System.out.println("Index: " + index);
+		row.add(equipment[index].getequipName());
+		row.add(equipment[index].getCategory());
+		row.add(equipment[index].getrentalRate());
+		row.add(equipment[index].getdescription());
+		return row;
 	}
 	
 	public static void main(String[] args) {
