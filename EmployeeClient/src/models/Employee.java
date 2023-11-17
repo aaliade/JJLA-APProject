@@ -1,19 +1,10 @@
-
 package models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,11 +12,6 @@ import javax.persistence.TemporalType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.annotations.Type;
-
-import factories.SessionFactoryBuilder;
 
 @Entity(name = "employee")
 @PrimaryKeyJoinColumn(name = "username")
@@ -121,93 +107,8 @@ public class Employee extends User implements Serializable { // in order for the
 		return "Employee [empID=" + empID + ", empRole=" + empRole + ", hireDate=" + hireDate + "]";
 	}
 
-	public boolean create() {
-		Session session = null;
-		Transaction transaction = null;
-//		Logger logger = LogManager.getLogger(getClass());
-		session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
-		transaction = session.beginTransaction();
-		session.save(this);
-		transaction.commit();
-		session.close();
-		return true;
-	}
-
-	public void update() {
-		Session session = null;
-		Transaction transaction = null;
-		Logger logger = LogManager.getLogger(getClass());
-
-		try {
-			session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
-			transaction = session.beginTransaction();
-			Employee emp = (Employee) session.get(Employee.class, this.empID);
-			emp.setEmpID(empID);
-			emp.setUsername(emp.getUsername());
-			emp.setEmpRole(empRole);
-			emp.setHireDate(hireDate);
-
-			emp.setFirstName(emp.getFirstName());
-			emp.setLastName(emp.getLastName());
-			emp.setAddress(emp.getAddress());
-			emp.setEmail(emp.getEmail());
-			emp.setPassword(emp.getPassword());
-			emp.setPhone(emp.getPhone());
-
-			session.update(emp);
-			transaction.commit();
-		} catch (HibernateException e) {
-			// Log and handle HibernateException
-			logger.error("Error occurred while updating employee", e);
-			if (transaction != null && transaction.isActive()) {
-				transaction.rollback();
-			}
-		} catch (Exception e) {
-			// Log and handle other exceptions
-			logger.error("Error occurred while updating employee", e);
-			if (transaction != null && transaction.isActive()) {
-				transaction.rollback();
-			}
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-	}
-	
-	public Employee findEmployee(String username) {
-		 Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
-		 Transaction transaction = session.beginTransaction();
-		 Employee employee = null;
-		 try {
-			 employee = session.get(Employee.class, username);
-			 transaction.commit();
-			 session.close();
-			 return employee;
-		 }catch (HibernateException e) {
-		        // Log and handle HibernateException
-		        logger.error("Error occurred while searching for customer", e);
-		        if (transaction != null && transaction.isActive()) {
-		            transaction.rollback();
-		        }
-		    } catch (Exception e) {
-		        // Log and handle other exceptions
-		        logger.error("Error occurred while searching for customer", e);
-		        if (transaction != null && transaction.isActive()) {
-		            transaction.rollback();
-		        }
-		    } finally {
-		        if (session != null && session.isOpen()) {
-		            session.close();
-		        }
-		    }
-		 return employee;
-	}
-
 	@Override
 	public boolean login() {
-		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

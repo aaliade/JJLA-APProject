@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -18,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import models.Employee;
 import models.Equipment;
 import models.Event;
+
 import views.DashBoard;
 import views.Login;
 import views.SignUp;
@@ -185,7 +188,7 @@ public class EmployeeClientController {
 			ex.printStackTrace();
 			logger.error("Employee Message failed to be sent: " + ex.getMessage());
 		}
-	}*/ 
+	}*/
 	
 	public void sendEquipment(Equipment equipment) {
 		try {

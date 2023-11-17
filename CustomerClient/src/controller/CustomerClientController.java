@@ -38,8 +38,8 @@ public class CustomerClientController {
 	// Models
 	private Customer customer = null;
 	private Equipment[] equipmentList;
-		
-	//Views
+
+	// Views
 	private Login loginView;
 	private SignUp signupView;
 	private DashBoard DashboardView;
@@ -211,7 +211,7 @@ public class CustomerClientController {
 					JOptionPane.showMessageDialog(null, "Equipment were successfully found in database",
 							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
 					equipmentList = (Equipment[]) objIs.readObject();
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(null, "No Equipment was found in database, Will Update Shortly",
 							"Equipment Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Customer not found from database");
@@ -256,6 +256,7 @@ public class CustomerClientController {
 		Vector<Object> row = new Vector<>();
 		System.out.println("Index: " + index);
 		row.add(equipmentList[index].getequipID());
+
 		row.add(equipmentList[index].getequipName());
 		row.add(equipmentList[index].getCategory());
 		row.add(equipmentList[index].getrentalRate());
