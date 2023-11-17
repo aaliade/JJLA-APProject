@@ -14,6 +14,10 @@ public class DBConnectorFactory {
 	public static final Logger logger = LogManager.getLogger(DBConnectorFactory.class);
 	private static Connection dbConn = null;
 	
+	public DBConnectorFactory(){
+		
+	}
+	
 	public static Connection getDatabaseConnection() {
 		if (dbConn == null) {
 			try {

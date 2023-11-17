@@ -207,7 +207,10 @@ public class SignUp {
 
 				//if all the fields are filled out and the password is similar
 				if(CheckFields() && CheckPassword()) {
-					controller.CreateEmployeeObject(IDNumber, empRole, day, month, year, userName, password, firstName, lastName, phoneNumber, email, address, "Employee");
+					if(controller.CreateEmployeeObject(IDNumber, empRole, day, month, year, userName, password, firstName, lastName, phoneNumber, email, address, "Employee")) {
+						JOptionPane.showMessageDialog(frame, "User Successfully added to database", "Sign Up Complete", JOptionPane.INFORMATION_MESSAGE);
+						controller.goBackToLoginPage(frame);
+					}
 				}
 			}
 			

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -133,31 +134,22 @@ public class Login {
 		loginBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if(getLoginDetails()){
+				if(getLoginDetails()){ //calls to function
 					//if it finds the employee
-//					if(guiController.FindEmployee(username)) {
-//						//if the password is correct
-//						if(guiController.checkPassword(password, "Employee")) {
-//							guiController.loginEmployee(frame);
-//						}else {
-//							JOptionPane.showMessageDialog(null, "Password Incorrect Please Try Again", "Incorrect Password",JOptionPane.ERROR_MESSAGE);
-//						}
-//						//if it finds the customer
-//					}else if(guiController.FindCustomer(username)) { 
-//						//if the password is correct
-//						if(guiController.checkPassword(password, "Customer")) {
-//							guiController.loginCustomer(frame);
-//						}else {
-//							JOptionPane.showMessageDialog(null, "Password Incorrect Please Try Again", "Incorrect Password",JOptionPane.ERROR_MESSAGE);
-//						}
-//					}else {//No user is found
-//						JOptionPane.showMessageDialog(null, "User Not Found", "User Not Found",JOptionPane.ERROR_MESSAGE);
-//					}
-//				}else {
-//					JOptionPane.showMessageDialog(null, "Please Enter Both Username and Password", "Not properly filled out",JOptionPane.ERROR_MESSAGE);
-//				}
-
-
+					if(controller.SearchEmployee(username)) {
+						//if the password is correct
+						if(controller.checkPassword(password)) {
+							controller.loginEmployee(frame);
+							JOptionPane.showMessageDialog(null, "Login Successful", "Login Successful",JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							JOptionPane.showMessageDialog(null, "Password Incorrect Please Try Again", "Incorrect Password",JOptionPane.ERROR_MESSAGE);
+						}
+					} else {//No user is found
+						JOptionPane.showMessageDialog(null, "User Not Found", "User Not Found",JOptionPane.ERROR_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Please Enter Both Username and Password", "Not properly filled out",JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		logger.info("Login Page Listeners initialized");

@@ -88,7 +88,7 @@ public class EmployeeClientController {
 		logger.info("Sign up page displayed");
 	}
 	
-	public void loginCustomer(JFrame frame) {
+	public void loginEmployee(JFrame frame) {
 		clearFrame(frame);
 		this.DashboardView = new DashBoard(this,frame);
 		logger.info("Customer logged in, Dashboard displayed");
@@ -127,11 +127,30 @@ public class EmployeeClientController {
 		System.out.println("Object sent");
 		receiveResponse();
 		System.out.println("Response recieved");
-//		closeConnection();
 		return true;
 	}
 	
-	public boolean checkPassword(String password, String user) {
+	public boolean SearchEmployee(String username) {
+		employee = null;
+	
+		sendAction("Find Employee");
+		findEmployee(username);
+		receiveResponse();
+		
+		if(employee!=null) {
+			System.out.println(employee.getUsername());
+			System.out.println(employee.getFirstName());
+			System.out.println(employee.getLastName());
+			System.out.println(employee.getAddress());
+			System.out.println(employee.getEmpID());
+			System.out.println(employee.getEmail());
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean checkPassword(String password) {
 		if(employee.getPassword().equals(password)) {
 			return true;
 		}else {
@@ -241,12 +260,11 @@ public class EmployeeClientController {
 			if (action.equalsIgnoreCase("Find Employee")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Employee Successfully Found",
-							"Search Employee Records", JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Employee found from database");
+					employee = (Employee) objIs.readObject();
+				}else {
+					logger.info("Employee not found from database");
 				}
-				this.employee = null;
-				this.employee = (Employee) objIs.readObject();
 			}
 		} catch (ClassCastException ex) {
 			ex.printStackTrace();
