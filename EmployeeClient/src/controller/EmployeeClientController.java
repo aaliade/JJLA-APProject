@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -20,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import models.Employee;
 import models.Equipment;
 import models.Event;
-
 import views.DashBoard;
 import views.Login;
 import views.SignUp;
