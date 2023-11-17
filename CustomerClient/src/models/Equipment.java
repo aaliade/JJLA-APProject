@@ -4,31 +4,34 @@ import org.apache.logging.log4j.Logger;
 
 import factories.DBConnectorFactory;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
 
 
-public class Equipment{
-	private static final Logger logger = LogManager.getLogger(Equipment.class);
-	private String categoryName;
-	private int equipID;
+public class Equipment implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private transient static final Logger logger = LogManager.getLogger(Equipment.class);
+	private String equipID;
 	private String equipName;
 	private String description;
 	private boolean status;
 	private String category;
 	private double rentalRate;
-	private Connection dbConn = null;
-	private Statement stmt = null;
-	private ResultSet result = null;
+	private transient Connection dbConn = null;  //Make transient to avoid serialization error ignores when sending over to server
+	private transient Statement stmt = null;
+	private transient ResultSet result = null;
 
 	public Equipment() {
-		equipID = 0;
+		equipID = "";
 		equipName = "";
 		description = "";
 		status = true;
@@ -39,7 +42,7 @@ public class Equipment{
 	}
 	
 
-	public Equipment(int equipID, String equipName, String description, boolean status, String category, double rentalRate) {
+	public Equipment(String equipID, String equipName, String description, boolean status, String category, double rentalRate) {
 		this.equipID = equipID;
 		this.equipName = equipName;
 		this.description = description;
@@ -48,24 +51,13 @@ public class Equipment{
 		this.rentalRate = rentalRate;
 		logger.info("Input accepted, Equipment initialized");
 	}
-
 	
-	public String getcategoryName() {
-		logger.info("Equipment Category Name returned");
-		return categoryName;
-	}
-	
-	public void setcategoryName(String categoryName) {
-		this.categoryName = categoryName;
-		logger.info("Input accepted, Category Name set");
-	}
-	
-	public int getequipID() {
+	public String getequipID() {
 		logger.info("Equipment ID returned");
 		return equipID;
 	}
 	
-	public void setequipID(int equipID) {
+	public void setequipID(String equipID) {
 		this.equipID = equipID;
 		logger.info("Input accepted, Equipment ID set");
 	}
@@ -126,24 +118,34 @@ public class Equipment{
 		return "Equipment ID" + equipID + "Equipment Name" + equipName + "Description" + description + "Status" + status + "Rental Rate" + rentalRate;	
 	}
 	
-	public void selectAll() {
+	public Equipment[] selectAll() {
         String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment;";
-
+        Equipment[] equipmentList = null;
         try {
-            stmt = dbConn.createStatement();
+        	stmt = dbConn.createStatement();
             result = stmt.executeQuery(sql);
-
-            while (result.next()) {
-                int equipID = result.getInt("equipID");
-                String equipName = result.getString("equipName");
-                String description = result.getString("description");
-                String category = result.getString("catgeory");
-                boolean status = result.getBoolean("status");
-                double rentalRate = result.getInt("rentalRate");
-
-                System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
-                        "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
+            int count = 0;
+            while(result.next()) {
+            	count++;
             }
+            
+            result.close();
+            result = stmt.executeQuery(sql);
+            equipmentList = new  Equipment[count];
+            int i = 0;
+            while (result.next()) {
+                    String equipID = result.getString("equipID");
+                    String equipName = result.getString("equipName");
+                    String description = result.getString("description");
+                    String category = result.getString("category");
+                    boolean status = result.getBoolean("status");
+                    double rentalRate = result.getInt("rentalRate");
+
+                    System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
+                            "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
+                    equipmentList[i] = new Equipment(equipID, equipName,description,status, category, rentalRate); //initialize object
+                    i++;
+                }
         } catch (SQLException e) {
             System.err.println("SQL Exception: " + e.getMessage());
             logger.error("SQL Exception while selecting equipments: " + e.getMessage());
@@ -156,6 +158,7 @@ public class Equipment{
                 logger.error("Error while closing statement/result: " + e.getMessage());
             }
         }
+        return equipmentList;
     }
 
 	public void selectAvailableEquipmentByCategory(String category) {

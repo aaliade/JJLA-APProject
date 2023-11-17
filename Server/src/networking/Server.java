@@ -1,6 +1,7 @@
 package networking;
 
 import java.util.Date;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -139,12 +140,12 @@ public class Server {
 								}
 							}else if(action.equals("Get Equipment")) {
 								Equipment defaulEquip = new Equipment();
-								Equipment[] equipment = defaulEquip.selectAll();
-								if(equipment == null) {
+								Equipment[] equipmentList = defaulEquip.selectAll();
+								if(equipmentList == null) {
 									ObjOS.writeObject(false);
 								}else {
 									ObjOS.writeObject(true);
-									ObjOS.writeObject(equipment);
+									ObjOS.writeObject(equipmentList);
 									logger.info("Found equipments in database");
 								}
 							}

@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -34,7 +35,7 @@ public class CustomerClientController {
 	
 	//Models
 	private Customer customer = null;
-	private Equipment[] equipment = null;
+	private Equipment[] equipmentList;
 		
 	//Views
 	private Login loginView;
@@ -207,11 +208,7 @@ public class CustomerClientController {
 				if (flag == true) {
 					JOptionPane.showMessageDialog(null, "Equipment were successfully found in database",
 							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
-//					equipment = null;
-					equipment = (Equipment[]) objIs.readObject();
-					System.out.println(equipment[0].getequipName());
-					System.out.println(equipment[1].getequipName());
-					
+					equipmentList = (Equipment[]) objIs.readObject();
 				}else {
 					JOptionPane.showMessageDialog(null, "No Equipment was found in database, Will Update Shortly",
 							"Equipment Search", JOptionPane.ERROR_MESSAGE);
@@ -248,15 +245,15 @@ public class CustomerClientController {
 	}
 	
 	public int getCurrentEquipmentCount() {
-		return equipment.length;
+		return equipmentList.length;
 	}
 	
 	public Vector<Object> updateEquipmentViewPanel(Vector<Object> row, int index) {
 		 System.out.println("Index: " + index);
-		row.add(equipment[index].getequipName());
-		row.add(equipment[index].getCategory());
-		row.add(equipment[index].getrentalRate());
-		row.add(equipment[index].getdescription());
+		 row.add(equipmentList[index].getequipName());
+		row.add(equipmentList[index].getCategory());
+		row.add(equipmentList[index].getrentalRate());
+		row.add(equipmentList[index].getdescription());
 		return row;
 	}
 	

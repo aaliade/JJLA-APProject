@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 
 import factories.DBConnectorFactory;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,8 +14,10 @@ import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
 
-public class Equipment{
-	private static final Logger logger = LogManager.getLogger(Equipment.class);
+public class Equipment implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	private transient static final Logger logger = LogManager.getLogger(Equipment.class);
 	private String categoryName;
 	private int equipID;
 	private String equipName;
@@ -22,9 +25,9 @@ public class Equipment{
 	private boolean status;
 	private String category;
 	private double rentalRate;
-	private Connection dbConn = null;
-	private Statement stmt = null;
-	private ResultSet result = null;
+	private transient Connection dbConn = null;
+	private transient Statement stmt = null;
+	private  transient ResultSet result = null;
 
 	public Equipment() {
 		equipID = 0;
