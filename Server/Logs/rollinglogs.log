@@ -1,0 +1,32 @@
+[INFO ] 2023-11-17 08:31:57.386 [main] Server - Test Info message
+[INFO ] 2023-11-17 08:37:04.688 [main] Server - Test Info message
+[INFO ] 2023-11-17 08:43:08.360 [main] Server - Server is starting a thread for client 1
+[ERROR] 2023-11-17 08:43:20.589 [Thread-0] Server - Caught SQLException
+[INFO ] 2023-11-17 08:43:20.591 [Thread-0] Server - Connection accepted
+[WARN ] 2023-11-17 08:43:30.083 [Thread-0] Server - Client has terminated connections with the server
+[INFO ] 2023-11-17 08:43:30.084 [Thread-0] Server - Connection closed for /127.0.0.1
+[INFO ] 2023-11-17 08:58:47.758 [main] Server - Test Info message
+[INFO ] 2023-11-17 08:59:33.367 [main] Server - Server is starting a thread for client 1
+[INFO ] 2023-11-17 08:59:37.042 [Thread-0] Server - Database Connection Established.
+[INFO ] 2023-11-17 08:59:37.044 [Thread-0] Server - Connection accepted
+[WARN ] 2023-11-17 08:59:41.934 [Thread-0] Server - Client has terminated connections with the server
+[INFO ] 2023-11-17 08:59:41.936 [Thread-0] Server - Connection closed for /127.0.0.1
+[INFO ] 2023-11-17 09:02:43.382 [main] Server - Test Info message
+[INFO ] 2023-11-17 09:02:48.999 [main] Server - Test Info message
+[INFO ] 2023-11-17 09:04:08.475 [main] Server - Test Info message
+[INFO ] 2023-11-17 09:04:28.542 [main] Server - Test Info message
+[INFO ] 2023-11-17 09:07:57.014 [main] Server - Test Info message
+[INFO ] 2023-11-17 09:14:00.681 [main] Server - Test Info message
+[INFO ] 2023-11-17 09:14:15.723 [main] Server - Server is starting a thread for client 1
+[INFO ] 2023-11-17 09:14:18.293 [Thread-0] Server - Database Connection Established.
+[INFO ] 2023-11-17 09:14:18.297 [Thread-0] Server - Connection accepted
+[INFO ] 2023-11-17 09:14:26.247 [main] Server - Server is starting a thread for client 2
+[INFO ] 2023-11-17 09:14:26.256 [Thread-1] Server - Connection accepted
+[INFO ] 2023-11-17 09:14:27.574 [main] Server - Server is starting a thread for client 3
+[INFO ] 2023-11-17 09:14:27.579 [Thread-2] Server - Connection accepted
+[WARN ] 2023-11-17 09:18:05.550 [Thread-1] Server - Client has terminated connections with the server
+[INFO ] 2023-11-17 09:18:05.557 [Thread-1] Server - Connection closed for /127.0.0.1
+[ERROR] 2023-11-17 09:18:05.558 [Thread-2] Server - Caught IOException
+[INFO ] 2023-11-17 09:18:05.559 [Thread-2] Server - Connection closed for /127.0.0.1
+[WARN ] 2023-11-17 09:18:11.369 [Thread-0] Server - Client has terminated connections with the server
+[INFO ] 2023-11-17 09:18:11.371 [Thread-0] Server - Connection closed for /127.0.0.1

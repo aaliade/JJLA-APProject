@@ -1,5 +1,8 @@
 package controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,14 +29,13 @@ import views.SignUp;
 
 public class CustomerClientController {
 
-	private static final Logger logger = LogManager.getLogger(CustomerClientController.class);
-	
+	public static final Logger logger = LogManager.getLogger(CustomerClientController.class);
 	private Socket connectionSocket;
 	private ObjectOutputStream objOs;
 	private ObjectInputStream objIs;
 	private String action;
-	
-	//Models
+
+	// Models
 	private Customer customer = null;
 	private Equipment[] equipmentList;
 		
@@ -41,14 +43,14 @@ public class CustomerClientController {
 	private Login loginView;
 	private SignUp signupView;
 	private DashBoard DashboardView;
-	
+
 	public CustomerClientController() {
 		this.loginView = new Login(this);
 		this.createConnection();
 		this.configureStreams();
 		logger.info("Customer Client initialized");
 	}
-	
+
 	private void createConnection() {
 		try {
 			connectionSocket = new Socket(InetAddress.getLocalHost(), 8888);
@@ -59,19 +61,19 @@ public class CustomerClientController {
 			logger.error("Employee Client failed to establish connection: " + ex.getMessage());
 		}
 	}
-	
+
 	private void configureStreams() {
 		try {
 			this.objOs = new ObjectOutputStream(connectionSocket.getOutputStream());
 			this.objIs = new ObjectInputStream(connectionSocket.getInputStream());
-			
+
 			logger.info("Employee Client streams initialized");
-		} catch(IOException ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 			logger.error("Employee Client failed to initialise streams: " + ex.getMessage());
 		}
 	}
-	
+
 	public void closeConnection() {
 		try {
 			objOs.close();
@@ -83,47 +85,47 @@ public class CustomerClientController {
 			logger.error("Employee Client failed to close connection: " + ex.getMessage());
 		}
 	}
-	
+
 	public void signUpUser(JFrame frame) {
 		clearFrame(frame);
-		this.signupView = new SignUp(this,frame);
+		this.signupView = new SignUp(this, frame);
 		logger.info("Sign up page displayed");
 	}
-	
+
 	public void loginEmployee(JFrame frame) {
 		clearFrame(frame);
-		this.DashboardView = new DashBoard(this,frame);
+		this.DashboardView = new DashBoard(this, frame);
 		logger.info("Customer logged in, Dashboard displayed");
 	}
-	
+
 	public void goBackToLoginPage(JFrame frame) {
-		frame.dispose(); //terminates frame
+		frame.dispose(); // terminates frame
 		this.loginView = new Login(this);
 		logger.info("Returned to Login page");
 	}
-	
+
 	public void clearFrame(JFrame frame) {
-		frame.getContentPane().removeAll(); //Clear Frame
+		frame.getContentPane().removeAll(); // Clear Frame
 		frame.repaint();
 		logger.info("Page cleared");
 	}
-	
+
 	public boolean checkPassword(String password) {
-		if(customer.getPassword().equals(password)) {
+		if (customer.getPassword().equals(password)) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
+
 	public boolean SearchCustomer(String username) {
 		customer = null;
-		
+
 		sendAction("Find Customer");
 		findCustomer(username);
 		receiveResponse();
-		
-		if(customer!=null) {
+
+		if (customer != null) {
 			System.out.println(customer.getUsername());
 			System.out.println(customer.getFirstName());
 			System.out.println(customer.getLastName());
@@ -131,12 +133,11 @@ public class CustomerClientController {
 			System.out.println(customer.getCustID());
 			System.out.println(customer.getEmail());
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
-	
+
 	public void findCustomer(String username) {
 		try {
 			objOs.writeObject(username);
@@ -146,7 +147,7 @@ public class CustomerClientController {
 			logger.error("Error Sending username " + ex.getMessage());
 		}
 	}
-	
+
 	public void sendAction(String action) {
 		this.action = action;
 		try {
@@ -157,7 +158,7 @@ public class CustomerClientController {
 			logger.error("Action failed: " + ex.getMessage());
 		}
 	}
-	
+
 	public void sendCustomer(Customer customer) {
 		try {
 			objOs.writeObject(customer);
@@ -167,7 +168,7 @@ public class CustomerClientController {
 			logger.error("Customer failed to be sent: " + ex.getMessage());
 		}
 	}
-	
+
 	public void sendMessage(Message message) {
 		try {
 			objOs.writeObject(message);
@@ -177,29 +178,30 @@ public class CustomerClientController {
 			logger.error("Customer Message failed to be sent: " + ex.getMessage());
 		}
 	}
-	
+
 	public void receiveResponse() {
 		try {
 			if (action.equalsIgnoreCase("Add Customer")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Customer Added Successfully",
-							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Customer Added Successfully", "Add Record Status",
+							JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Customer Record added to Database");
 				}
 			}
 			if (action.equalsIgnoreCase("Send Message")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Message Sent Successfully",
-							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Message Sent Successfully", "Add Record Status",
+							JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Message added to Database");
 				}
-			}if (action.equalsIgnoreCase("Find Customer")) {
+			}
+			if (action.equalsIgnoreCase("Find Customer")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
 					this.customer = (Customer) objIs.readObject();
-				}else {
+				} else {
 					logger.info("Customer not found from database");
 				}
 			}
@@ -225,16 +227,18 @@ public class CustomerClientController {
 			logger.error("Failed to recieve response: " + ex.getMessage());
 		}
 	}
-	
+
 	public void getEquipmentsFromDatabase() {
 		sendAction("Get Equipment");
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
-	public boolean CreateCustomerObject(String username, String password, String firstName, String lastName, String phone,String address, String email,String usertype, int custID, float accountBalance){
-		Customer customer = new Customer(username, password,  firstName,  lastName,  phone, address,  email, usertype,  custID,  accountBalance);
+
+	public boolean CreateCustomerObject(String username, String password, String firstName, String lastName,
+			String phone, String address, String email, String usertype, int custID, float accountBalance) {
+		Customer customer = new Customer(username, password, firstName, lastName, phone, address, email, usertype,
+				custID, accountBalance);
 		sendAction("Add Customer");
 		System.out.println("Action sent");
 		sendCustomer(customer);
@@ -243,22 +247,24 @@ public class CustomerClientController {
 		System.out.println("Response recieved");
 		return true;
 	}
-	
+
 	public int getCurrentEquipmentCount() {
 		return equipmentList.length;
 	}
-	
+
 	public Vector<Object> updateEquipmentViewPanel(Vector<Object> row, int index) {
 		 System.out.println("Index: " + index);
 		 row.add(equipmentList[index].getequipName());
 		row.add(equipmentList[index].getCategory());
 		row.add(equipmentList[index].getrentalRate());
 		row.add(equipmentList[index].getdescription());
+
 		return row;
 	}
-	
+
 	public static void main(String[] args) {
+		logger.info("Customer Client Test Info message");
 		new CustomerClientController();
 	}
-	
+
 }
