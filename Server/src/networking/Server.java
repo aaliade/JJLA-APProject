@@ -1,6 +1,9 @@
 package networking;
 
 import java.util.Date;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -20,9 +23,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import models.Customer;
 import models.Employee;
 import factories.DBConnectorFactory;
@@ -39,7 +39,7 @@ public class Server {
 			//connecting to port 8888
 			serverSocket= new ServerSocket(8888);
 			System.out.println("Server Listening on port 8888...");
-			System.out.println("Server starting at:"+ new Date());
+			System.out.println("Server starting at: "+ new Date());
 
 			while (true) {
 				connectionSocket= serverSocket.accept();
@@ -174,7 +174,7 @@ public class Server {
 			if (dBConn == null) { //checks if database connection is null
 				try {
 					String url= "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental"; //defines the URL of the connection
-					dBConn = DriverManager.getConnection(url,"root","password"); //connecting with database 
+					dBConn = DriverManager.getConnection(url,"root",""); //connecting with database 
 
 					JOptionPane.showMessageDialog(null, "DB Connection Established","Connection status",JOptionPane.INFORMATION_MESSAGE); //if connection is successful a message dialog will be shown
 					logger.info("Database Connection Established.");
@@ -335,6 +335,7 @@ public class Server {
 	}
 
 	public static void main(String args[]) {
+		logger.info("Test Info message");
 		new Server();
 	}
 
