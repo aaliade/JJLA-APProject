@@ -5,20 +5,20 @@ import org.apache.logging.log4j.Logger;
 
 public class Event {
 	public static final Logger logger = LogManager.getLogger(Event.class);
-	private int eventID;
+	private String eventID;
 	private String eventName;
 	private String eventDate;
 	private String eventLocation;
 
 	public Event() {
-		eventID = 0;
+		eventID = "";
 		eventName = "";
 		eventDate = "";
 		eventLocation = "";
 		logger.info("Event initialized");
 	}
 
-	public Event(int eventID, String eventName, String eventDate, String eventLocation) {
+	public Event(String eventID, String eventName, String eventDate, String eventLocation) {
 		this.eventID = eventID;
 		this.eventName = eventName;
 		this.eventDate = eventDate;
@@ -26,12 +26,12 @@ public class Event {
 		logger.info("Input accepted, Event initialized");
 	}
 
-	public int geteventID() {
+	public String geteventID() {
 		logger.info("Event ID returned");
 		return eventID;
 	}
 
-	public void seteventID(int eventID) {
+	public void seteventID(String eventID) {
 		this.eventID = eventID;
 		logger.info("Input accepted, Event ID set");
 	}

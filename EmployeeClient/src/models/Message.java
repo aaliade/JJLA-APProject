@@ -6,24 +6,24 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Message {
-    private int messageID;
-    private int senderID;
-    private int receiverID;
+    private String messageID;
+    private String senderID;
+    private String receiverID;
     private String content;
     private Date timeStamp;
 
     private static final Logger logger = LogManager.getLogger(Message.class);
 
     public Message() { // default constructor
-        this.messageID = 0;
-        this.senderID = 0;
-        this.receiverID = 0;
+        this.messageID = "";
+        this.senderID = "";
+        this.receiverID = "";
         this.content = "";
         this.timeStamp = new Date();
         logger.info("Message initialized");
     }
 
-    public Message(int messageID, int senderID, int receiverID, String content, Date date) { // primary constructor
+    public Message(String messageID, String senderID, String receiverID, String content, Date date) { // primary constructor
         this.messageID = messageID;
         this.senderID = senderID;
         this.receiverID = receiverID;
@@ -33,32 +33,32 @@ public class Message {
     }
 
     // getters and setters
-    public int getMessageID() {
+    public String getMessageID() {
         logger.info("Message ID returned");
         return messageID;
     }
 
-    public void setMessageID(int messageID) {
+    public void setMessageID(String messageID) {
         this.messageID = messageID;
         logger.info("Input accepted, Message ID initialized");
     }
 
-    public int getSenderID() {
+    public String getSenderID() {
         logger.info("Sender ID returned");
         return senderID;
     }
 
-    public void setSenderID(int senderID) {
+    public void setSenderID(String senderID) {
         this.senderID = senderID;
         logger.info("Input accepted, Sender ID initialized");
     }
 
-    public int getReceiverID() {
+    public String getReceiverID() {
         logger.info("Receiver ID returned");
         return receiverID;
     }
 
-    public void setReceiverID(int receiverID) {
+    public void setReceiverID(String receiverID) {
         this.receiverID = receiverID;
         logger.info("Input accepted, Receiver ID initialized");
     }

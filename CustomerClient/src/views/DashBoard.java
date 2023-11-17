@@ -96,7 +96,6 @@ public class DashBoard {
 
 		//Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
-<<<<<<< HEAD
 	    homeNode = new DefaultMutableTreeNode("Home");  
 	    veiwEquipmentNode = new DefaultMutableTreeNode("Equipment");
 	    pastTransactionNode = new DefaultMutableTreeNode("Transactions");
@@ -109,7 +108,7 @@ public class DashBoard {
 	    inboxNode = new DefaultMutableTreeNode("Inbox");
 	    composeNode = new DefaultMutableTreeNode("Compose");
 	    recieptsNode = new DefaultMutableTreeNode("Receipts");
-=======
+
 		homeNode = new DefaultMutableTreeNode("Home");  
 		veiwEquipmentNode = new DefaultMutableTreeNode("Equipment");
 		pastTransactionNode = new DefaultMutableTreeNode("Transactions");
@@ -122,10 +121,9 @@ public class DashBoard {
 		inboxNode = new DefaultMutableTreeNode("Inbox");
 		composeNode = new DefaultMutableTreeNode("Compose");
 		recieptsNode = new DefaultMutableTreeNode("Reciepts");
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+
 		invoiceNode = new DefaultMutableTreeNode("Invoice");
-<<<<<<< HEAD
-	    
+
 	    //Welcome Label
 	    welcomeLabel = new JLabel("<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
 	    		+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>", SwingConstants.CENTER);
@@ -149,7 +147,7 @@ public class DashBoard {
 //		panels[4].add(datePicker);
 	    
 	    logger.info("Customer Dashboard components initialized");
-=======
+
 
 		//Welcome Label
 		welcomeLabel = new JLabel("<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
@@ -177,7 +175,6 @@ public class DashBoard {
 		//		panels[4].add(datePicker);
 
 		logger.info("Customer Dashboard components initialized");
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 	}
 
 	public void addMenuItemsToMenu() {
@@ -225,8 +222,6 @@ public class DashBoard {
 
 	public void addTreeNodesToTree() {
 		treeView = new JTree(dashBoardNode);
-
-
 		treeView.setSize(100,400);
 
 		// Remove default JTree icons
@@ -258,91 +253,7 @@ public class DashBoard {
 		treeView.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-<<<<<<< HEAD
-				 DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent(); //gets the node that was selected
-				 String nodeName = node.toString();
-				 
-				 //If home panel is selected
-				 if(nodeName.equals("Home")) {
-					 clearPanel(viewPanel);
-					 viewPanel.add(welcomeLabel);
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Equipment")) {
-					 System.out.println("Equipment");
-					 clearPanel(viewPanel);
-					 
-					 Dashboardcontroller.getEquipmentsFromDatabase();
-					 
-					 if(Dashboardcontroller.getCurrentEquipmentCount()>0) {
-						 System.out.print(Dashboardcontroller.getCurrentEquipmentCount());
-						 	String column[]={"Name","Category","Rental Rate", "Description"}; 
-						    // Create an empty table model with column names
-						    DefaultTableModel tableModel = new DefaultTableModel(column, 0);
-						    //add model to table
-						    equipmentTable =new JTable(tableModel);
-						    Vector<Object> row = new Vector<>();
-						    for(int i=0;i<Dashboardcontroller.getCurrentEquipmentCount();i++) {
-						    	tableModel.addRow(Dashboardcontroller.updateEquipmentViewPanel(row,i));
-						    }
-						    viewPanel.add(equipmentTable);
-					 }
-					 //Add Something to panel
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Light")) {
-					 System.out.println("Light");
-					 clearPanel(viewPanel);
-					 //Add Something to panel
-					 
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Sound")) {
-					 System.out.println("Sound");
-					 clearPanel(viewPanel);
-					 //Add Something to panel
-					 
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Power")) {
-					 System.out.println("Power");
-					 clearPanel(viewPanel);
-					 //Add Something to panel
-					 
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Staging")) {
-					 System.out.println("Staging");
-					 clearPanel(viewPanel);
-					 //Add Something to panel
-					 
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Transactions")) {
-					 System.out.println("Transactions");
-					 clearPanel(viewPanel);
-					 //Add Something to panel
-					 
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Invoice")) {
-					 System.out.println("Invoice");
-					 clearPanel(viewPanel);
-					 //Add Something to panel
-					 
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Receipts")) {
-					 System.out.println("Receipts");
-					 clearPanel(viewPanel);
-					 //Add Something to panel
-					 
-					 updatePanel(viewPanel);
-				 }
-				 if(nodeName.equals("Message")) {
-					 System.out.println("Message");
-					 clearPanel(viewPanel);
-=======
+
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent(); //gets the node that was selected
 				String nodeName = node.toString();
 
@@ -377,7 +288,7 @@ public class DashBoard {
 						}
 						viewPanel.add(equipmentTable);
 					}
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+
 					//Add Something to panel
 					updatePanel(viewPanel);
 				}
@@ -463,7 +374,6 @@ public class DashBoard {
 			}
 		});*/
 	}
-
 
 	public void clearPanel(JPanel panel) {
 		panel.removeAll();

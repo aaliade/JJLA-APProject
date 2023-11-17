@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Receipt {
-	private int receiptNum;
+	private String receiptNum;
 	private String payType;
 	private Date payDate;
 	private double payAmt;
@@ -14,14 +14,14 @@ public class Receipt {
 	private static final Logger logger = LogManager.getLogger(Receipt.class);
 
 	public Receipt() {
-		this.receiptNum = 0;
+		this.receiptNum = "";
 		this.payType = "";
 		this.payDate = new Date();
 		this.payAmt = 0.0;
 		logger.info("Receipt initialized");
 	}
 
-	public Receipt(int receiptNum, String payType, Date payDate, double payAmt) {
+	public Receipt(String receiptNum, String payType, Date payDate, double payAmt) {
 		this.receiptNum = receiptNum;
 		this.payType = payType;
 		this.payDate = payDate;
@@ -29,11 +29,11 @@ public class Receipt {
 		logger.info("Input accepted, Receipt initialized");
 	}
 
-	public int getReceiptNum() {
+	public String getReceiptNum() {
 		return receiptNum;
 	}
 
-	public void setReceiptNum(int receiptNum) {
+	public void setReceiptNum(String receiptNum) {
 		this.receiptNum = receiptNum;
 	}
 

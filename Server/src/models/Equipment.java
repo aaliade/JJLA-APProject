@@ -160,23 +160,33 @@ public class Equipment implements Serializable{
         return equipmentList;
     }
 
-	public void selectAvailableEquipmentByCategory(String category) {
+	public Equipment[] selectAvailableEquipmentByCategory(String category) {
 		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment WHERE category = '" + category + "';";
-
+		Equipment[] equipmentList = null;
 	    try {
 	        stmt = dbConn.createStatement();
 	        result = stmt.executeQuery(sql);
-
+	        int count = 0;
+	        
 	        while (result.next()) {
-                int equipID = result.getInt("equipID");
+	        	count++;
+	        }
+	        result.close();
+            result = stmt.executeQuery(sql);
+            equipmentList = new  Equipment[count];
+            int i = 0;
+	        while (result.next()) {
+                String equipID = result.getString("equipID");
                 String equipName = result.getString("equipName");
                 String description = result.getString("description");
-                boolean status = result.getBoolean("status");
                 String category1 = result.getString("catgeory");
+                boolean status = result.getBoolean("status");
                 double rentalRate = result.getDouble("rentalRate");
 
                 System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
                         "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category1 + "\nRental Rate: " + rentalRate + "\n");
+                equipmentList[i] = new Equipment(equipID, equipName,description,status, category1, rentalRate); //initialize object
+                i++;
             }
 	    } catch (SQLException e) {
 	        System.err.println("SQL Exception: " + e.getMessage());
@@ -190,9 +200,10 @@ public class Equipment implements Serializable{
 	            logger.error("Error while closing statement/result: " + e.getMessage());
 	        }
 	    }
+        return equipmentList;
 	}
 	
-	public void insert(int equipID, String equipName, String description, boolean status, String category, int rentalRate) {
+	public void insert(String equipID, String equipName, String description, boolean status, String category, int rentalRate) {
 		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.equipment (equipID, equipName, description, status, category, rentalRate)"
 	            + "VALUES ('" + equipID + "', '" + equipName + "', '" + description + "', '" + status + "', '" + category + "', '" + rentalRate + "');";
 
@@ -250,7 +261,7 @@ public class Equipment implements Serializable{
 	    }
 	}
 
-	public void delete(int equipId) {
+	public void delete(String equipId) {
 		String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.equipment WHERE equipID = " + equipId + ";";
 
 		try {
