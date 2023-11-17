@@ -128,7 +128,6 @@ public class Equipment implements Serializable{
             while(result.next()) {
             	count++;
             }
-            
             result.close();
             result = stmt.executeQuery(sql);
             equipmentList = new  Equipment[count];

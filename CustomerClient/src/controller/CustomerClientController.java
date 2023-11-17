@@ -252,13 +252,16 @@ public class CustomerClientController {
 		return equipmentList.length;
 	}
 
-	public Vector<Object> updateEquipmentViewPanel(Vector<Object> row, int index) {
+	public Vector<Object> updateEquipmentViewPanel(int index) {
+		Vector<Object> row = new Vector<>();
 		System.out.println("Index: " + index);
+		row.add(equipmentList[index].getequipID());
+
 		row.add(equipmentList[index].getequipName());
 		row.add(equipmentList[index].getCategory());
 		row.add(equipmentList[index].getrentalRate());
 		row.add(equipmentList[index].getdescription());
-
+		row.add(equipmentList[index].getstatus());
 		return row;
 	}
 

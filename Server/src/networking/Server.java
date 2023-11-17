@@ -183,7 +183,7 @@ public class Server {
 			if (dBConn == null) { //checks if database connection is null
 				try {
 					String url= "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental"; //defines the URL of the connection
-					dBConn = DriverManager.getConnection(url,"root",""); //connecting with database 
+					dBConn = DriverManager.getConnection(url,"root","password"); //connecting with database 
 
 					JOptionPane.showMessageDialog(null, "DB Connection Established","Connection status",JOptionPane.INFORMATION_MESSAGE); //if connection is successful a message dialog will be shown
 					connectorFactory =  new DBConnectorFactory();
