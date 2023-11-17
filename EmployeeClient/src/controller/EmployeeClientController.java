@@ -60,8 +60,9 @@ public class EmployeeClientController {
 	
 	private void configureStreams() {
 		try {
-			this.objIs = new ObjectInputStream(connectionSocket.getInputStream());
 			this.objOs = new ObjectOutputStream(connectionSocket.getOutputStream());
+			this.objIs = new ObjectInputStream(connectionSocket.getInputStream());
+			
 			logger.info("Employee Client streams initialized");
 		} catch(IOException ex) {
 			ex.printStackTrace();
@@ -126,7 +127,7 @@ public class EmployeeClientController {
 		System.out.println("Object sent");
 		receiveResponse();
 		System.out.println("Response recieved");
-		closeConnection();
+//		closeConnection();
 		return true;
 	}
 	
