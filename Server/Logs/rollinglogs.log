@@ -30,3 +30,30 @@
 [INFO ] 2023-11-17 09:18:05.559 [Thread-2] Server - Connection closed for /127.0.0.1
 [WARN ] 2023-11-17 09:18:11.369 [Thread-0] Server - Client has terminated connections with the server
 [INFO ] 2023-11-17 09:18:11.371 [Thread-0] Server - Connection closed for /127.0.0.1
+[INFO ] 2023-11-17 11:31:03.731 [main] Server - Test Info message
+[INFO ] 2023-11-17 11:31:26.967 [main] Server - Server is starting a thread for client 1
+[INFO ] 2023-11-17 11:31:31.385 [Thread-0] DBConnectorFactory - Database Connection Established
+[INFO ] 2023-11-17 11:31:31.388 [Thread-0] DBConnectorFactory - Connection Established
+[INFO ] 2023-11-17 11:31:31.388 [Thread-0] Server - Database Connection Established.
+[INFO ] 2023-11-17 11:31:31.388 [Thread-0] Server - Connection accepted
+[INFO ] 2023-11-17 11:32:09.293 [Thread-0] Server - Received action from client
+[INFO ] 2023-11-17 11:32:09.439 [Thread-0] Server - Connection closed for /127.0.0.1
+[INFO ] 2023-11-17 11:36:49.580 [main] Server - Test Info message
+[INFO ] 2023-11-17 11:37:02.729 [main] Server - Server is starting a thread for client 1
+[INFO ] 2023-11-17 11:37:05.971 [Thread-0] DBConnectorFactory - Database Connection Established
+[INFO ] 2023-11-17 11:37:05.975 [Thread-0] DBConnectorFactory - Connection Established
+[INFO ] 2023-11-17 11:37:05.975 [Thread-0] Server - Database Connection Established.
+[INFO ] 2023-11-17 11:37:05.975 [Thread-0] Server - Connection accepted
+[INFO ] 2023-11-17 11:37:13.953 [Thread-0] Server - Received action from client
+[INFO ] 2023-11-17 11:37:13.978 [Thread-0] User - User initialized
+[INFO ] 2023-11-17 11:37:13.979 [Thread-0] Customer - Customer initialized
+[INFO ] 2023-11-17 11:37:14.076 [Thread-0] Server - Connection closed for /127.0.0.1
+[INFO ] 2023-11-17 11:40:50.637 [main] Server - Test Info message
+[INFO ] 2023-11-17 11:41:03.478 [main] Server - Test Info message
+[INFO ] 2023-11-17 11:41:15.249 [main] Server - Server is starting a thread for client 1
+[INFO ] 2023-11-17 11:41:41.716 [Thread-0] DBConnectorFactory - Database Connection Established
+[INFO ] 2023-11-17 11:41:41.718 [Thread-0] DBConnectorFactory - Connection Established
+[INFO ] 2023-11-17 11:41:41.719 [Thread-0] Server - Database Connection Established.
+[INFO ] 2023-11-17 11:41:41.719 [Thread-0] Server - Connection accepted
+[INFO ] 2023-11-17 11:41:41.719 [Thread-0] Server - Received action from client
+[INFO ] 2023-11-17 11:41:41.854 [Thread-0] Server - Connection closed for /127.0.0.1
