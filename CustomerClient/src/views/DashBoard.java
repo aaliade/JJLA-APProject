@@ -107,7 +107,7 @@ public class DashBoard {
 	    soundNode = new DefaultMutableTreeNode("Sound");
 	    inboxNode = new DefaultMutableTreeNode("Inbox");
 	    composeNode = new DefaultMutableTreeNode("Compose");
-	    recieptsNode = new DefaultMutableTreeNode("Reciepts");
+	    recieptsNode = new DefaultMutableTreeNode("Receipts");
 		invoiceNode = new DefaultMutableTreeNode("Invoice");
 	    
 	    //Welcome Label
@@ -119,9 +119,6 @@ public class DashBoard {
 	    welcomeLabel.setForeground(new Color(120, 90, 40));
 	    welcomeLabel.setBackground(new Color(100, 20, 70));
 	    
-	    
-	    
-	   
 	    
 //		Properties p = new Properties();
 //		p.put("text.today", "Today");
@@ -288,8 +285,8 @@ public class DashBoard {
 					 
 					 updatePanel(viewPanel);
 				 }
-				 if(nodeName.equals("Reciepts")) {
-					 System.out.println("Reciepts");
+				 if(nodeName.equals("Receipts")) {
+					 System.out.println("Receipts");
 					 clearPanel(viewPanel);
 					 //Add Something to panel
 					 

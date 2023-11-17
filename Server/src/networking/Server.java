@@ -157,11 +157,12 @@ public class Server {
 						}
 					} catch (EOFException ex) {
 						System.out.println("Client has terminated connections with the server");  //Printing a message when the client terminates the connection
-						ex.printStackTrace();
 						logger.warn("Client has terminated connections with the server");
+						break;
 					} catch (IOException ex) {
 						ex.printStackTrace();
 						logger.error("Caught IOException");
+						break;
 					}
 				}
 			} catch (IOException e) {
