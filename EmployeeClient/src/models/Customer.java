@@ -1,5 +1,5 @@
 package models;
- 
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -9,11 +9,6 @@ import javax.persistence.Table;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import factories.SessionFactoryBuilder;
 
 @Entity(name="customer")
 @PrimaryKeyJoinColumn(name = "username")
@@ -27,32 +22,33 @@ public class Customer extends User implements Serializable { //in order for the 
 	
 	@Column(name = "accountBalance")
 	private float accountBalance;
-	
+
 	private static final Logger logger = LogManager.getLogger(Customer.class);
-	
-	public Customer() { //default constructor
+
+	public Customer() { // default constructor
 		super();
 		this.custID = 0;
 		this.accountBalance = 0.0f;
 		logger.info("Customer initialized");
 	}
-	
-	public Customer(String username, String password, String firstName, String lastName, String phone,String address, String email,String usertype, int custID, float accountBalance) { //primary constructor
-		super(username,password,firstName,lastName,phone,email,address,usertype);
+
+	public Customer(String username, String password, String firstName, String lastName, String phone, String address,
+			String email, String usertype, int custID, float accountBalance) { // primary constructor
+		super(username, password, firstName, lastName, phone, email, address, usertype);
 		this.custID = custID;
 		this.accountBalance = accountBalance;
 		logger.info("Input accepted, Customer initialized");
 	}
-	
-	public Customer(Customer cust) { //copy constructor
-		super(cust.getUsername(), cust.getPassword(), cust.getFirstName(), cust.getLastName(), cust.getPhone(), cust.getEmail(),
-				cust.getAddress(), cust.getUserType());
+
+	public Customer(Customer cust) { // copy constructor
+		super(cust.getUsername(), cust.getPassword(), cust.getFirstName(), cust.getLastName(), cust.getPhone(),
+				cust.getEmail(), cust.getAddress(), cust.getUserType());
 		this.custID = cust.custID;
 		this.accountBalance = cust.accountBalance;
 		logger.info("Customer copied");
-	}	
-	
-	//Accessors and Mutators 
+	}
+
+	// Accessors and Mutators
 	public int getCustID() {
 		logger.info("Customer ID returned");
 		return custID;
@@ -72,115 +68,9 @@ public class Customer extends User implements Serializable { //in order for the 
 		this.accountBalance = accountBalance;
 		logger.info("Input accepted, Customer Account Balance set");
 	}
-	
-	public boolean create() {
-	    Session session = null;
-	    Transaction transaction = null;
-	    Logger logger = LogManager.getLogger(getClass());
-
-	    try {
-	        session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
-	        transaction = session.beginTransaction();
-	        session.save(this);
-	        transaction.commit();
-	        session.close();
-	        return true;
-	    } catch (HibernateException e) {
-	        // Log and handle HibernateException
-	        logger.error("Error occurred while creating customer", e);
-	        if (transaction != null && transaction.isActive()) {
-	            transaction.rollback();
-	        }
-	        return false;
-	    } catch (Exception e) {
-	        // Log and handle other exceptions
-	        logger.error("Error occurred while creating customer", e);
-	        if (transaction != null && transaction.isActive()) {
-	            transaction.rollback();
-	        }
-	        return false;
-	    } finally {
-	        if (session != null && session.isOpen()) {
-	            session.close();
-	        }
-	    }
-	}
-	
-	public Customer findCustomer(String username) {
-		Session session = null;
-	    Transaction transaction = null;
-	    Logger logger = LogManager.getLogger(getClass());
-	    Customer customer = null;
-		 try {
-			 session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
-			 transaction = session.beginTransaction();
-			 customer = session.get(Customer.class, username);
-			 transaction.commit();
-			 session.close();
-			 return customer;
-		 }catch (HibernateException e) {
-		        // Log and handle HibernateException
-		        logger.error("Error occurred while searching for customer", e);
-		        if (transaction != null && transaction.isActive()) {
-		            transaction.rollback();
-		        }
-		    } catch (Exception e) {
-		        // Log and handle other exceptions
-		        logger.error("Error occurred while searching for customer", e);
-		        if (transaction != null && transaction.isActive()) {
-		            transaction.rollback();
-		        }
-		    } finally {
-		        if (session != null && session.isOpen()) {
-		            session.close();
-		        }
-		    }
-		 return customer;
-	}
-
-	public void update() {
-	    Session session = null;
-	    Transaction transaction = null;
-	    Logger logger = LogManager.getLogger(getClass());
-
-	    try {
-	        session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
-	        transaction = session.beginTransaction();
-	        Customer cust = (Customer) session.get(Customer.class, this.custID);
-	        cust.setAccountBalance(accountBalance);
-	        cust.setCustID(custID);
-	        cust.setFirstName(cust.getFirstName());
-	        cust.setLastName(cust.getLastName());
-	        cust.setAddress(cust.getAddress());
-	        cust.setEmail(cust.getEmail());
-	        cust.setPassword(cust.getPassword());
-	        cust.setPhone(cust.getPhone());
-
-	        session.update(cust);
-	        transaction.commit();
-	    } catch (Exception e) {
-	        // Log and handle exceptions
-	        logger.error("Error occurred during update operation", e);
-	        if (transaction != null) {
-	            transaction.rollback();
-	        }
-	    } finally {
-	        if (session != null && session.isOpen()) {
-	            session.close();
-	        }
-	    }
-	}
-	
-	//read all method is in the user class
-	
-	//I should try to remove from customer first then from user
-
-	
 
 	@Override
 	public boolean login() {
-		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

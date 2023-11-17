@@ -139,7 +139,7 @@ public class Equipment implements Serializable{
                     String description = result.getString("description");
                     String category = result.getString("category");
                     boolean status = result.getBoolean("status");
-                    double rentalRate = result.getInt("rentalRate");
+                    double rentalRate = result.getDouble("rentalRate");
 
                     System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
                             "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
@@ -162,7 +162,7 @@ public class Equipment implements Serializable{
     }
 
 	public void selectAvailableEquipmentByCategory(String category) {
-	    String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment WHERE category = '" + category + "' AND status = 'Available';";
+		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment WHERE category = '" + category + "';";
 
 	    try {
 	        stmt = dbConn.createStatement();
@@ -174,7 +174,7 @@ public class Equipment implements Serializable{
                 String description = result.getString("description");
                 boolean status = result.getBoolean("status");
                 String category1 = result.getString("catgeory");
-                double rentalRate = result.getInt("rentalRate");
+                double rentalRate = result.getDouble("rentalRate");
 
                 System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
                         "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category1 + "\nRental Rate: " + rentalRate + "\n");

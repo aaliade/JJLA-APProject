@@ -96,3 +96,166 @@
 [INFO ] 2023-11-17 11:41:54.817 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
 [ERROR] 2023-11-17 11:41:54.839 [AWT-EventQueue-0] CustomerClientController - Error Sending username Broken pipe
 [ERROR] 2023-11-17 11:41:54.841 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-17 12:05:53.423 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-17 12:05:54.480 [main] Login - Login Components initialized
+[INFO ] 2023-11-17 12:05:54.483 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-17 12:05:54.484 [main] Login - Panel added to Frame
+[INFO ] 2023-11-17 12:05:55.377 [main] Login - Window Prperties set
+[INFO ] 2023-11-17 12:05:55.396 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-17 12:05:55.396 [main] Login - Login Page created
+[INFO ] 2023-11-17 12:05:55.423 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-17 12:05:55.449 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-17 12:05:55.450 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-17 12:06:06.446 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-17 12:06:06.471 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-17 12:06:06.473 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-17 12:06:06.475 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-17 12:06:06.500 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-17 12:06:06.505 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-17 12:06:06.505 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-17 12:06:17.661 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[INFO ] 2023-11-17 12:06:17.667 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:06:17.670 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[INFO ] 2023-11-17 12:06:22.008 [AWT-EventQueue-0] CustomerClientController - Customer Record added to Database
+[INFO ] 2023-11-17 12:06:23.126 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-17 12:06:23.127 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-17 12:06:23.128 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-17 12:06:23.159 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-17 12:06:23.159 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-17 12:06:23.159 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-17 12:06:23.159 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-17 12:06:55.814 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:06:55.817 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-17 12:06:55.945 [AWT-EventQueue-0] Customer - Customer ID returned
+[INFO ] 2023-11-17 12:06:55.949 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-17 12:06:56.182 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-17 12:06:56.196 [AWT-EventQueue-0] DashBoard - Items added to Account and Cart Menus
+[INFO ] 2023-11-17 12:06:56.197 [AWT-EventQueue-0] DashBoard - Account and Cart Menus added to Menu Bar
+[INFO ] 2023-11-17 12:06:56.197 [AWT-EventQueue-0] DashBoard - Tree Structure created
+[INFO ] 2023-11-17 12:06:56.215 [AWT-EventQueue-0] DashBoard - Nodes added to Tree
+[INFO ] 2023-11-17 12:06:56.224 [AWT-EventQueue-0] DashBoard - Components added to Window
+[INFO ] 2023-11-17 12:06:56.259 [AWT-EventQueue-0] DashBoard - Window Properties set
+[INFO ] 2023-11-17 12:06:56.262 [AWT-EventQueue-0] DashBoard - Customer Dashboard created
+[INFO ] 2023-11-17 12:06:56.263 [AWT-EventQueue-0] CustomerClientController - Customer logged in, Dashboard displayed
+[INFO ] 2023-11-17 12:07:04.895 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:07:07.252 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:07:10.722 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:07:13.737 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:07:21.311 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:38:27.313 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-17 12:38:29.439 [main] Login - Login Components initialized
+[INFO ] 2023-11-17 12:38:29.442 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-17 12:38:29.443 [main] Login - Panel added to Frame
+[INFO ] 2023-11-17 12:38:30.288 [main] Login - Window Prperties set
+[INFO ] 2023-11-17 12:38:30.304 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-17 12:38:30.305 [main] Login - Login Page created
+[INFO ] 2023-11-17 12:38:30.327 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-17 12:38:30.352 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-17 12:38:30.352 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-17 12:38:37.118 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-17 12:38:37.138 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-17 12:38:37.140 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-17 12:38:37.144 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-17 12:38:37.156 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-17 12:38:37.162 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-17 12:38:37.162 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-17 12:38:51.042 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-17 12:38:51.044 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-17 12:38:51.045 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-17 12:38:51.082 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-17 12:38:51.082 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-17 12:38:51.082 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-17 12:38:51.082 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-17 12:38:54.906 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:38:54.907 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-17 12:39:31.874 [AWT-EventQueue-0] CustomerClientController - Customer not found from database
+[INFO ] 2023-11-17 12:39:59.979 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:39:59.981 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-17 12:40:00.170 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: models.Customer; local class incompatible: stream classdesc serialVersionUID = 1, local class serialVersionUID = 5533919502835740127
+[INFO ] 2023-11-17 12:40:29.548 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:40:29.551 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-17 12:40:29.557 [AWT-EventQueue-0] CustomerClientController - Class Cast exception: class java.lang.String cannot be cast to class java.lang.Boolean (java.lang.String and java.lang.Boolean are in module java.base of loader 'bootstrap')
+[INFO ] 2023-11-17 12:44:06.141 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-17 12:44:07.769 [main] Login - Login Components initialized
+[INFO ] 2023-11-17 12:44:07.771 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-17 12:44:07.773 [main] Login - Panel added to Frame
+[INFO ] 2023-11-17 12:44:08.604 [main] Login - Window Prperties set
+[INFO ] 2023-11-17 12:44:08.621 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-17 12:44:08.622 [main] Login - Login Page created
+[INFO ] 2023-11-17 12:44:08.647 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-17 12:44:08.678 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-17 12:44:08.678 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-17 12:44:17.122 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:44:17.123 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-17 12:44:20.039 [AWT-EventQueue-0] Customer - Customer ID returned
+[INFO ] 2023-11-17 12:44:20.048 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-17 12:44:20.380 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-17 12:44:20.390 [AWT-EventQueue-0] DashBoard - Items added to Account and Cart Menus
+[INFO ] 2023-11-17 12:44:20.394 [AWT-EventQueue-0] DashBoard - Account and Cart Menus added to Menu Bar
+[INFO ] 2023-11-17 12:44:20.395 [AWT-EventQueue-0] DashBoard - Tree Structure created
+[INFO ] 2023-11-17 12:44:20.412 [AWT-EventQueue-0] DashBoard - Nodes added to Tree
+[INFO ] 2023-11-17 12:44:20.423 [AWT-EventQueue-0] DashBoard - Components added to Window
+[INFO ] 2023-11-17 12:44:20.466 [AWT-EventQueue-0] DashBoard - Window Properties set
+[INFO ] 2023-11-17 12:44:20.470 [AWT-EventQueue-0] DashBoard - Customer Dashboard created
+[INFO ] 2023-11-17 12:44:20.471 [AWT-EventQueue-0] CustomerClientController - Customer logged in, Dashboard displayed
+[INFO ] 2023-11-17 12:44:29.514 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:44:32.897 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:44:38.793 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:44:40.476 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:44:42.351 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:46:43.916 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:46:44.632 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:46:46.381 [AWT-EventQueue-0] Equipment - Equipment Name returned
+[INFO ] 2023-11-17 12:46:46.381 [AWT-EventQueue-0] Equipment - Equipment Status returned
+[INFO ] 2023-11-17 12:46:46.381 [AWT-EventQueue-0] Equipment - Equipment Rental Rate returned
+[INFO ] 2023-11-17 12:46:46.381 [AWT-EventQueue-0] Equipment - Equipment Description returned
+[INFO ] 2023-11-17 12:46:46.381 [AWT-EventQueue-0] Equipment - Equipment Name returned
+[INFO ] 2023-11-17 12:46:46.382 [AWT-EventQueue-0] Equipment - Equipment Status returned
+[INFO ] 2023-11-17 12:46:46.382 [AWT-EventQueue-0] Equipment - Equipment Rental Rate returned
+[INFO ] 2023-11-17 12:46:46.382 [AWT-EventQueue-0] Equipment - Equipment Description returned
+[INFO ] 2023-11-17 12:46:46.382 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:47:27.199 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:47:28.277 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:47:29.144 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:47:30.853 [AWT-EventQueue-0] Equipment - Equipment Name returned
+[INFO ] 2023-11-17 12:47:30.853 [AWT-EventQueue-0] Equipment - Equipment Status returned
+[INFO ] 2023-11-17 12:47:30.853 [AWT-EventQueue-0] Equipment - Equipment Rental Rate returned
+[INFO ] 2023-11-17 12:47:30.854 [AWT-EventQueue-0] Equipment - Equipment Description returned
+[INFO ] 2023-11-17 12:47:30.855 [AWT-EventQueue-0] Equipment - Equipment Name returned
+[INFO ] 2023-11-17 12:47:30.856 [AWT-EventQueue-0] Equipment - Equipment Status returned
+[INFO ] 2023-11-17 12:47:30.856 [AWT-EventQueue-0] Equipment - Equipment Rental Rate returned
+[INFO ] 2023-11-17 12:47:30.856 [AWT-EventQueue-0] Equipment - Equipment Description returned
+[INFO ] 2023-11-17 12:47:30.857 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-17 12:50:14.172 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-17 12:50:15.234 [main] Login - Login Components initialized
+[INFO ] 2023-11-17 12:50:15.236 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-17 12:50:15.237 [main] Login - Panel added to Frame
+[INFO ] 2023-11-17 12:50:16.078 [main] Login - Window Prperties set
+[INFO ] 2023-11-17 12:50:16.103 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-17 12:50:16.103 [main] Login - Login Page created
+[INFO ] 2023-11-17 12:50:16.130 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-17 12:50:16.146 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-17 12:50:16.147 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-17 12:50:23.602 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:50:23.605 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-17 12:50:26.248 [AWT-EventQueue-0] Customer - Customer ID returned
+[INFO ] 2023-11-17 12:50:26.253 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-17 12:50:26.552 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-17 12:50:26.565 [AWT-EventQueue-0] DashBoard - Items added to Account and Cart Menus
+[INFO ] 2023-11-17 12:50:26.567 [AWT-EventQueue-0] DashBoard - Account and Cart Menus added to Menu Bar
+[INFO ] 2023-11-17 12:50:26.568 [AWT-EventQueue-0] DashBoard - Tree Structure created
+[INFO ] 2023-11-17 12:50:26.590 [AWT-EventQueue-0] DashBoard - Nodes added to Tree
+[INFO ] 2023-11-17 12:50:26.599 [AWT-EventQueue-0] DashBoard - Components added to Window
+[INFO ] 2023-11-17 12:50:26.636 [AWT-EventQueue-0] DashBoard - Window Properties set
+[INFO ] 2023-11-17 12:50:26.642 [AWT-EventQueue-0] DashBoard - Customer Dashboard created
+[INFO ] 2023-11-17 12:50:26.642 [AWT-EventQueue-0] CustomerClientController - Customer logged in, Dashboard displayed
+[INFO ] 2023-11-17 12:50:30.296 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-17 12:50:32.227 [AWT-EventQueue-0] Equipment - Equipment Name returned
+[INFO ] 2023-11-17 12:50:32.228 [AWT-EventQueue-0] Equipment - Equipment Status returned
+[INFO ] 2023-11-17 12:50:32.228 [AWT-EventQueue-0] Equipment - Equipment Rental Rate returned
+[INFO ] 2023-11-17 12:50:32.228 [AWT-EventQueue-0] Equipment - Equipment Description returned
+[INFO ] 2023-11-17 12:50:32.228 [AWT-EventQueue-0] Equipment - Equipment Name returned
+[INFO ] 2023-11-17 12:50:32.228 [AWT-EventQueue-0] Equipment - Equipment Status returned
+[INFO ] 2023-11-17 12:50:32.229 [AWT-EventQueue-0] Equipment - Equipment Rental Rate returned
+[INFO ] 2023-11-17 12:50:32.229 [AWT-EventQueue-0] Equipment - Equipment Description returned
+[INFO ] 2023-11-17 12:50:32.231 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
