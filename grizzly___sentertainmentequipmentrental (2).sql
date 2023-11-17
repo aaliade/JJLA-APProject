@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 16, 2023 at 11:39 PM
+-- Generation Time: Nov 17, 2023 at 03:50 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -149,7 +149,8 @@ CREATE TABLE `receipt` (
 
 CREATE TABLE `transaction` (
   `receiptNum` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `equipID` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
+  `equipID` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `custID` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -241,8 +242,10 @@ ALTER TABLE `receipt`
 -- Indexes for table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`receiptNum`,`equipID`),
-  ADD KEY `equipFK` (`equipID`);
+  ADD PRIMARY KEY (`receiptNum`,`equipID`,`custID`),
+  ADD KEY `equipFK` (`equipID`),
+  ADD KEY `custFK2` (`custID`),
+  ADD KEY `receiptNum` (`receiptNum`);
 
 --
 -- Indexes for table `user`
@@ -290,8 +293,9 @@ ALTER TABLE `message`
 -- Constraints for table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD CONSTRAINT `equipFK` FOREIGN KEY (`equipID`) REFERENCES `equipment` (`equipID`),
-  ADD CONSTRAINT `receiptFK` FOREIGN KEY (`receiptNum`) REFERENCES `receipt` (`receiptNum`);
+  ADD CONSTRAINT `custFK2` FOREIGN KEY (`custID`) REFERENCES `customer` (`custID`),
+  ADD CONSTRAINT `equipFK2` FOREIGN KEY (`equipID`) REFERENCES `equipment` (`equipID`),
+  ADD CONSTRAINT `receiptFK2` FOREIGN KEY (`receiptNum`) REFERENCES `receipt` (`receiptNum`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
