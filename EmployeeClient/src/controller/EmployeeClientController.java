@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JFrame;
@@ -25,7 +27,7 @@ public class EmployeeClientController {
 	private static final Logger logger = LogManager.getLogger(EmployeeClientController.class);
 	
 	private Socket connectionSocket;
-	private static ObjectOutputStream objOs;
+	private ObjectOutputStream objOs;
 	private ObjectInputStream objIs;
 	private String action;
 
@@ -38,10 +40,8 @@ public class EmployeeClientController {
 	private DashBoard DashboardView;
 	
 	
-	
 	public EmployeeClientController() {
 		this.loginView = new Login(this);
-		
 		this.createConnection();
 		this.configureStreams();
 		logger.info("Employee Client initialized");
@@ -60,8 +60,9 @@ public class EmployeeClientController {
 	
 	private void configureStreams() {
 		try {
-			objIs = new ObjectInputStream(connectionSocket.getInputStream());
-			objOs = new ObjectOutputStream(connectionSocket.getOutputStream());
+			this.objOs = new ObjectOutputStream(connectionSocket.getOutputStream());
+			this.objIs = new ObjectInputStream(connectionSocket.getInputStream());
+			
 			logger.info("Employee Client streams initialized");
 		} catch(IOException ex) {
 			ex.printStackTrace();
@@ -105,8 +106,19 @@ public class EmployeeClientController {
 		logger.info("Page cleared");
 	}
 	
-	public boolean CreateEmployeeObject(int empID, String empRole, Date hireDate, String username, String password, String firstName, String lastName, String phone, String email,
+	public boolean CreateEmployeeObject(int empID, String empRole, int day,int month, int year, String username, String password, String firstName, String lastName, String phone, String email,
 			String address, String usertype){
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
+		Date hireDate = null;
+		try {
+			hireDate = dateFormat.parse(dateString);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		Employee addemployee = new Employee( empID,  empRole,  hireDate,  username,  password,  firstName,  lastName,  phone,  email, address,  usertype);
 		
 		sendAction("Add Employee");
@@ -115,7 +127,7 @@ public class EmployeeClientController {
 		System.out.println("Object sent");
 		receiveResponse();
 		System.out.println("Response recieved");
-		closeConnection();
+//		closeConnection();
 		return true;
 	}
 	
@@ -245,5 +257,9 @@ public class EmployeeClientController {
 		} catch (IOException ex) {
 			logger.error("Failed to recieve response: " + ex.getMessage());
 		}
+	}
+	
+	public static void main(String[] args) {
+		new EmployeeClientController();
 	}
 }
