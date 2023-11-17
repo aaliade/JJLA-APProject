@@ -126,24 +126,40 @@ public class Equipment{
 		return "Equipment ID" + equipID + "Equipment Name" + equipName + "Description" + description + "Status" + status + "Rental Rate" + rentalRate;	
 	}
 	
-	public void selectAll() {
+	public Equipment[] selectAll() {
         String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment;";
-
+        Equipment[] equip = null;
         try {
-            stmt = dbConn.createStatement();
+        	stmt = dbConn.createStatement();
             result = stmt.executeQuery(sql);
-
-            while (result.next()) {
-                int equipID = result.getInt("equipID");
-                String equipName = result.getString("equipName");
-                String description = result.getString("description");
-                String category = result.getString("catgeory");
-                boolean status = result.getBoolean("status");
-                double rentalRate = result.getInt("rentalRate");
-
-                System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
-                        "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
+        	int count = 0;
+        	while (result.next()) {
+                count++;
             }
+        	//Records Found
+        	if(count>0) {
+        		equip = new Equipment[count]; //initialize array
+                int i = 0; //tracker
+                while (result.next()) {
+                    int equipID = result.getInt("equipID");
+                    String equipName = result.getString("equipName");
+                    String description = result.getString("description");
+                    String category = result.getString("catgeory");
+                    boolean status = result.getBoolean("status");
+                    double rentalRate = result.getInt("rentalRate");
+
+                    System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
+                            "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
+                    equip[i].setCategory(category);
+                    equip[i].setcategoryName(category);
+                    equip[i].setdescription(description);
+                    equip[i].setequipID(equipID);
+                    equip[i].setequipName(equipName);
+                    equip[i].setrentalRate(rentalRate);
+                    equip[i].setstatus(status);
+                    i++;
+                }
+        	}
         } catch (SQLException e) {
             System.err.println("SQL Exception: " + e.getMessage());
             logger.error("SQL Exception while selecting equipments: " + e.getMessage());
@@ -156,6 +172,7 @@ public class Equipment{
                 logger.error("Error while closing statement/result: " + e.getMessage());
             }
         }
+        return equip;
     }
 
 	public void selectAvailableEquipmentByCategory(String category) {
