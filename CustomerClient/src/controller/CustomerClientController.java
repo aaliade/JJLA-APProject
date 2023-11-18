@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,6 +45,8 @@ public class CustomerClientController {
 	private Login loginView;
 	private SignUp signupView;
 	private DashBoard DashboardView;
+	
+	private boolean Deleted;
 
 	public CustomerClientController() {
 		this.loginView = new Login(this);
@@ -120,7 +124,6 @@ public class CustomerClientController {
 
 	public boolean SearchCustomer(String username) {
 		customer = null;
-
 		sendAction("Find Customer");
 		findCustomer(username);
 		receiveResponse();
@@ -178,6 +181,10 @@ public class CustomerClientController {
 			logger.error("Customer Message failed to be sent: " + ex.getMessage());
 		}
 	}
+	
+	public boolean GetDeleteStatus() {
+		return this.Deleted;
+	}
 
 	public void receiveResponse() {
 		try {
@@ -216,6 +223,40 @@ public class CustomerClientController {
 							"Equipment Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Customer not found from database");
 				}
+			}if (action.equalsIgnoreCase("Get Equipment By Category")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Equipment were successfully found of this category in database",
+							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					equipmentList = null;
+					equipmentList = (Equipment[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Equipment was found in database by this category, Will Update Shortly",
+							"Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Customer not found from database");
+				}
+			}if (action.equalsIgnoreCase("Update Customer")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Customer successfully Updated",
+							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Failed To Update User",
+							"Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Customer not found from database");
+				}
+			}if (action.equalsIgnoreCase("Delete Customer")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Customer successfully Deleted",
+							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					this.Deleted = true;
+				} else {
+					JOptionPane.showMessageDialog(null, "Failed To Delete User",
+							"Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Customer not found from database");
+					this.Deleted = false;
+				}
 			}
 		} catch (ClassCastException ex) {
 			ex.printStackTrace();
@@ -233,8 +274,45 @@ public class CustomerClientController {
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
+		
 	}
+	
+	public void getEquipmentsFromDatabaseByCategory(String category) {
+		sendAction("Get Equipment By Category");
+		System.out.println("Action sent");
+		sendAction(category);
+		System.out.println("Category sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
 
+	public void UpdateCustomerObject(String addressField, String emailField, String  firstNameField, 
+			String lastNameField, String passwordField, String phoneField, String usernameField) {
+		if(!addressField.isEmpty()) {
+			customer.setAddress(addressField);
+		}if(!emailField.isEmpty()) {
+			customer.setEmail(emailField);
+		}if(!firstNameField.isEmpty()) {
+			customer.setFirstName(firstNameField);
+		}if(!lastNameField.isEmpty()) {
+			customer.setLastName(lastNameField);
+		}if(!passwordField.isEmpty()) {
+			customer.setPassword(passwordField);
+		}if(!phoneField.isEmpty()) {
+			customer.setPhone(phoneField);
+		}if(!usernameField.isEmpty()) {
+			customer.setUsername(usernameField);
+		}
+		
+		sendAction("Update Customer");
+		System.out.println("Action sent");
+		sendCustomer(customer);
+		System.out.println("Object sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
 	public boolean CreateCustomerObject(String username, String password, String firstName, String lastName,
 			String phone, String address, String email, String usertype, int custID, float accountBalance) {
 		Customer customer = new Customer(username, password, firstName, lastName, phone, address, email, usertype,
@@ -247,7 +325,28 @@ public class CustomerClientController {
 		System.out.println("Response recieved");
 		return true;
 	}
-
+	public void DeleteUser() {
+		sendAction("Delete Customer");
+		System.out.println("Action sent");
+		sendCustomer(customer);
+		System.out.println("Object sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	public void setCustomerInfo(JLabel custIDLabel, JLabel accountBalanceLabel, JLabel addressLabel,
+			JLabel emailLabel,JLabel firstNameLabel, JLabel lastNameLabel, JLabel phoneLabel,
+			JLabel userTypeLabel, JLabel usernameLabel) {
+		custIDLabel.setText("Cutomer ID: " + Integer.toString(customer.getCustID()));
+		accountBalanceLabel.setText ("Account Balance: " + Float.toString(customer.getAccountBalance()));
+		addressLabel.setText("Address: " + customer.getAddress());
+		emailLabel.setText("Email: " +customer.getEmail());
+		firstNameLabel.setText("First Name: " + customer.getFirstName());
+		lastNameLabel.setText("Last Name: " +customer.getLastName());
+		phoneLabel.setText("Phone: " + customer.getPhone());
+		userTypeLabel.setText("User Type: " +customer.getUserType());
+		usernameLabel.setText("Username: " + customer.getUsername());
+	}
+	
 	public int getCurrentEquipmentCount() {
 		return equipmentList.length;
 	}
@@ -256,7 +355,6 @@ public class CustomerClientController {
 		Vector<Object> row = new Vector<>();
 		System.out.println("Index: " + index);
 		row.add(equipmentList[index].getequipID());
-
 		row.add(equipmentList[index].getequipName());
 		row.add(equipmentList[index].getCategory());
 		row.add(equipmentList[index].getrentalRate());

@@ -139,7 +139,24 @@ public class Server {
 									ObjOS.writeObject(searchCust.findCustomer(action));
 									logger.info("Found customer by username");
 								}
-							}else if(action.equals("Get Equipment")) {
+							}else if (action.equals("Update Customer")) { // Reading an int representing custID from the Object Input Stream and finding the customer
+								Customer updateCust = (Customer) ObjIS.readObject();
+								if(updateCust.update(updateCust)) {
+									ObjOS.writeObject(true);
+								}else {
+									ObjOS.writeObject(false);
+									logger.info("Updated customer by with hibernate");
+								}
+							}else if (action.equals("Delete Customer")) { // Reading an int representing custID from the Object Input Stream and finding the customer
+								Customer deleteCust = (Customer) ObjIS.readObject();
+								if(deleteCust.delete(deleteCust)) {
+									ObjOS.writeObject(true);
+								}else {
+									ObjOS.writeObject(false);
+									logger.info("Updated customer by with hibernate");
+								}
+							}
+							else if(action.equals("Get Equipment")) {
 								Equipment defaulEquip = new Equipment();
 								Equipment[] equipmentList = defaulEquip.selectAll();
 								if(equipmentList == null) {
@@ -147,6 +164,19 @@ public class Server {
 								}else {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(equipmentList);
+									ObjOS.flush();
+									logger.info("Found equipments in database");
+								}
+							}else if(action.equals("Get Equipment By Category")) {
+								String category = (String)  ObjIS.readObject();
+								Equipment defaulEquip = new Equipment();
+								Equipment[] equipmentList = defaulEquip.selectEquipmentByCategory(category);
+								if(equipmentList == null) {
+									ObjOS.writeObject(false);
+								}else {
+									ObjOS.writeObject(true);
+									ObjOS.writeObject(equipmentList);
+									ObjOS.flush();
 									logger.info("Found equipments in database");
 								}
 							}

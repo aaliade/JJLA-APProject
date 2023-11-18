@@ -125,26 +125,34 @@ public class Equipment implements Serializable{
         	stmt = dbConn.createStatement();
             result = stmt.executeQuery(sql);
             int count = 0;
-            while(result.next()) {
-            	count++;
-            }
-            result.close();
-            result = stmt.executeQuery(sql);
-            equipmentList = new  Equipment[count];
-            int i = 0;
-            while (result.next()) {
-                    String equipID = result.getString("equipID");
-                    String equipName = result.getString("equipName");
-                    String description = result.getString("description");
-                    String category = result.getString("category");
-                    boolean status = result.getBoolean("status");
-                    double rentalRate = result.getDouble("rentalRate");
-
-                    System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
-                            "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
-                    equipmentList[i] = new Equipment(equipID, equipName,description,status, category, rentalRate); //initialize object
-                    i++;
+            
+            //If it checks and doesnt have a next in beginning 
+            if(!result.next()) {
+            	equipmentList = null;
+            }else{
+            	result.close();
+                result = stmt.executeQuery(sql);
+                while(result.next()) {
+                	count++;
                 }
+                result.close();
+                result = stmt.executeQuery(sql);
+                equipmentList = new  Equipment[count];
+                int i = 0;
+                while (result.next()) {
+                        String equipID = result.getString("equipID");
+                        String equipName = result.getString("equipName");
+                        String description = result.getString("description");
+                        String category = result.getString("category");
+                        boolean status = result.getBoolean("status");
+                        double rentalRate = result.getDouble("rentalRate");
+
+                        System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
+                                "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category + "\nRental Rate: " + rentalRate + "\n");
+                        equipmentList[i] = new Equipment(equipID, equipName,description,status, category, rentalRate); //initialize object
+                        i++;
+                    }
+            }
         } catch (SQLException e) {
             System.err.println("SQL Exception: " + e.getMessage());
             logger.error("SQL Exception while selecting equipments: " + e.getMessage());
@@ -160,36 +168,55 @@ public class Equipment implements Serializable{
         return equipmentList;
     }
 
-	public void selectAvailableEquipmentByCategory(String category) {
+	public Equipment[] selectEquipmentByCategory(String category) {
 		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment WHERE category = '" + category + "';";
+		Equipment[] equipmentList = null;
+        try {
+        	stmt = dbConn.createStatement();
+            result = stmt.executeQuery(sql);
+            int count = 0;
+            
+            //If it checks and doesnt have a next in beginning 
+            if(!result.next()) {
+            	equipmentList = null;
+            	System.out.println("Nothing Is Here");
+            }else{
+            	result.close();
+                result = stmt.executeQuery(sql);
+                while(result.next()) {
+                	count++;
+                }
+                result.close();
+                result = stmt.executeQuery(sql);
+                equipmentList = new  Equipment[count];
+                int i = 0;
+                while (result.next()) {
+                        String equipID = result.getString("equipID");
+                        String equipName = result.getString("equipName");
+                        String description = result.getString("description");
+                        String Equipcategory = result.getString("category");
+                        boolean status = result.getBoolean("status");
+                        double rentalRate = result.getDouble("rentalRate");
 
-	    try {
-	        stmt = dbConn.createStatement();
-	        result = stmt.executeQuery(sql);
-
-	        while (result.next()) {
-                int equipID = result.getInt("equipID");
-                String equipName = result.getString("equipName");
-                String description = result.getString("description");
-                boolean status = result.getBoolean("status");
-                String category1 = result.getString("catgeory");
-                double rentalRate = result.getDouble("rentalRate");
-
-                System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
-                        "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + category1 + "\nRental Rate: " + rentalRate + "\n");
+                        System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
+                                "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + Equipcategory + "\nRental Rate: " + rentalRate + "\n");
+                        equipmentList[i] = new Equipment(equipID, equipName,description,status, Equipcategory, rentalRate); //initialize object
+                        i++;
+                    }
             }
-	    } catch (SQLException e) {
-	        System.err.println("SQL Exception: " + e.getMessage());
-	        logger.error("SQL Exception while selecting available equipment: " + e.getMessage());
-	    } finally {
-	        try {
-	            stmt.close();
-	            result.close();
-	        } catch (SQLException e) {
-	            System.err.println("Error while closing statement/result: " + e.getMessage());
-	            logger.error("Error while closing statement/result: " + e.getMessage());
-	        }
-	    }
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            logger.error("SQL Exception while selecting equipments: " + e.getMessage());
+        } finally {
+            try {
+                stmt.close();
+                result.close();
+            } catch (SQLException e) {
+                System.err.println("Error while closing statement/result: " + e.getMessage());
+                logger.error("Error while closing statement/result: " + e.getMessage());
+            }
+        }
+        return equipmentList;
 	}
 	
 	public void insert(int equipID, String equipName, String description, boolean status, String category, int rentalRate) {

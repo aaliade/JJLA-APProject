@@ -1,19 +1,25 @@
 package views;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.event.TreeSelectionEvent;
@@ -29,7 +35,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import controller.CustomerClientController;
 
-
 public class DashBoard {
 	private JFrame frame;
 	private JMenuBar menuBar;
@@ -40,20 +45,18 @@ public class DashBoard {
 	private JMenuItem viewProfile, updateProfile, deleteProfile, Logout, viewCart;
 
 	private JTree treeView;
-	//Main TreeNode
+	// Main TreeNode
 	private DefaultMutableTreeNode dashBoardNode;
-	//SubTree Nodes Level 2
-	private DefaultMutableTreeNode homeNode, veiwEquipmentNode, pastTransactionNode, messageNode; 
-	//SubTree Nodes Level 3
-	private DefaultMutableTreeNode stagingNode, lightingNode, powerNode, soundNode, inboxNode, composeNode, recieptsNode, 
-	invoiceNode;
+	// SubTree Nodes Level 2
+	private DefaultMutableTreeNode homeNode, veiwEquipmentNode, pastTransactionNode, messageNode;
+	// SubTree Nodes Level 3
+	private DefaultMutableTreeNode inboxNode, composeNode, recieptsNode, invoiceNode;
 
 	private JPanel dashBoardPanel, viewPanel;
 
 	private JTable equipmentTable;
 
 	private JLabel welcomeLabel;
-
 
 	private CustomerClientController Dashboardcontroller;
 
@@ -62,7 +65,7 @@ public class DashBoard {
 		this.frame = Frame;
 
 		this.initializeComponents();
-		//addMenuItemsToPopup();
+		// addMenuItemsToPopup();
 		this.addMenuItemsToMenu();
 		this.addMenusToMenuBar();
 		this.createTreeStructure();
@@ -74,66 +77,61 @@ public class DashBoard {
 	}
 
 	public void initializeComponents() {
-		//frame.setLayout(new GridLayout(1,2));
+		frame.setLayout(new GridLayout(1, 1));
 		menuBar = new JMenuBar();
 
-		//Menu Items and Mnemonic for each
+		// Menu Items and Mnemonic for each
 		cart = new JMenu("Cart");
 		cart.setMnemonic('A');
 		account = new JMenu("Account");
 		account.setMnemonic('X');
 
-		//Menu Items For MenuBar
+		// Menu Items For MenuBar
 		viewProfile = new JMenuItem("View Profile");
 		updateProfile = new JMenuItem("Update Profile");
 		deleteProfile = new JMenuItem("Delete Profile");
 		Logout = new JMenuItem("Logout");
-		viewCart  = new JMenuItem("View Cart");
+		viewCart = new JMenuItem("View Cart");
 
-		//Two view Panels in the window
+		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
 		viewPanel = new JPanel();
 
-		//Nodes for Jtree
+		// Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
-		homeNode = new DefaultMutableTreeNode("Home");  
+		homeNode = new DefaultMutableTreeNode("Home");
 		veiwEquipmentNode = new DefaultMutableTreeNode("Equipment");
 		pastTransactionNode = new DefaultMutableTreeNode("Transactions");
 		messageNode = new DefaultMutableTreeNode("Message");
-
-		stagingNode = new DefaultMutableTreeNode("Staging");
-		lightingNode = new DefaultMutableTreeNode("Light");
-		powerNode = new DefaultMutableTreeNode("Power");
-		soundNode = new DefaultMutableTreeNode("Sound");
 		inboxNode = new DefaultMutableTreeNode("Inbox");
 		composeNode = new DefaultMutableTreeNode("Compose");
 		recieptsNode = new DefaultMutableTreeNode("Reciepts");
 		invoiceNode = new DefaultMutableTreeNode("Invoice");
 
-		//Welcome Label
-		welcomeLabel = new JLabel("<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
-				+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>", SwingConstants.CENTER);
+		// Welcome Label
+		welcomeLabel = new JLabel(
+				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
+						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
+				SwingConstants.CENTER);
 		welcomeLabel.setVerticalAlignment(JLabel.TOP);
 		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
 		welcomeLabel.setPreferredSize(new Dimension(600, 600));
 		welcomeLabel.setForeground(new Color(120, 90, 40));
 		welcomeLabel.setBackground(new Color(100, 20, 70));
 
+		equipmentTable = new JTable();
 
+		// Properties p = new Properties();
+		// p.put("text.today", "Today");
+		// p.put("text.month", "Month");
+		// p.put("text.year", "Year");
 
+		// model = new UtilDateModel();
+		// datePanel = new JDatePanelImpl(model,p);
+		// datePicker = new JDatePickerImpl(datePanel, null);
 
-
-		//		Properties p = new Properties();
-		//		p.put("text.today", "Today");
-		//		p.put("text.month", "Month");
-		//		p.put("text.year", "Year");
-
-		//		model = new UtilDateModel();
-		//		datePanel = new JDatePanelImpl(model,p);
-		//		datePicker = new JDatePickerImpl(datePanel, null);
-
-		//This should be in the add components to panel method
-		//		panels[4].add(datePicker);
+		// This should be in the add components to panel method
+		// panels[4].add(datePicker);
 
 		logger.info("Customer Dashboard components initialized");
 	}
@@ -156,17 +154,11 @@ public class DashBoard {
 	}
 
 	public void createTreeStructure() {
-		//Creating First Level
+		// Creating First Level
 		dashBoardNode.add(homeNode);
 		dashBoardNode.add(veiwEquipmentNode);
 		dashBoardNode.add(pastTransactionNode);
 		dashBoardNode.add(messageNode);
-
-		//Creating Second Level
-		veiwEquipmentNode.add(lightingNode);
-		veiwEquipmentNode.add(soundNode);
-		veiwEquipmentNode.add(powerNode);
-		veiwEquipmentNode.add(stagingNode);
 
 		messageNode.add(composeNode);
 		messageNode.add(inboxNode);
@@ -183,10 +175,7 @@ public class DashBoard {
 
 	public void addTreeNodesToTree() {
 		treeView = new JTree(dashBoardNode);
-
-
-		treeView.setSize(100,400);
-
+		treeView.setSize(100, 400);
 		// Remove default JTree icons
 		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
 		renderer.setLeafIcon(null);
@@ -195,8 +184,8 @@ public class DashBoard {
 		logger.info("Nodes added to Tree");
 	}
 
-	public void addComponentsToWindow(){
-		JSplitPane paneSplit = new JSplitPane(SwingConstants.VERTICAL, treeView, viewPanel); 
+	public void addComponentsToWindow() {
+		JSplitPane paneSplit = new JSplitPane(SwingConstants.VERTICAL, treeView, viewPanel);
 		paneSplit.setDividerLocation(200);
 		frame.add(paneSplit);
 		logger.info("Components added to Window");
@@ -213,129 +202,272 @@ public class DashBoard {
 	}
 
 	public void registerListeners() {
+
+		updateProfile.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clearPanel(viewPanel);
+				JPanel[] panels = new JPanel[9];
+				JPanel mainPanel = new JPanel();
+				mainPanel.setLayout(new GridLayout(9, 1));
+
+				for (int i = 0; i < panels.length; i++) {
+					panels[i] = new JPanel();
+				}
+
+				panels[0].setLayout(new GridLayout(1, 1));
+				panels[1].setLayout(new GridLayout(1, 2));
+				panels[2].setLayout(new GridLayout(1, 2));
+				panels[3].setLayout(new GridLayout(1, 2));
+				panels[4].setLayout(new GridLayout(1, 2));
+				panels[5].setLayout(new GridLayout(1, 2));
+				panels[6].setLayout(new GridLayout(1, 2));
+				panels[7].setLayout(new GridLayout(1, 2));
+				panels[8].setLayout(new GridLayout(1, 2));
+
+				JButton cancelBtn, updateBtn;
+
+				JLabel addressLabel, emailLabel, firstNameLabel, lastNameLabel, passwordLabel, phoneLabel,
+						usernameLabel, instructionLabel;
+				JTextField addressField, emailField, firstNameField, lastNameField, passwordField, phoneField,
+						usernameField;
+
+				cancelBtn = new JButton("Cancel");
+				updateBtn = new JButton("Update");
+
+				instructionLabel = new JLabel("Only Enter Data In The Fields You Wish To Update");
+				addressLabel = new JLabel("Address: ");
+				emailLabel = new JLabel("Email: ");
+				firstNameLabel = new JLabel("First Name: ");
+				lastNameLabel = new JLabel("Last Name: ");
+				passwordLabel = new JLabel("Password: ");
+				phoneLabel = new JLabel("Phone: ");
+				usernameLabel = new JLabel("Username: ");
+
+				addressField = new JTextField();
+				emailField = new JTextField();
+				firstNameField = new JTextField();
+				lastNameField = new JTextField();
+				passwordField = new JTextField();
+				phoneField = new JTextField();
+				usernameField = new JTextField();
+
+				panels[0].add(instructionLabel);
+
+				panels[1].add(usernameLabel);
+				panels[1].add(usernameField);
+
+				panels[2].add(firstNameLabel);
+				panels[2].add(firstNameField);
+
+				panels[3].add(lastNameLabel);
+				panels[3].add(lastNameField);
+
+				panels[4].add(passwordLabel);
+				panels[4].add(passwordField);
+
+				panels[5].add(emailLabel);
+				panels[5].add(emailField);
+
+				panels[6].add(phoneLabel);
+				panels[6].add(phoneField);
+
+				panels[7].add(addressLabel);
+				panels[7].add(addressField);
+
+				panels[8].add(cancelBtn);
+				panels[8].add(updateBtn);
+
+				for (int i = 0; i < panels.length; i++) {
+					mainPanel.add(panels[i]);
+				}
+
+				viewPanel.add(mainPanel);
+				updatePanel(viewPanel);
+
+				cancelBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+					}
+				});
+
+				updateBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						int result = JOptionPane.showConfirmDialog(frame,
+								"Are you sure you want to proceed with this update?", "Confirmation",
+								JOptionPane.YES_NO_OPTION);
+						if (result == JOptionPane.YES_OPTION) {
+							Dashboardcontroller.UpdateCustomerObject(addressField.getText(), emailField.getText(),
+									firstNameField.getText(), lastNameField.getText(), passwordField.getText(),
+									phoneField.getText(), usernameField.getText());
+						} else if (result == JOptionPane.NO_OPTION) {
+
+						} else if (result == JOptionPane.CLOSED_OPTION) {
+
+						}
+					}
+				});
+			}
+
+		});
+
+		Logout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Dashboardcontroller.closeConnection();
+				Dashboardcontroller.goBackToLoginPage(frame);
+			}
+		});
+		
+		deleteProfile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(frame,
+						"Are you sure you want to proceed with deleting your profile?", "Confirmation",
+						JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					Dashboardcontroller.DeleteUser();
+					if(Dashboardcontroller.GetDeleteStatus()) {
+						// TODO Auto-generated method stub
+						Dashboardcontroller.closeConnection();
+						Dashboardcontroller.goBackToLoginPage(frame);
+					}
+				}
+			}	
+		});
+		
+		viewProfile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clearPanel(viewPanel);
+				JPanel pan = new JPanel();
+				pan.setLayout(new GridLayout(9, 1));
+
+				JLabel custIDLabel, accountBalanceLabel, addressLabel, emailLabel, firstNameLabel, lastNameLabel,
+						passwordLabel, phoneLabel, userTypeLabel, usernameLabel;
+
+				custIDLabel = new JLabel();
+				accountBalanceLabel = new JLabel();
+				addressLabel = new JLabel();
+				emailLabel = new JLabel();
+				firstNameLabel = new JLabel();
+				lastNameLabel = new JLabel();
+				passwordLabel = new JLabel();
+				phoneLabel = new JLabel();
+				userTypeLabel = new JLabel();
+				usernameLabel = new JLabel();
+
+				Dashboardcontroller.setCustomerInfo(custIDLabel, accountBalanceLabel, addressLabel, emailLabel,
+						firstNameLabel, lastNameLabel, phoneLabel, userTypeLabel, usernameLabel);
+
+				pan.add(userTypeLabel);
+				pan.add(usernameLabel);
+				pan.add(custIDLabel);
+				pan.add(accountBalanceLabel);
+				pan.add(firstNameLabel);
+				pan.add(lastNameLabel);
+				pan.add(emailLabel);
+				pan.add(phoneLabel);
+				pan.add(addressLabel);
+				viewPanel.add(pan);
+				// Add Something to panel
+				updatePanel(viewPanel);
+			}
+		});
+
 		treeView.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent(); //gets the node that was selected
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent(); 
 				String nodeName = node.toString();
 
-				//If home panel is selected
-				if(nodeName.equals("Home")) {
+				if (nodeName.equals("Home")) {
 					clearPanel(viewPanel);
 					viewPanel.add(welcomeLabel);
 					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Equipment")) {
+				} else if (nodeName.equals("Equipment")) {
 					System.out.println("Equipment");
 					clearPanel(viewPanel);
-
 					Dashboardcontroller.getEquipmentsFromDatabase();
-
-					if(Dashboardcontroller.getCurrentEquipmentCount()>0) {
+					if (Dashboardcontroller.getCurrentEquipmentCount() > 0) {
+						JButton[] button = new JButton[Dashboardcontroller.getCurrentEquipmentCount()];
+						
+						for(int i = 0;i<button.length;i++) {
+							button[i] = new JButton("Book Item"); 
+						}
+						
 						System.out.print(Dashboardcontroller.getCurrentEquipmentCount());
-						equipmentTable = new JTable();
-						String column[]={"Name","Category","Rental Rate", "Description"}; 
+						String column[] = { "Name", "Category", "Rental Rate", "Description" };
 						// Create an empty table model with column names
 						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
-						//add model to table
+						// add model to table
 						tableModel.setColumnIdentifiers(column);
 						equipmentTable.setModel(tableModel);
 						equipmentTable.setShowGrid(false);
 						equipmentTable.setBounds(30, 40, 200, 300);
-						
+
 						Vector<Object> row = new Vector<>();
-						for(int i=0;i<Dashboardcontroller.getCurrentEquipmentCount();i++) {
-							 row = Dashboardcontroller.updateEquipmentViewPanel(i);
-							 tableModel.addRow(row);
+						for (int i = 0; i < Dashboardcontroller.getCurrentEquipmentCount(); i++) {
+							row = Dashboardcontroller.updateEquipmentViewPanel(i);
+//							row.add[button[i]];
+							tableModel.addRow(row);
 						}
 						viewPanel.add(equipmentTable);
 					}
-					//Add Something to panel
+					// Add Something to panel
 					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Light")) {
-					System.out.println("Light");
-					clearPanel(viewPanel);
-					//Add Something to panel
-
-					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Sound")) {
-					System.out.println("Sound");
-					clearPanel(viewPanel);
-					//Add Something to panel
-
-					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Power")) {
-					System.out.println("Power");
-					clearPanel(viewPanel);
-					//Add Something to panel
-
-					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Staging")) {
-					System.out.println("Staging");
-					clearPanel(viewPanel);
-					//Add Something to panel
-
-					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Transactions")) {
+				} else if (nodeName.equals("Transactions")) {
 					System.out.println("Transactions");
 					clearPanel(viewPanel);
-					//Add Something to panel
+					// Add Something to panel
 
 					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Invoice")) {
+				} else if (nodeName.equals("Invoice")) {
 					System.out.println("Invoice");
 					clearPanel(viewPanel);
-					//Add Something to panel
+					// Add Something to panel
 
 					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Reciepts")) {
+				} else if (nodeName.equals("Reciepts")) {
 					System.out.println("Reciepts");
 					clearPanel(viewPanel);
-					//Add Something to panel
+					// Add Something to panel
+
+					updatePanel(viewPanel);
+				} else if (nodeName.equals("Message")) {
+					System.out.println("Message");
+					clearPanel(viewPanel);
+					// Add Something to panel
+
+					updatePanel(viewPanel);
+				} else if (nodeName.equals("Inbox")) {
+					System.out.println("Message");
+					clearPanel(viewPanel);
+					// Add Something to panel
+
+					updatePanel(viewPanel);
+				} else if (nodeName.equals("Compose")) {
+					System.out.println("Message");
+					clearPanel(viewPanel);
+					// Add Something to panel
 
 					updatePanel(viewPanel);
 				}
-				if(nodeName.equals("Message")) {
-					System.out.println("Message");
-					clearPanel(viewPanel);
-					//Add Something to panel
-
-					updatePanel(viewPanel);
-				} 
-				if(nodeName.equals("Inbox")) {
-					System.out.println("Message");
-					clearPanel(viewPanel);
-					//Add Something to panel
-
-					updatePanel(viewPanel);
-				}
-				if(nodeName.equals("Compose")) {
-					System.out.println("Message");
-					clearPanel(viewPanel);
-					//Add Something to panel
-
-					updatePanel(viewPanel);
-				} 
 			}
 		});
 
 		/*
-		datePicker.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String date = String.valueOf(model.getDay());
-				System.out.print(date);
-			}
-		});*/
+		 * datePicker.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) { String date =
+		 * String.valueOf(model.getDay()); System.out.print(date); } });
+		 */
 	}
-
 
 	public void clearPanel(JPanel panel) {
 		panel.removeAll();
@@ -343,7 +475,7 @@ public class DashBoard {
 
 	public void updatePanel(JPanel panel) {
 		panel.revalidate();
-		panel.repaint(); 
+		panel.repaint();
 		logger.info("Customer Dashboard Listeners initialized");
 	}
 }
