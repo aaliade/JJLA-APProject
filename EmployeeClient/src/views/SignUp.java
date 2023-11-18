@@ -3,6 +3,7 @@ package views;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -240,6 +241,10 @@ public class SignUp {
 			this.day = Integer.parseInt(hireDayField.getText());
 			this.month = Integer.parseInt(hireMonthField.getText());
 			this.year = Integer.parseInt(hireYearField.getText());
+			
+			if(this.day<1 || this.day>31 || this.month>12 || this.month <1 || this.year>Calendar.getInstance().get(Calendar.YEAR) || this.year<1945) {
+				JOptionPane.showMessageDialog(frame, "Error! please a logical date", "Date Out Of Bounds", JOptionPane.ERROR_MESSAGE);
+			}
 		}catch(NumberFormatException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(frame, "Error please enter an integer", "String Exception Caught", JOptionPane.ERROR_MESSAGE);

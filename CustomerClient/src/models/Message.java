@@ -1,18 +1,20 @@
 package models;
  
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Message {
+public class Message implements Serializable {
+	private static final long serialVersionUID = 1L;
     private String messageID;
     private String senderID;
     private String receiverID;
     private String content;
     private Date timeStamp;
 
-    private static final Logger logger = LogManager.getLogger(Message.class);
+    private transient static final Logger logger = LogManager.getLogger(Message.class);
 
     public Message() { // default constructor
         this.messageID = "";

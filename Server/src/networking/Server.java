@@ -255,6 +255,9 @@ public class Server {
 									ObjOS.writeObject(messageList);
 									logger.info("Found message in database");
 								}
+							}  else if (action.equals("Send Message")) {
+								Message defaulMessage = (Message) ObjIS.readObject();
+								defaulMessage.insertMessage(defaulMessage, dBConn);
 							} 
 
 						} catch (ClassNotFoundException ex) {

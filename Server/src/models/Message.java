@@ -1,5 +1,6 @@
 package models;
  
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,17 +14,18 @@ import org.apache.logging.log4j.Logger;
 
 import factories.DBConnectorFactory;
 
-public class Message {
+public class Message implements Serializable {
+	private static final long serialVersionUID = 1L;
     private String messageID;
     private String senderID;
     private String receiverID;
     private String content;
     private Date timeStamp;
-    private Connection dbConn = null;
-    private Statement stmt = null;
-    private ResultSet result = null;
+    private transient Connection dbConn = null;
+    private transient Statement stmt = null;
+    private transient ResultSet result = null;
 
-    private static final Logger logger = LogManager.getLogger(Message.class);
+    private transient static final Logger logger = LogManager.getLogger(Message.class);
 
     public Message() { // default constructor
         this.messageID = "";
@@ -184,11 +186,12 @@ public class Message {
 		return messageList;
 	}
 
-    public void insertMessage(String senderID, String receiverID, String content) {
-        String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.message (senderID, receiverID, content) VALUES "
-                + "(" + senderID + ", " + receiverID + ", '" + content + "');";
+    public void insertMessage(Message message,Connection Conn) {
+        String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.message (senderID, receiverID, content, timestamp, messageID) VALUES "
+                + "(" + message.getSenderID() + ", " + message.getReceiverID() + ", " + message.getContent() + ",CURRENT_TIMESTAMP, " + message.getMessageID() + ");";
 
         try {
+        	this.dbConn = Conn;
             stmt = dbConn.createStatement();
             int inserted = stmt.executeUpdate(sql);
 

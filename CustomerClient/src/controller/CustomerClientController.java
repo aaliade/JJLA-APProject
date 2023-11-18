@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -102,7 +103,7 @@ public class CustomerClientController {
 		this.signupView = new SignUp(this, frame);
 		logger.info("Sign up page displayed");
 	}
-
+ 
 	public void loginEmployee(JFrame frame) {
 		clearFrame(frame);
 		this.DashboardView = new DashBoard(this, frame);
@@ -179,7 +180,9 @@ public class CustomerClientController {
 		}
 	}
 
-	public void sendMessage(Message message) {
+	public void sendMessage(String messageID, String content) {
+		Message message = new Message(messageID, Integer.toString(customer.getCustID()), ".", content, new Date());
+		sendAction("Send Message");
 		try {
 			objOs.writeObject(message);
 			logger.info("Customer Message sent to Server");

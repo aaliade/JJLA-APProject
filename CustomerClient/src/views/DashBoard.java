@@ -1,17 +1,23 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,8 +28,11 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -132,18 +141,6 @@ public class DashBoard {
 		welcomeLabel.setForeground(new Color(120, 90, 40));
 		welcomeLabel.setBackground(new Color(100, 20, 70));
 
-//		Properties p = new Properties();
-//		p.put("text.today", "Today");
-//		p.put("text.month", "Month");
-//		p.put("text.year", "Year");
-
-//		model = new UtilDateModel();
-//		datePanel = new JDatePanelImpl(model,p);
-//		datePicker = new JDatePickerImpl(datePanel, null);
-
-		// This should be in the add components to panel method
-//		panels[4].add(datePicker);
-
 		logger.info("Customer Dashboard components initialized");
 
 		// Welcome Label
@@ -159,19 +156,6 @@ public class DashBoard {
 		welcomeLabel.setBackground(new Color(100, 20, 70));
 
 		equipmentTable = new JTable();
-
-		// Properties p = new Properties();
-		// p.put("text.today", "Today");
-		// p.put("text.month", "Month");
-		// p.put("text.year", "Year");
-
-		// model = new UtilDateModel();
-		// datePanel = new JDatePanelImpl(model,p);
-		// datePicker = new JDatePickerImpl(datePanel, null);
-
-		// This should be in the add components to panel method
-		// panels[4].add(datePicker);
-
 		logger.info("Customer Dashboard components initialized");
 	}
 
@@ -436,77 +420,91 @@ public class DashBoard {
 					clearPanel(viewPanel);
 					Dashboardcontroller.getEquipmentsFromDatabase();
 					if (Dashboardcontroller.getCurrentEquipmentCount() > 0) {
-						JPanel panelView = new JPanel(new GridLayout(2,1));
-						
+						JPanel panelView = new JPanel(new GridLayout(2, 1));
 						String[] catgegories = { "Lighting", "Stage", "Sound", "Power" };
-
 						
 						@SuppressWarnings("unchecked")
 						JLabel selectCategory = new JLabel("Select Category");
 						JButton sort = new JButton("Sort");
-						
+
 						JComboBox categoryList = new JComboBox(catgegories);
-						//categoryList.setSelectedIndex(1);
-						
-						JPanel split = new JPanel(new GridLayout(3,1));
-						
+
+						JPanel split = new JPanel(new GridLayout(1, 3));
+
 						split.add(selectCategory);
 						split.add(categoryList);
 						split.add(sort);
-						
+
 						panelView.add(split);
-						
+
 						JButton[] button = new JButton[Dashboardcontroller.getCurrentEquipmentCount()];
 						for (int i = 0; i < button.length; i++) {
 							button[i] = new JButton("Book Item");
 						}
 						System.out.print(Dashboardcontroller.getCurrentEquipmentCount());
-						String[] columnNames = {"Name", "Category", "Rental Rate", "Description"};
+						String[] columnNames = { "ID", "Name", "Category", "Rental Rate", "Description" };
 
-				        // Create an empty table model with column names
-				        DefaultTableModel tableModel = new DefaultTableModel(0, 0);
-				        tableModel.setColumnIdentifiers(columnNames);
+						// Create an empty table model with column names
+						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
+						tableModel.setColumnIdentifiers(columnNames);
 
-				        JTable equipmentTable = new JTable(tableModel);
+						JTable equipmentTable = new JTable(tableModel);
 
-				        // Set cell spacing
-				        Dimension dim = new Dimension(20, 1);
-				        equipmentTable.setIntercellSpacing(dim);
+						// Set cell spacing
+						Dimension dim = new Dimension(20, 1);
+						equipmentTable.setIntercellSpacing(dim);
 
-				        // Set up the table header with column names
-				        JTableHeader tableHeader = equipmentTable.getTableHeader();
-				        tableHeader.setFont(new Font("Arial", Font.BOLD, 70)); // Adjust font as needed
+						// Set up the table header with column names
+						JTableHeader tableHeader = equipmentTable.getTableHeader();
+						tableHeader.setFont(new Font("Arial", Font.BOLD, 70)); // Adjust font as needed
 
-				     // Create a TableRowSorter for the JTable
-				        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
-				        equipmentTable.setRowSorter(rowSorter);
-				        
-						
+						// Create a TableRowSorter for the JTable
+						TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
+						equipmentTable.setRowSorter(rowSorter);
+
 						Vector<Object> row = new Vector<>();
 						for (int i = 0; i < Dashboardcontroller.getCurrentEquipmentCount(); i++) {
 							row = Dashboardcontroller.updateEquipmentViewPanel(i);
-//							row.add[button[i]];
 							tableModel.addRow(row);
 						}
-						
+
+						ListSelectionModel selectionModel = equipmentTable.getSelectionModel();
+						selectionModel.addListSelectionListener(new ListSelectionListener() {
+							@Override
+							public void valueChanged(ListSelectionEvent e) {
+								if (!e.getValueIsAdjusting()) {
+									int selectedRow = equipmentTable.getSelectedRow();
+									if (selectedRow != -1) {
+										// Get values from the clicked row
+										String ID = (String) equipmentTable.getValueAt(selectedRow, 0);
+										String Name = (String) equipmentTable.getValueAt(selectedRow, 1);
+										String Category = (String) equipmentTable.getValueAt(selectedRow, 2);
+										Double RentalRate = (Double) equipmentTable.getValueAt(selectedRow, 3);
+										String Description = (String) equipmentTable.getValueAt(selectedRow, 4);
+										ItemInformation(ID, Name, Category,  RentalRate, Description);
+									}
+								}
+							}
+						});
+
 						categoryList.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
-								
+
 							}
 						});
-						
+
 						sort.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
-								String categoryName = (String)categoryList.getSelectedItem();
-								rowSorter.setRowFilter(RowFilter.regexFilter(categoryName));	
+								String categoryName = (String) categoryList.getSelectedItem();
+								rowSorter.setRowFilter(RowFilter.regexFilter(categoryName));
 							}
-							
+
 						});
-						
+
 						panelView.add(equipmentTable);
 						viewPanel.add(panelView);
 					}
@@ -551,13 +549,89 @@ public class DashBoard {
 				}
 			}
 		});
+	}
 
-		/*
-		 * datePicker.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { String date =
-		 * String.valueOf(model.getDay()); System.out.print(date); } });
-		 */
+	public void ItemInformation(String ID, String Name,String Category, Double RentalRate,String Description ) {
+		JInternalFrame internalFrame = new JInternalFrame("Item Information", true, true,true);
+		JButton button = new JButton("Add to Cart");
+		
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
+		
+		
+		 
+		JPanel panel = new JPanel(new GridLayout(7,1));
+		JPanel Datepanel = new JPanel(new GridLayout(1,2));
+		JLabel pickDate = new JLabel("Pick a date you would want the equipment for: ");
+		
+		datePicker.addActionListener(new ActionListener() {
+			  @Override 
+			  public void actionPerformed(ActionEvent e) {
+				  	int day = model.getDay();
+					int month = model.getMonth();
+					int year = model.getYear();
+					
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
+					pickDate.setText(dateString);
+				  } 
+		  });
+		
+		Datepanel.add(pickDate);
+		Datepanel.add(datePicker);
+		
+		panel.add(Datepanel);
+		panel.add( new JLabel("Equipment ID: "+ ID));
+		panel.add(new JLabel("Equipment Name: "+Name));
+		panel.add(new JLabel("Equipment Category: "+Category));
+		panel.add(new JLabel("Rental Rate: "+ Double.toString(RentalRate)));
+		panel.add(new JLabel("Description: "+ Description));
+		panel.add(button);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int day = model.getDay();
+				int month = model.getMonth();
+				int year = model.getYear();
+				
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
+				
+				Date hireDate = null;
+				try {
+					hireDate = dateFormat.parse(dateString);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+					int min = 1000;  
+					int max = 10000;  
+					int MessageID = (int)(Math.random()*(max-min+1)+min);
+					
+					String content = ID + " " + dateString;
+					
+					Dashboardcontroller.sendMessage(Integer.toString(MessageID), content);
+				 
+				
+				
+			}
+			
+		});
+		
+		internalFrame.setSize(100, 100); 
+		internalFrame.setVisible(true);
+		
+		internalFrame.add(panel);
+		frame.add(internalFrame);
 	}
 
 	public void clearPanel(JPanel panel) {
