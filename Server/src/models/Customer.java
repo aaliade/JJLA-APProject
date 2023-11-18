@@ -139,7 +139,7 @@ public class Customer extends User implements Serializable { //in order for the 
 		 return customer;
 	}
 
-	public void update() {
+	public boolean update(Customer cust) {
 	    Session session = null;
 	    Transaction transaction = null;
 	    Logger logger = LogManager.getLogger(getClass());
@@ -147,18 +147,23 @@ public class Customer extends User implements Serializable { //in order for the 
 	    try {
 	        session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
 	        transaction = session.beginTransaction();
-	        Customer cust = (Customer) session.get(Customer.class, this.custID);
-	        cust.setAccountBalance(accountBalance);
-	        cust.setCustID(custID);
-	        cust.setFirstName(cust.getFirstName());
-	        cust.setLastName(cust.getLastName());
-	        cust.setAddress(cust.getAddress());
-	        cust.setEmail(cust.getEmail());
-	        cust.setPassword(cust.getPassword());
-	        cust.setPhone(cust.getPhone());
+	        
+	        Customer existingCustomer = (Customer) session.get(Customer.class, cust.getUsername());
+	        
+	        existingCustomer.setAccountBalance(cust.getAccountBalance());
+            existingCustomer.setFirstName(cust.getFirstName());
+            existingCustomer.setLastName(cust.getLastName());
+            existingCustomer.setAddress(cust.getAddress());
+            existingCustomer.setEmail(cust.getEmail());
+            existingCustomer.setPassword(cust.getPassword());
+            existingCustomer.setPhone(cust.getPhone());
 
-	        session.update(cust);
+	        System.out.println(cust.getFirstName());
+	        System.out.println(cust.getLastName());
+	        
+	        session.update(existingCustomer);
 	        transaction.commit();
+	        return true;
 	    } catch (Exception e) {
 	        // Log and handle exceptions
 	        logger.error("Error occurred during update operation", e);
@@ -170,6 +175,39 @@ public class Customer extends User implements Serializable { //in order for the 
 	            session.close();
 	        }
 	    }
+	    return false;
+	}
+	
+	public boolean delete(Customer cust) {
+		Session session = null;
+		Transaction transaction = null;
+		Logger logger = LogManager.getLogger(getClass());
+		try {
+			session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
+			transaction = session.beginTransaction();
+			Customer existingCustomer = (Customer) session.get(Customer.class, cust.getUsername());
+			
+			session.delete(existingCustomer);
+			transaction.commit();
+			return true;
+		} catch (HibernateException e) {
+			// Log and handle HibernateException
+			logger.error("Error occurred while deleting user", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		} catch (Exception e) {
+			// Log and handle other exceptions
+			logger.error("Error occurred while deleting user", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return false;
 	}
 	
 	//read all method is in the user class
