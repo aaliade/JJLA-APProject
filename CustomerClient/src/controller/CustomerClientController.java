@@ -24,7 +24,10 @@ import org.apache.logging.log4j.Logger;
 import models.Customer;
 import models.Employee;
 import models.Equipment;
+import models.Event;
+import models.Invoice;
 import models.Message;
+import models.Receipt;
 import views.DashBoard;
 import views.Login;
 import views.SignUp;
@@ -40,6 +43,10 @@ public class CustomerClientController {
 	// Models
 	private Customer customer = null;
 	private Equipment[] equipmentList;
+	private Invoice[] invoiceList;
+	private Message[] messageList;
+	private Event[] eventList;
+	private Receipt[] receiptList;
 
 	// Views
 	private Login loginView;
@@ -221,7 +228,103 @@ public class CustomerClientController {
 				} else {
 					JOptionPane.showMessageDialog(null, "No Equipment was found in database, Will Update Shortly",
 							"Equipment Search", JOptionPane.ERROR_MESSAGE);
-					logger.info("Customer not found from database");
+					logger.info("Equipment not found from database");
+				}
+			}
+			if (action.equalsIgnoreCase("Get Lighting")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Lighting equipment were successfully found in database",
+							"Lighting Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					equipmentList = (Equipment[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Lighting Equipment was found in database, Will Update Shortly",
+							"Lighting Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Lighting Equipment not found from database");
+				}
+			}
+			if (action.equalsIgnoreCase("Get Sound")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Sound equipment were successfully found in database",
+							"Sound Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					equipmentList = (Equipment[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Sound Equipment was found in database, Will Update Shortly",
+							"Sound Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Sound Equipment not found from database");
+				}
+			}
+			if (action.equalsIgnoreCase("Get Power")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Power equipment were successfully found in database",
+							"Power Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					equipmentList = (Equipment[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Power Equipment was found in database, Will Update Shortly",
+							"Power Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Power Equipment not found from database");
+				}
+			}
+			if (action.equalsIgnoreCase("Get Staging")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Staging equipment were successfully found in database",
+							"Staging Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					equipmentList = (Equipment[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Staging Equipment was found in database, Will Update Shortly",
+							"Staging Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Staging Equipment not found from database");
+				}
+			}
+			if (action.equalsIgnoreCase("Get Invoice")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Invoice was successfully found in database",
+							"Invoice Search", JOptionPane.INFORMATION_MESSAGE);
+					invoiceList = (Invoice[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Invoice was found in database, Will Update Shortly",
+							"Invoice Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Invoice not found from database");
+				}
+			}
+			if (action.equalsIgnoreCase("Get Event")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Event was successfully found in database",
+							"Event Search", JOptionPane.INFORMATION_MESSAGE);
+					eventList = (Event[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No event was found in database, Will Update Shortly",
+							"Event Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Event not found from database");
+				}
+			}
+			if (action.equalsIgnoreCase("Get Message")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Message was successfully found in database",
+							"Message Search", JOptionPane.INFORMATION_MESSAGE);
+					messageList = (Message[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Message was found in database, Will Update Shortly",
+							"Message Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Message not found from database");
+				}
+			}
+			if (action.equalsIgnoreCase("Get Receipt")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Receipt was successfully found in database",
+							"Receipt Search", JOptionPane.INFORMATION_MESSAGE);
+					receiptList = (Receipt[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Receipt was found in database, Will Update Shortly",
+							"Receipt Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Receipt not found from database");
 				}
 			}if (action.equalsIgnoreCase("Get Equipment By Category")) {
 				Boolean flag = (Boolean) objIs.readObject();
@@ -286,6 +389,61 @@ public class CustomerClientController {
 		System.out.println("Response recieved");
 	}
 	
+	public void getLightingEquipmentsFromDatabase() {
+		sendAction("Get Lighting");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
+	public void getSoundEquipmentsFromDatabase() {
+		sendAction("Get Sound");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
+	public void getPowerEquipmentsFromDatabase() {
+		sendAction("Get Power");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
+	public void getStagingEquipmentsFromDatabase() {
+		sendAction("Get Staging");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
+	public void getInvoiceFromDatabase() {
+		sendAction("Get Invoice");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
+	public void getEventFromDatabase() {
+		sendAction("Get Event");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
+	public void getMessageFromDatabase() {
+		sendAction("Get Message");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
+	public void getReceiptFromDatabase() {
+		sendAction("Get Receipt");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
 
 	public void UpdateCustomerObject(String addressField, String emailField, String  firstNameField, 
 			String lastNameField, String passwordField, String phoneField, String usernameField) {

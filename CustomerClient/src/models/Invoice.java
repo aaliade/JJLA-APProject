@@ -6,8 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Invoice {
-    private int invoiceNum;
-    private int custID;
+    private String invoiceNum;
+    private String custID;
     private Date rentDate;
     private Date returnDate;
     private double cost;
@@ -15,15 +15,15 @@ public class Invoice {
     private static final Logger logger = LogManager.getLogger(Invoice.class);
 
     public Invoice() {
-        this.invoiceNum = 0;
-        this.custID = 0;
+        this.invoiceNum = "";
+        this.custID = "";
         this.rentDate = new Date();
         this.returnDate = new Date();
         this.cost = 0.0;
         logger.info("Invoice initialized");
     }
 
-    public Invoice(int invoiceNum, int custID, Date rentDate, Date returnDate, double cost) {
+    public Invoice(String invoiceNum, String custID, Date rentDate, Date returnDate, double cost) {
         this.invoiceNum = invoiceNum;
         this.custID = custID;
         this.rentDate = rentDate;
@@ -32,19 +32,19 @@ public class Invoice {
         logger.info("Input accepted, Invoice initialized");
     }
 
-    public int getInvoiceNum() {
+    public String getInvoiceNum() {
         return invoiceNum;
     }
 
-    public void setInvoiceNum(int invoiceNum) {
+    public void setInvoiceNum(String invoiceNum) {
         this.invoiceNum = invoiceNum;
     }
 
-    public int getCustID() {
+    public String getCustID() {
         return custID;
     }
 
-    public void setCustID(int custID) {
+    public void setCustID(String custID) {
         this.custID = custID;
     }
 

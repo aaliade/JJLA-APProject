@@ -14,9 +14,9 @@ import org.apache.logging.log4j.Logger;
 import factories.DBConnectorFactory;
 
 public class Message {
-    private int messageID;
-    private int senderID;
-    private int receiverID;
+    private String messageID;
+    private String senderID;
+    private String receiverID;
     private String content;
     private Date timeStamp;
     private Connection dbConn = null;
@@ -26,16 +26,16 @@ public class Message {
     private static final Logger logger = LogManager.getLogger(Message.class);
 
     public Message() { // default constructor
-        this.messageID = 0;
-        this.senderID = 0;
-        this.receiverID = 0;
+        this.messageID = "";
+        this.senderID = "";
+        this.receiverID = "";
         this.content = "";
         this.timeStamp = new Date();
         logger.info("Message initialized");
         this.dbConn = DBConnectorFactory.getDatabaseConnection();
     }
 
-    public Message(int messageID, int senderID, int receiverID, String content, Date date) { // primary constructor
+    public Message(String messageID, String senderID, String receiverID, String content, Date date) { // primary constructor
         this.messageID = messageID;
         this.senderID = senderID;
         this.receiverID = receiverID;
@@ -45,32 +45,32 @@ public class Message {
     }
 
     // getters and setters
-    public int getMessageID() {
+    public String getMessageID() {
         logger.info("Message ID returned");
         return messageID;
     }
 
-    public void setMessageID(int messageID) {
+    public void setMessageID(String messageID) {
         this.messageID = messageID;
         logger.info("Input accepted, Message ID initialized");
     }
 
-    public int getSenderID() {
+    public String getSenderID() {
         logger.info("Sender ID returned");
         return senderID;
     }
 
-    public void setSenderID(int senderID) {
+    public void setSenderID(String senderID) {
         this.senderID = senderID;
         logger.info("Input accepted, Sender ID initialized");
     }
 
-    public int getReceiverID() {
+    public String getReceiverID() {
         logger.info("Receiver ID returned");
         return receiverID;
     }
 
-    public void setReceiverID(int receiverID) {
+    public void setReceiverID(String receiverID) {
         this.receiverID = receiverID;
         logger.info("Input accepted, Receiver ID initialized");
     }
@@ -102,66 +102,89 @@ public class Message {
                 + " | Content: " + content + " | Date: " + timeStamp;
     }
     
-    public void selectAllMessages() {
-        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.message;";
-
-        try {
-            stmt = dbConn.createStatement();
-            result = stmt.executeQuery(sql);
-
-            while (result.next()) {
-                int messageID = result.getInt("messageID");
-                int senderID = result.getInt("senderID");
-                int receiverID = result.getInt("receiverID");
+    public Message[] selectAllMessages() {
+		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.message;";
+		Message[] messageList = null;
+		try {
+			stmt = dbConn.createStatement();
+			result = stmt.executeQuery(sql);
+			int count = 0;
+			while (result.next()) {
+				count++;
+			}
+			result.close();
+			result = stmt.executeQuery(sql);
+			messageList = new Message[count];
+			int i = 0;
+			while (result.next()) {
+                String messageID = result.getString("messageID");
+                String senderID = result.getString("senderID");
+                String receiverID = result.getString("receiverID");
                 String content = result.getString("content");
                 Date timeStamp = result.getDate("timestamp");
 
                 System.out.println("Message ID: " + messageID + "\nSender ID: " + senderID +
                         "\nReceiver ID: " + receiverID + "\nContent: " + content + "\nTimeStamp: " + timeStamp + "\n");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            logger.error("SQL Exception while selecting messages: " + e.getMessage());
-        } finally {
-        	try {
-				stmt.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement: " + e.getMessage());	
-				logger.error("Error while closing statement: " + e.getMessage());
+                messageList[i] = new Message(messageID, senderID, receiverID, content, timeStamp); // initialize object
+				i++;
 			}
-        }
-    }
+		} catch (SQLException e) {
+			System.err.println("SQL Exception: " + e.getMessage());
+			logger.error("SQL Exception while selecting messages: " + e.getMessage());
+		} finally {
+			try {
+				stmt.close();
+				result.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement/result: " + e.getMessage());
+				logger.error("Error while closing statement/result: " + e.getMessage());
+			}
+		}
+		return messageList;
+	}
     
-    public void selectMessagesBySender(int senderID) {
+    public Message[] selectMessagesBySender(String senderID) {
         String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.message WHERE senderID = " + senderID + ";";
-
-        try {
-            stmt = dbConn.createStatement();
-            result = stmt.executeQuery(sql);
-
-            while (result.next()) {
-                int messageID = result.getInt("messageID");
-                int receiverID = result.getInt("receiverID");
+		Message[] messageList = null;
+		try {
+			stmt = dbConn.createStatement();
+			result = stmt.executeQuery(sql);
+			int count = 0;
+			while (result.next()) {
+				count++;
+			}
+			result.close();
+			result = stmt.executeQuery(sql);
+			messageList = new Message[count];
+			int i = 0;
+			while (result.next()) {
+                String messageID = result.getString("messageID");
+                String senderID1 = result.getString("senderID");
+                String receiverID = result.getString("receiverID");
                 String content = result.getString("content");
                 Date timeStamp = result.getDate("timestamp");
 
-                System.out.println("Message ID: " + messageID + "\nReceiver ID: " + receiverID +
-                        "\nContent: " + content + "\nTimeStamp: " + timeStamp + "\n");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            logger.error("SQL Exception while selecting messages by sender: " + e.getMessage());
-        } finally {
-        	try {
-				stmt.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement: " + e.getMessage());	
-				logger.error("Error while closing statement: " + e.getMessage());
+                System.out.println("Message ID: " + messageID + "\nSender ID: " + senderID +
+                        "\nReceiver ID: " + receiverID + "\nContent: " + content + "\nTimeStamp: " + timeStamp + "\n");
+                messageList[i] = new Message(messageID, senderID, receiverID, content, timeStamp); // initialize object
+				i++;
 			}
-        }
-    }
+		} catch (SQLException e) {
+			System.err.println("SQL Exception: " + e.getMessage());
+			logger.error("SQL Exception while selecting messages by sender: " + e.getMessage());
+		} finally {
+			try {
+				stmt.close();
+				result.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement/result: " + e.getMessage());
+				logger.error("Error while closing statement/result: " + e.getMessage());
+			}
+		}
+		return messageList;
+	}
 
-    public void insertMessage(int senderID, int receiverID, String content) {
+    public void insertMessage(String senderID, String receiverID, String content) {
         String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.message (senderID, receiverID, content) VALUES "
                 + "(" + senderID + ", " + receiverID + ", '" + content + "');";
 
@@ -189,7 +212,7 @@ public class Message {
         }
     }
 
-    public void updateMessage(int messageID, String newContent) {
+    public void updateMessage(String messageID, String newContent) {
         String sql = "UPDATE grizzly’sentertainmentequipmentrental.message SET content = '" + newContent + "' WHERE messageID = " + messageID + ";";
 
         try {
@@ -216,7 +239,7 @@ public class Message {
         }
     }
 
-    public void deleteMessage(int messageID) {
+    public void deleteMessage(String messageID) {
         String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.message WHERE messageID = " + messageID + ";";
 
         try {

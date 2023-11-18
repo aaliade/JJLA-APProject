@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import factories.DBConnectorFactory;
 
 public class Receipt {
-    private int receiptNum;
+    private String receiptNum;
     private String payType;
     private Date payDate;
     private double payAmt;
@@ -25,7 +25,7 @@ public class Receipt {
     private static final Logger logger = LogManager.getLogger(Receipt.class);
 
     public Receipt() {
-        this.receiptNum = 0;
+        this.receiptNum = "";
         this.payType = "";
         this.payDate = new Date();
         this.payAmt = 0.0;
@@ -33,7 +33,7 @@ public class Receipt {
         this.dbConn = DBConnectorFactory.getDatabaseConnection();
     }
 
-    public Receipt(int receiptNum, String payType, Date payDate, double payAmt) {
+    public Receipt(String receiptNum, String payType, Date payDate, double payAmt) {
         this.receiptNum = receiptNum;
         this.payType = payType;
         this.payDate = payDate;
@@ -41,11 +41,11 @@ public class Receipt {
         logger.info("Input accepted, Receipt initialized");
     }
 
-    public int getReceiptNum() {
+    public String getReceiptNum() {
         return receiptNum;
     }
 
-    public void setReceiptNum(int receiptNum) {
+    public void setReceiptNum(String receiptNum) {
         this.receiptNum = receiptNum;
     }
 
@@ -80,63 +80,86 @@ public class Receipt {
                 + " | Payment Amount: " + payAmt;
     }
     
-    public void selectAllReceipts() {
-        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt;";
-
-        try {
-            stmt = dbConn.createStatement();
-            result = stmt.executeQuery(sql);
-
-            while (result.next()) {
-                int receiptNum = result.getInt("receiptNum");
+    public Receipt[] selectAllReceipts() {
+		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt;";
+		Receipt[] receiptList = null;
+		try {
+			stmt = dbConn.createStatement();
+			result = stmt.executeQuery(sql);
+			int count = 0;
+			while (result.next()) {
+				count++;
+			}
+			result.close();
+			result = stmt.executeQuery(sql);
+			receiptList = new Receipt[count];
+			int i = 0;
+			while (result.next()) {
+				String receiptNum = result.getString("receiptNum");
                 String payType = result.getString("payType");
                 Date payDate = result.getDate("payDate");
                 double payAmt = result.getDouble("payAmt");
 
                 System.out.println("Receipt Number: " + receiptNum + "\nPayment Type: " + payType +
                         "\nPayment Date: " + payDate + "\nPayment Amount: " + payAmt + "\n");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            logger.error("SQL Exception while selecting receipts: " + e.getMessage());
-        } finally {
-        	try {
-				stmt.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement: " + e.getMessage());	
-				logger.error("Error while closing statement: " + e.getMessage());
+                receiptList[i] = new Receipt(receiptNum, payType, payDate, payAmt); // initialize object
+				i++;
 			}
-        }
-    }
+		} catch (SQLException e) {
+			System.err.println("SQL Exception: " + e.getMessage());
+			logger.error("SQL Exception while selecting receipt: " + e.getMessage());
+		} finally {
+			try {
+				stmt.close();
+				result.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement/result: " + e.getMessage());
+				logger.error("Error while closing statement/result: " + e.getMessage());
+			}
+		}
+		return receiptList;
+	}
     
-    public void selectReceiptByReceiptID(int receiptNum) {
-        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt WHERE receiptNum = " + receiptNum + ";";
-
-        try {
-            stmt = dbConn.createStatement();
-            result = stmt.executeQuery(sql);
-
-            while (result.next()) {
-                int receiptNumResult = result.getInt("receiptNum");
+    public Receipt[] selectReceiptByReceiptID(String receiptNum) {
+    	String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt WHERE receiptNum = " + receiptNum + ";";
+		Receipt[] receiptList = null;
+		try {
+			stmt = dbConn.createStatement();
+			result = stmt.executeQuery(sql);
+			int count = 0;
+			while (result.next()) {
+				count++;
+			}
+			result.close();
+			result = stmt.executeQuery(sql);
+			receiptList = new Receipt[count];
+			int i = 0;
+			while (result.next()) {
+				String receiptNum1 = result.getString("receiptNum");
                 String payType = result.getString("payType");
                 Date payDate = result.getDate("payDate");
                 double payAmt = result.getDouble("payAmt");
 
-                System.out.println("Receipt Number: " + receiptNumResult + "\nPayment Type: " + payType +
+                System.out.println("Receipt Number: " + receiptNum + "\nPayment Type: " + payType +
                         "\nPayment Date: " + payDate + "\nPayment Amount: " + payAmt + "\n");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            logger.error("SQL Exception while selecting receipts by receipt number: " + e.getMessage());
-        } finally {
-        	try {
-				stmt.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement: " + e.getMessage());	
-				logger.error("Error while closing statement: " + e.getMessage());
+                receiptList[i] = new Receipt(receiptNum, payType, payDate, payAmt); // initialize object
+				i++;
 			}
-        }
-    }
+		} catch (SQLException e) {
+			System.err.println("SQL Exception: " + e.getMessage());
+			logger.error("SQL Exception while selecting receipt by receiptNum: " + e.getMessage());
+		} finally {
+			try {
+				stmt.close();
+				result.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement/result: " + e.getMessage());
+				logger.error("Error while closing statement/result: " + e.getMessage());
+			}
+		}
+		return receiptList;
+	}
+    
     
     public void insertReceipt(String payType, Date payDate, double payAmt) {
         String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.receipt (payType, payDate, payAmt) VALUES "
@@ -166,7 +189,7 @@ public class Receipt {
         }
     }
 
-    public void updateReceipt(int receiptNum, double newPayAmt) {
+    public void updateReceipt(String receiptNum, double newPayAmt) {
         String sql = "UPDATE grizzly’sentertainmentequipmentrental.receipt SET payAmt = " + newPayAmt + " WHERE receiptNum = " + receiptNum + ";";
 
         try {
@@ -193,7 +216,7 @@ public class Receipt {
         }
     }
 
-    public void deleteReceipt(int receiptNum) {
+    public void deleteReceipt(String receiptNum) {
         String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.receipt WHERE receiptNum = " + receiptNum + ";";
 
         try {

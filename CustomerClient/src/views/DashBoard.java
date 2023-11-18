@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,10 +22,13 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.TableView;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -103,9 +107,18 @@ public class DashBoard {
 		veiwEquipmentNode = new DefaultMutableTreeNode("Equipment");
 		pastTransactionNode = new DefaultMutableTreeNode("Transactions");
 		messageNode = new DefaultMutableTreeNode("Message");
+
+		inboxNode = new DefaultMutableTreeNode("Inbox");
+		composeNode = new DefaultMutableTreeNode("Compose");
+		recieptsNode = new DefaultMutableTreeNode("Receipts");
+
+		veiwEquipmentNode = new DefaultMutableTreeNode("Equipment");
+		pastTransactionNode = new DefaultMutableTreeNode("Transactions");
+		messageNode = new DefaultMutableTreeNode("Message");
 		inboxNode = new DefaultMutableTreeNode("Inbox");
 		composeNode = new DefaultMutableTreeNode("Compose");
 		recieptsNode = new DefaultMutableTreeNode("Reciepts");
+
 		invoiceNode = new DefaultMutableTreeNode("Invoice");
 
 		// Welcome Label
@@ -113,6 +126,32 @@ public class DashBoard {
 				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
 						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
 				SwingConstants.CENTER);
+		welcomeLabel.setVerticalAlignment(JLabel.TOP);
+		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+		welcomeLabel.setPreferredSize(new Dimension(600, 600));
+		welcomeLabel.setForeground(new Color(120, 90, 40));
+		welcomeLabel.setBackground(new Color(100, 20, 70));
+
+//		Properties p = new Properties();
+//		p.put("text.today", "Today");
+//		p.put("text.month", "Month");
+//		p.put("text.year", "Year");
+
+//		model = new UtilDateModel();
+//		datePanel = new JDatePanelImpl(model,p);
+//		datePicker = new JDatePickerImpl(datePanel, null);
+
+		// This should be in the add components to panel method
+//		panels[4].add(datePicker);
+
+		logger.info("Customer Dashboard components initialized");
+
+		// Welcome Label
+		welcomeLabel = new JLabel(
+				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
+						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
+				SwingConstants.CENTER);
+
 		welcomeLabel.setVerticalAlignment(JLabel.TOP);
 		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
 		welcomeLabel.setPreferredSize(new Dimension(600, 600));
@@ -176,6 +215,7 @@ public class DashBoard {
 	public void addTreeNodesToTree() {
 		treeView = new JTree(dashBoardNode);
 		treeView.setSize(100, 400);
+
 		// Remove default JTree icons
 		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
 		renderer.setLeafIcon(null);
@@ -323,7 +363,7 @@ public class DashBoard {
 				Dashboardcontroller.goBackToLoginPage(frame);
 			}
 		});
-		
+
 		deleteProfile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -332,15 +372,15 @@ public class DashBoard {
 						JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {
 					Dashboardcontroller.DeleteUser();
-					if(Dashboardcontroller.GetDeleteStatus()) {
+					if (Dashboardcontroller.GetDeleteStatus()) {
 						// TODO Auto-generated method stub
 						Dashboardcontroller.closeConnection();
 						Dashboardcontroller.goBackToLoginPage(frame);
 					}
 				}
-			}	
+			}
 		});
-		
+
 		viewProfile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -381,9 +421,10 @@ public class DashBoard {
 		});
 
 		treeView.addTreeSelectionListener(new TreeSelectionListener() {
+			@SuppressWarnings("rawtypes")
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent(); 
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent();
 				String nodeName = node.toString();
 
 				if (nodeName.equals("Home")) {
@@ -395,29 +436,79 @@ public class DashBoard {
 					clearPanel(viewPanel);
 					Dashboardcontroller.getEquipmentsFromDatabase();
 					if (Dashboardcontroller.getCurrentEquipmentCount() > 0) {
-						JButton[] button = new JButton[Dashboardcontroller.getCurrentEquipmentCount()];
+						JPanel panelView = new JPanel(new GridLayout(2,1));
 						
-						for(int i = 0;i<button.length;i++) {
-							button[i] = new JButton("Book Item"); 
-						}
-						
-						System.out.print(Dashboardcontroller.getCurrentEquipmentCount());
-						String column[] = { "Name", "Category", "Rental Rate", "Description" };
-						// Create an empty table model with column names
-						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
-						// add model to table
-						tableModel.setColumnIdentifiers(column);
-						equipmentTable.setModel(tableModel);
-						equipmentTable.setShowGrid(false);
-						equipmentTable.setBounds(30, 40, 200, 300);
+						String[] catgegories = { "Lighting", "Stage", "Sound", "Power" };
 
+						
+						@SuppressWarnings("unchecked")
+						JLabel selectCategory = new JLabel("Select Category");
+						JButton sort = new JButton("Sort");
+						
+						JComboBox categoryList = new JComboBox(catgegories);
+						//categoryList.setSelectedIndex(1);
+						
+						JPanel split = new JPanel(new GridLayout(3,1));
+						
+						split.add(selectCategory);
+						split.add(categoryList);
+						split.add(sort);
+						
+						panelView.add(split);
+						
+						JButton[] button = new JButton[Dashboardcontroller.getCurrentEquipmentCount()];
+						for (int i = 0; i < button.length; i++) {
+							button[i] = new JButton("Book Item");
+						}
+						System.out.print(Dashboardcontroller.getCurrentEquipmentCount());
+						String[] columnNames = {"Name", "Category", "Rental Rate", "Description"};
+
+				        // Create an empty table model with column names
+				        DefaultTableModel tableModel = new DefaultTableModel(0, 0);
+				        tableModel.setColumnIdentifiers(columnNames);
+
+				        JTable equipmentTable = new JTable(tableModel);
+
+				        // Set cell spacing
+				        Dimension dim = new Dimension(20, 1);
+				        equipmentTable.setIntercellSpacing(dim);
+
+				        // Set up the table header with column names
+				        JTableHeader tableHeader = equipmentTable.getTableHeader();
+				        tableHeader.setFont(new Font("Arial", Font.BOLD, 70)); // Adjust font as needed
+
+				     // Create a TableRowSorter for the JTable
+				        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
+				        equipmentTable.setRowSorter(rowSorter);
+				        
+						
 						Vector<Object> row = new Vector<>();
 						for (int i = 0; i < Dashboardcontroller.getCurrentEquipmentCount(); i++) {
 							row = Dashboardcontroller.updateEquipmentViewPanel(i);
 //							row.add[button[i]];
 							tableModel.addRow(row);
 						}
-						viewPanel.add(equipmentTable);
+						
+						categoryList.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								// TODO Auto-generated method stub
+								
+							}
+						});
+						
+						sort.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								// TODO Auto-generated method stub
+								String categoryName = (String)categoryList.getSelectedItem();
+								rowSorter.setRowFilter(RowFilter.regexFilter(categoryName));	
+							}
+							
+						});
+						
+						panelView.add(equipmentTable);
+						viewPanel.add(panelView);
 					}
 					// Add Something to panel
 					updatePanel(viewPanel);

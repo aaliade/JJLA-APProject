@@ -168,9 +168,11 @@ public class Equipment implements Serializable{
         return equipmentList;
     }
 
-	public Equipment[] selectEquipmentByCategory(String category) {
+
+	public Equipment[] selectAvailableEquipmentByCategory(String category) {
 		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment WHERE category = '" + category + "';";
 		Equipment[] equipmentList = null;
+
         try {
         	stmt = dbConn.createStatement();
             result = stmt.executeQuery(sql);
@@ -219,7 +221,7 @@ public class Equipment implements Serializable{
         return equipmentList;
 	}
 	
-	public void insert(int equipID, String equipName, String description, boolean status, String category, int rentalRate) {
+	public void insert(String equipID, String equipName, String description, boolean status, String category, int rentalRate) {
 		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.equipment (equipID, equipName, description, status, category, rentalRate)"
 	            + "VALUES ('" + equipID + "', '" + equipName + "', '" + description + "', '" + status + "', '" + category + "', '" + rentalRate + "');";
 
@@ -277,7 +279,7 @@ public class Equipment implements Serializable{
 	    }
 	}
 
-	public void delete(int equipId) {
+	public void delete(String equipId) {
 		String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.equipment WHERE equipID = " + equipId + ";";
 
 		try {

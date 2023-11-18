@@ -14,8 +14,8 @@ import org.apache.logging.log4j.Logger;
 import factories.DBConnectorFactory;
 
 public class Invoice {
-    private int invoiceNum;
-    private int custID;
+    private String invoiceNum;
+    private String custID;
     private Date rentDate;
     private Date returnDate;
     private double cost;
@@ -26,8 +26,8 @@ public class Invoice {
     private static final Logger logger = LogManager.getLogger(Invoice.class);
 
     public Invoice() {
-        this.invoiceNum = 0;
-        this.custID = 0;
+        this.invoiceNum = "";
+        this.custID = "";
         this.rentDate = new Date();
         this.returnDate = new Date();
         this.cost = 0.0;
@@ -35,7 +35,7 @@ public class Invoice {
         this.dbConn = DBConnectorFactory.getDatabaseConnection();
     }
 
-    public Invoice(int invoiceNum, int custID, Date rentDate, Date returnDate, double cost) {
+    public Invoice(String invoiceNum, String custID, Date rentDate, Date returnDate, double cost) {
         this.invoiceNum = invoiceNum;
         this.custID = custID;
         this.rentDate = rentDate;
@@ -44,19 +44,19 @@ public class Invoice {
         logger.info("Input accepted, Invoice initialized");
     }
 
-    public int getInvoiceNum() {
+    public String getInvoiceNum() {
         return invoiceNum;
     }
 
-    public void setInvoiceNum(int invoiceNum) {
+    public void setInvoiceNum(String invoiceNum) {
         this.invoiceNum = invoiceNum;
     }
 
-    public int getCustID() {
+    public String getCustID() {
         return custID;
     }
 
-    public void setCustID(int custID) {
+    public void setCustID(String custID) {
         this.custID = custID;
     }
 
@@ -91,52 +91,74 @@ public class Invoice {
                 + " | Return Date: " + returnDate + " | Cost: " + cost;
     }
     
-    public void selectAllInvoices() {
-        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.invoice;";
-
+    public Invoice[] selectAllInvoices() {
+    	String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.invoice;";
+        Invoice[] invoiceList = null;
         try {
-            stmt = dbConn.createStatement();
+        	stmt = dbConn.createStatement();
             result = stmt.executeQuery(sql);
-
+            int count = 0;
+            while(result.next()) {
+            	count++;
+            }
+            result.close();
+            result = stmt.executeQuery(sql);
+            invoiceList = new Invoice[count];
+            int i = 0;
             while (result.next()) {
-                int invoiceNum = result.getInt("invoiceNum");
-                int custID = result.getInt("custID");
+            	String invoiceNum = result.getString("invoiceNum");
+                String custID = result.getString("custID");
                 Date rentDate = result.getDate("rentDate");
                 Date returnDate = result.getDate("returnDate");
                 double cost = result.getDouble("cost");
 
                 System.out.println("Invoice Number: " + invoiceNum + "\nCustomer ID: " + custID +
                         "\nRent Date: " + rentDate + "\nReturn Date: " + returnDate + "\nCost: " + cost + "\n");
-            }
+                    invoiceList[i] = new Invoice(invoiceNum, custID, rentDate, returnDate, cost); //initialize object
+                    i++;
+                }
         } catch (SQLException e) {
             System.err.println("SQL Exception: " + e.getMessage());
             logger.error("SQL Exception while selecting invoices: " + e.getMessage());
         } finally {
-        	try {
-				stmt.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement: " + e.getMessage());	
-				logger.error("Error while closing statement: " + e.getMessage());
-			}
+            try {
+                stmt.close();
+                result.close();
+            } catch (SQLException e) {
+                System.err.println("Error while closing statement/result: " + e.getMessage());
+                logger.error("Error while closing statement/result: " + e.getMessage());
+            }
         }
+        return invoiceList;
     }
-    
-    public void selectInvoiceByInvoiceNum(int invoiceNum) {
-        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.invoice WHERE invoiceNum = " + invoiceNum + ";";
 
+    public Invoice[] selectInvoiceByInvoiceNum(String invoiceNum) {
+        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.invoice WHERE invoiceNum = " + invoiceNum + ";";
+        Invoice[] invoiceList = null;
         try {
             stmt = dbConn.createStatement();
             result = stmt.executeQuery(sql);
-
+            int count = 0;
+            while(result.next()) {
+            	count++;
+            }
+            
+            result.close();
+            result = stmt.executeQuery(sql);
+            invoiceList = new Invoice[count];
+            int i = 0;
+            
             while (result.next()) {
-                int invoiceNumResult = result.getInt("invoiceNum");
-                int custID = result.getInt("custID");
+                String invoiceNumResult = result.getString("invoiceNum");
+                String custID = result.getString("custID");
                 Date rentDate = result.getDate("rentDate");
                 Date returnDate = result.getDate("returnDate");
                 double cost = result.getDouble("cost");
 
                 System.out.println("Invoice Number: " + invoiceNumResult + "\nCustomer ID: " + custID +
                         "\nRent Date: " + rentDate + "\nReturn Date: " + returnDate + "\nCost: " + cost + "\n");
+                invoiceList[i] = new Invoice(invoiceNum, custID, rentDate, returnDate, cost); //initialize object
+                i++;
             }
         } catch (SQLException e) {
             System.err.println("SQL Exception: " + e.getMessage());
@@ -144,18 +166,20 @@ public class Invoice {
         } finally {
         	try {
 				stmt.close();
+				result.close();
 			} catch (SQLException e) {
 				System.err.println("Error while closing statement: " + e.getMessage());	
 				logger.error("Error while closing statement: " + e.getMessage());
 			}
         }
+		return invoiceList;
     }
     
-    public void insertInvoice(int invoiceNum, int custID, Date rentDate, Date returnDate, double cost) {
+    public void insertInvoice(String invoiceNum, String custID, Date rentDate, Date returnDate, double cost) {
         String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.invoice "
                 + "(invoiceNum, custID, rentDate, returnDate, cost) VALUES "
                 + "(" + invoiceNum + ", " + custID + ", '" + rentDate + "', '" + returnDate + "', " + cost + ");";
-
+        
         try {
             stmt = dbConn.createStatement();
             int inserted = stmt.executeUpdate(sql);
@@ -180,7 +204,7 @@ public class Invoice {
         }
     }
 
-    public void updateInvoice(int invoiceNum, double newCost) {
+    public void updateInvoice(String invoiceNum, double newCost) {
         String sql = "UPDATE grizzly’sentertainmentequipmentrental.invoice "
                 + "SET cost = " + newCost + " WHERE invoiceNum = " + invoiceNum + ";";
 
@@ -208,7 +232,7 @@ public class Invoice {
         }
     }
 
-    public void deleteInvoice(int invoiceNum) {
+    public void deleteInvoice(String invoiceNum) {
         String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.invoice WHERE invoiceNum = " + invoiceNum + ";";
 
         try {
