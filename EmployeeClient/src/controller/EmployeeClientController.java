@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import models.Employee;
 import models.Equipment;
 import models.Event;
-
+import models.Message;
 import views.DashBoard;
 import views.Login;
 import views.SignUp;
@@ -32,6 +33,8 @@ public class EmployeeClientController {
 	private ObjectOutputStream objOs;
 	private ObjectInputStream objIs;
 	private String action;
+	
+	private Message[] messageList;
 
 	//Models
 	private Employee employee = null;
@@ -107,9 +110,38 @@ public class EmployeeClientController {
 		logger.info("Page cleared");
 	}
 	
-	public boolean CreateEmployeeObject(int empID, String empRole, int day,int month, int year, String username, String password, String firstName, String lastName, String phone, String email,
-			String address, String usertype){
+	public void getMessagesFromDatabase() {
+		sendAction("Get Messages");
+		sendAction(employee.getUsername());
+		this.action = "Get Messages";
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
 		
+	}
+	
+	public void CreateEventObject(String eventID, String eventName, int day, int month, int year, String eventLocation) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
+		Date eventDate = null;
+		try {
+			eventDate = dateFormat.parse(dateString);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
+		Event newEvent = new Event( eventID,  eventName,  eventDate,  eventLocation);
+		sendAction("Add Event");
+		System.out.println("Action sent");
+		sendEvent(newEvent);
+		System.out.println("Object sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+	}
+	
+	public boolean CreateEmployeeObject(int empID, String empRole, int day,int month, int year, String username, String password, String firstName, String lastName, String phone, String email,
+		String address, String usertype){
+	
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
 		Date hireDate = null;
@@ -180,15 +212,19 @@ public class EmployeeClientController {
 		}
 	}
 	
-	/*public void sendMessage(Message message) {
-		try {
+	public void sendMessage(String messageID, String content, String reciever) {
+		Message message = new Message(messageID, employee.getUsername(), reciever, content, new Date());
+		sendAction("Send Message");
+		try { 
 			objOs.writeObject(message);
-			logger.info("Employee Message sent to Server");
+			sendAction(employee.getUserType());
+			this.action = "Send Message";
+			logger.info("Customer Message sent to Server");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Employee Message failed to be sent: " + ex.getMessage());
+			logger.error("Customer Message failed to be sent: " + ex.getMessage());
 		}
-	}*/
+	}
 	
 	public void sendEquipment(Equipment equipment) {
 		try {
@@ -222,6 +258,18 @@ public class EmployeeClientController {
 	
 	public Employee getEmployee() {
 		return employee;
+	}
+	
+	public int getCurrentMessageCount() {
+		return messageList.length;
+	}
+	
+	public Vector<Object> updateMessageViewPanel(int index) {
+		Vector<Object> row = new Vector<>();
+		System.out.println("Index: " + index);
+		row.add(messageList[index].getSenderID());
+		row.add(messageList[index].getContent());
+		return row;
 	}
 
 	public void receiveResponse() {
@@ -264,6 +312,30 @@ public class EmployeeClientController {
 					logger.info("Employee found from database");
 					employee = (Employee) objIs.readObject();
 				}else {
+					logger.info("Employee not found from database");
+				}
+			}if (action.equalsIgnoreCase("Get Messages")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Messges were successfully found in database",
+							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Employee found from database");
+					this.messageList = (Message[]) objIs.readObject();
+				}else {
+					JOptionPane.showMessageDialog(null, "No Message was found in database, Will Update Shortly",
+							"Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Employee not found from database");
+				}
+			}if (action.equalsIgnoreCase("Send Message")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Messges Successfully Send",
+							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Employee found from database");
+					this.messageList = (Message[]) objIs.readObject();
+				}else {
+					JOptionPane.showMessageDialog(null, "Message Failed to Send",
+							"Equipment Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Employee not found from database");
 				}
 			}

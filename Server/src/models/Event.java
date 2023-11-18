@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,11 +14,12 @@ import org.apache.logging.log4j.Logger;
 
 import factories.DBConnectorFactory;
 
-public class Event {
+public class Event implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public static final Logger logger = LogManager.getLogger(Event.class);
 	private String eventID;
 	private String eventName;
-	private String eventDate;
+	private Date eventDate;
 	private String eventLocation;
 	private Connection dbConn = null;
 	private Statement stmt = null;
@@ -26,13 +28,13 @@ public class Event {
 	public Event() {
 		eventID = "";
 		eventName = "";
-		eventDate = "";
+		eventDate = null;
 		eventLocation = "";
 		logger.info("Event initialized");
 		this.dbConn = DBConnectorFactory.getDatabaseConnection();
 	}
 
-	public Event(String eventID, String eventName, String eventDate, String eventLocation) {
+	public Event(String eventID, String eventName, Date eventDate, String eventLocation) {
 		this.eventID = eventID;
 		this.eventName = eventName;
 		this.eventDate = eventDate;
@@ -60,12 +62,12 @@ public class Event {
 		logger.info("Input accepted, Event Name set");
 	}
 
-	public String geteventDate() {
+	public Date geteventDate() {
 		logger.info("Event Date returned");
 		return eventDate;
 	}
 
-	public void seteventDate(String eventDate) {
+	public void seteventDate(Date eventDate) {
 		this.eventDate = eventDate;
 		logger.info("Input accepted, Event Date set");
 	}
@@ -134,7 +136,7 @@ public class Event {
 			while (result.next()) {
 				String eventID = result.getString("eventID");
 				String eventName = result.getString("eventName");
-				String eventDate = result.getString("eventDate");
+				Date eventDate = result.getDate("eventDate");
 				String eventLocation = result.getString("eventLocation");
 
 				System.out.println("Event ID: " + eventID + "\nEvent Name: " + eventName + "\nEvent Date: " + eventDate
@@ -174,7 +176,7 @@ public class Event {
 			while (result.next()) {
 				String eventID1 = result.getString("eventID");
 				String eventName = result.getString("eventName");
-				String eventDate = result.getString("eventDate");
+				Date eventDate = result.getDate("eventDate");
 				String eventLocation = result.getString("eventLocation");
 
 				System.out.println("Event ID: " + eventID + "\nEvent Name: " + eventName + "\nEvent Date: " + eventDate
@@ -197,11 +199,12 @@ public class Event {
 		return eventList;
 	}
 
-	public void insert(String eventID, String eventName, String eventDate, String eventLocation) {
-		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.event (eventID, eventName, eventDate, eventLocation)"
-				+ "VALUES ('" + eventID + "', '" + eventName + "', '" + eventDate + "', '" + eventLocation + "');";
-
+	public void insert(Event event, Connection Conn) {
+		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.event (eventID, eventName, date, location)"
+				+ "VALUES ('" + event.geteventID() + "', '" + event.geteventName() + "', '" + event.geteventDate() + "', '" 
+				+ event.geteventLocation() + "');";
 		try {
+			dbConn = Conn;
 			stmt = dbConn.createStatement();
 
 			int inserted = stmt.executeUpdate(sql);

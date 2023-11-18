@@ -1,20 +1,45 @@
 package views;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
+import javax.swing.text.TableView;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -24,37 +49,33 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import controller.EmployeeClientController;
 
-
 public class DashBoard {
 	private JFrame frame;
 	private JMenuBar menuBar;
-	
+
 	private static final Logger logger = LogManager.getLogger(DashBoard.class);
-	
-	private JMenu cart, account;
-	private JMenuItem viewProfile, updateProfile, deleteProfile, Logout, viewCart;
-	
+
+	private JMenu account;
+	private JMenuItem Logout;
+
 	private JTree treeView;
-	//Main TreeNode
+	// Main TreeNode
 	private DefaultMutableTreeNode dashBoardNode;
-	//SubTree Nodes Level 2
-	private DefaultMutableTreeNode homeNode, veiwEquipmentNode, pastTransactionNode, messageNode; 
-	//SubTree Nodes Level 3
-	private DefaultMutableTreeNode stagingNode, lightingNode, powerNode, soundNode, inboxNode, composeNode;
-	
+	// SubTree Nodes Level 2
+	private DefaultMutableTreeNode homeNode, addEquipmentNode,EquipmentNode, scheduleEventNode, inboxNode, veiwEquipmentNode, createReceipt, createInvoice;
+
 	private JPanel dashBoardPanel, viewPanel;
-	
+
 	private JLabel welcomeLabel;
-	
-	
-	private EmployeeClientController controller;
-	
+
+	private EmployeeClientController Dashboardcontroller;
+
 	public DashBoard(EmployeeClientController controller, JFrame Frame) {
-		this.controller = controller;
+		this.Dashboardcontroller = controller;
 		this.frame = Frame;
-		
+
 		this.initializeComponents();
-		//addMenuItemsToPopup();
+		// addMenuItemsToPopup();
 		this.addMenuItemsToMenu();
 		this.addMenusToMenuBar();
 		this.createTreeStructure();
@@ -64,134 +85,95 @@ public class DashBoard {
 		this.registerListeners();
 		logger.info("Customer Dashboard created");
 	}
-	
+
 	public void initializeComponents() {
-		//frame.setLayout(new GridLayout(1,2));
-		
+		frame.setLayout(new GridLayout(1, 1));
 		menuBar = new JMenuBar();
-		
-		//Menu Items and Mnemonic for each
-		cart = new JMenu("Cart");
-		cart.setMnemonic('A');
+
+		// Menu Items and Mnemonic for each
 		account = new JMenu("Account");
 		account.setMnemonic('X');
-		
-		//Menu Items For MenuBar
-		viewProfile = new JMenuItem("View Profile");
-		updateProfile = new JMenuItem("Update Profile");
-		deleteProfile = new JMenuItem("Delete Profile");
+
+		// Menu Items For MenuBar
 		Logout = new JMenuItem("Logout");
-		viewCart  = new JMenuItem("View Cart");
-		
-		//Two view Panels in the window
+
+		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
-		viewPanel = new JPanel();
-		
-		//Nodes for Jtree
+		viewPanel = new JPanel(new GridLayout(1,1));
+
+		// Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
-	    homeNode = new DefaultMutableTreeNode("Home");  
-	    veiwEquipmentNode = new DefaultMutableTreeNode("View Equiments");
-	    pastTransactionNode = new DefaultMutableTreeNode("View Past Transaction");
-	    messageNode = new DefaultMutableTreeNode("Message");
-	    
-	    stagingNode = new DefaultMutableTreeNode("Staging");
-	    lightingNode = new DefaultMutableTreeNode("Light");
-	    powerNode = new DefaultMutableTreeNode("Power");
-	    soundNode = new DefaultMutableTreeNode("Sound");
-	    inboxNode = new DefaultMutableTreeNode("Inbox");
-	    composeNode = new DefaultMutableTreeNode("Compose");
-	    
-	    //Welcome Label
-	    welcomeLabel = new JLabel("<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
-	    		+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>", SwingConstants.CENTER);
-	    welcomeLabel.setVerticalAlignment(JLabel.TOP);
-	    welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
-	    welcomeLabel.setPreferredSize(new Dimension(600, 600));
-	    welcomeLabel.setForeground(new Color(120, 90, 40));
-	    welcomeLabel.setBackground(new Color(100, 20, 70));
-	    
-	    
-//		Properties p = new Properties();
-//		p.put("text.today", "Today");
-//		p.put("text.month", "Month");
-//		p.put("text.year", "Year");
-		
-//		model = new UtilDateModel();
-//		datePanel = new JDatePanelImpl(model,p);
-//		datePicker = new JDatePickerImpl(datePanel, null);
-	    
-	    //This should be in the add components to panel method
-//		panels[4].add(datePicker);
-		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
-	    homeNode = new DefaultMutableTreeNode("Home");  
-	    veiwEquipmentNode = new DefaultMutableTreeNode("View Equiments");
-	    pastTransactionNode = new DefaultMutableTreeNode("View Past Transaction");
-	    messageNode = new DefaultMutableTreeNode("Message");
-	    logger.info("Customer Dashboard components initialized");
+		homeNode = new DefaultMutableTreeNode("Home");
+		EquipmentNode = new DefaultMutableTreeNode("Equipment");
+		addEquipmentNode= new DefaultMutableTreeNode("Add");
+		veiwEquipmentNode = new DefaultMutableTreeNode("View");
+		scheduleEventNode = new DefaultMutableTreeNode("Schedule");
+		createReceipt= new DefaultMutableTreeNode("Create Receipt");
+		createInvoice = new DefaultMutableTreeNode("Create Invoice");
+		inboxNode = new DefaultMutableTreeNode("Inbox");
+
+		// Welcome Label
+		welcomeLabel = new JLabel(
+				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
+						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
+						SwingConstants.CENTER);
+		welcomeLabel.setVerticalAlignment(JLabel.TOP);
+		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+		welcomeLabel.setPreferredSize(new Dimension(600, 600));
+		welcomeLabel.setForeground(new Color(120, 90, 40));
+		welcomeLabel.setBackground(new Color(100, 20, 70));
+
+		logger.info("Customer Dashboard components initialized");
 	}
-	
+
 	public void addMenuItemsToMenu() {
-		account.add(viewProfile);
-		account.add(updateProfile);
-		account.add(deleteProfile);
-		account.addSeparator(); // separates items
 		account.add(Logout);
-		
-		cart.add(viewCart);
+
 		logger.info("Items added to Account and Cart Menus");
 	}
-	
+
 	public void addMenusToMenuBar() {
 		menuBar.add(account);
-		menuBar.add(cart);
 		logger.info("Account and Cart Menus added to Menu Bar");
 	}
-	
+
 	public void createTreeStructure() {
-		//Creating First Level
+		// Creating First Level
 		dashBoardNode.add(homeNode);
-		dashBoardNode.add(veiwEquipmentNode);
-		dashBoardNode.add(pastTransactionNode);
-		dashBoardNode.add(messageNode);
+		dashBoardNode.add(EquipmentNode);
 		
-		//Creating Second Level
-		veiwEquipmentNode.add(lightingNode);
-		veiwEquipmentNode.add(soundNode);
-		veiwEquipmentNode.add(powerNode);
-		veiwEquipmentNode.add(stagingNode);
 		
-		messageNode.add(composeNode);
-		messageNode.add(inboxNode);
+		dashBoardNode.add(inboxNode);
+		dashBoardNode.add(scheduleEventNode);
+		dashBoardNode.add(createInvoice);
+		dashBoardNode.add(createReceipt);
 		
-		dashBoardNode.add(homeNode);
-		dashBoardNode.add(veiwEquipmentNode);
-		dashBoardNode.add(pastTransactionNode);
-		dashBoardNode.add(messageNode);
+		
+		EquipmentNode.add(veiwEquipmentNode);
+		EquipmentNode.add(addEquipmentNode);
+		
 		logger.info("Tree Structure created");
 	}
-	
+
 	public void addTreeNodesToTree() {
 		treeView = new JTree(dashBoardNode);
-		
-		treeView.setSize(100,100);
-		
+		treeView.setSize(100, 400);
+
 		// Remove default JTree icons
-        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
-        renderer.setLeafIcon(null);
-        renderer.setClosedIcon(null);
-        renderer.setOpenIcon(null);
-        logger.info("Nodes added to Tree");
+		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
+		renderer.setLeafIcon(null);
+		renderer.setClosedIcon(null);
+		renderer.setOpenIcon(null);
+		logger.info("Nodes added to Tree");
 	}
-	
-	public void addComponentsToWindow(){
-		JSplitPane paneSplit = new JSplitPane(SwingConstants.VERTICAL, treeView, viewPanel); 
-		//frame.add(treeView);
-		//frame.add(viewPanel);
+
+	public void addComponentsToWindow() {
+		JSplitPane paneSplit = new JSplitPane(SwingConstants.VERTICAL, treeView, viewPanel);
+		paneSplit.setDividerLocation(200);
 		frame.add(paneSplit);
-		// frame.add(treeView);
 		logger.info("Components added to Window");
 	}
-	
+
 	public void setWindowProperties() {
 		frame.setJMenuBar(menuBar);
 		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -201,63 +183,196 @@ public class DashBoard {
 		frame.setResizable(true);
 		logger.info("Window Properties set");
 	}
-	
+
 	public void registerListeners() {
 		treeView.addTreeSelectionListener(new TreeSelectionListener() {
+			@SuppressWarnings("rawtypes")
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				 DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent(); //gets the node that was selected
-				 String nodeName = node.toString();
-				 
-				 //If home panel is selected
-				 if(nodeName.equals("Home")) {
-					 clearPanel(viewPanel);
-					 viewPanel.add(welcomeLabel);
-					 updatePanel(viewPanel);
-				 }
-				 
-				 //cant compare with white spaces
-				 /*if(nodeName.trim().replaceAll("\\s+", " ").equals("ViewEquipments")) {
-					 System.out.println("View Equipments");
-					 clearPanel(viewPanel);
-				 }*/
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeView.getLastSelectedPathComponent();
+				String nodeName = node.toString();
 
-				 if(nodeName == "View Equipments") {
-					 System.out.println("Message");
-					 clearPanel(viewPanel);
+				if (nodeName.equals("Home")) {
+					clearPanel(viewPanel);
+					System.out.println("Home");
+					viewPanel.add(welcomeLabel);
+					updatePanel(viewPanel);
+				}else if (nodeName.equals("Add")) {
+					clearPanel(viewPanel);
+					System.out.println("Add");
+					//viewPanel.add(welcomeLabel);
+					updatePanel(viewPanel);
+				}else if (nodeName.equals("View")) {
+					clearPanel(viewPanel);
+					System.out.println("View");
+					//viewPanel.add(welcomeLabel);
+					updatePanel(viewPanel);
+				}else if (nodeName.equals("Schedule")) {
+					clearPanel(viewPanel);
+					JPanel panel = new JPanel(new GridLayout(6,1));
+					JPanel Datepanel = new JPanel(new GridLayout(1,2));
+					JPanel EventNamepanel = new JPanel(new GridLayout(1,2));
+					JPanel EventLocationpanel = new JPanel(new GridLayout(1,2));
+					String ID = Integer.toString(GenerateID());
+					
+					JLabel label = new JLabel("Enter Event Details");
+					
+					JLabel IDLabel = new JLabel("Generated ID Code For Event:   " + ID);
+					JLabel eventNameLabel = new JLabel("Event Name: ");
+					JTextField eventNameField = new JTextField();
+					JLabel location = new JLabel("Location: ");
+					JTextField locationField = new JTextField();
+					JLabel date = new JLabel("Select The Event Date: ");
+					JButton submit = new JButton("Submit");
+					
+					Properties p = new Properties();
+					p.put("text.today", "Today");
+					p.put("text.month", "Month");
+					p.put("text.year", "Year");
+					
+					UtilDateModel model = new UtilDateModel();
+					JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
+					JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
+					
+					datePicker.addActionListener(new ActionListener() {
+						@Override 
+						public void actionPerformed(ActionEvent e) {
+							String dateString = model.getYear() + "-" + model.getMonth() + "-" + model.getDay(); // Format: yyyy-MM-dd
+						} 
+					});
+					
+					EventNamepanel.add(eventNameLabel);
+					EventNamepanel.add(eventNameField);
+					
+					EventLocationpanel.add(location);
+					EventLocationpanel.add(locationField);
+					
+					Datepanel.add(date);
+					Datepanel.add(datePicker);
+					
+					panel.add(label);
+					panel.add(IDLabel);
+					panel.add(Datepanel);
+					panel.add(EventNamepanel);
+					panel.add(EventLocationpanel);
+					panel.add(submit);
+					
+					submit.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							int result = JOptionPane.showConfirmDialog(frame,
+									"Are you sure you want to proceed with adding this event?", "Confirmation",
+									JOptionPane.YES_NO_OPTION);
+							if (result == JOptionPane.YES_OPTION) {
+								String Name =  eventNameField.getText();
+								String location =  locationField.getText();
+								Dashboardcontroller.CreateEventObject(ID, Name, model.getDay(), model.getMonth(), model.getYear(), location);
+							}							
+						}
+					});
+					viewPanel.add(panel); 
+					updatePanel(viewPanel);
+				}else if (nodeName.equals("Create Receipt")) {
+					clearPanel(viewPanel);
+					System.out.println("Create Receipt");
+					//viewPanel.add(welcomeLabel);
+					updatePanel(viewPanel);
+				}else if (nodeName.equals("Create Invoice")) {
+					clearPanel(viewPanel);
+					System.out.println("Create Invoice");
+					//viewPanel.add(welcomeLabel);
+					updatePanel(viewPanel);
+				}else if (nodeName.equals("Inbox")) {
+					clearPanel(viewPanel);
+					System.out.println("Inbox");
+					Dashboardcontroller.getMessagesFromDatabase();
+					if (Dashboardcontroller.getCurrentMessageCount() > 0) {
+						JPanel panelView = new JPanel(new GridLayout(2, 1));
+						String[] columns = { "Sender Name", "Content"};
+						
+						// Create an empty table model with column names
+						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
+						tableModel.setColumnIdentifiers(columns);
 
-					 updatePanel(viewPanel);
-				 }
+						JTable messageTable = new JTable(tableModel);
 
-				 if(nodeName.equals("Message")) {
-					 System.out.println("Message");
-					 clearPanel(viewPanel);
-					 
-					 updatePanel(viewPanel);
-				 } 
+						// Set cell spacing
+						Dimension dim = new Dimension(20, 1);
+						messageTable.setIntercellSpacing(dim);
+
+						// Set up the table header with column names
+						JTableHeader tableHeader = messageTable.getTableHeader();
+						tableHeader.setFont(new Font("Arial", Font.BOLD, 70)); // Adjust font as needed
+						
+						Vector<Object> row = new Vector<>();
+						for (int i = 0; i < Dashboardcontroller.getCurrentMessageCount(); i++) {
+							row = Dashboardcontroller.updateMessageViewPanel(i);
+							tableModel.addRow(row);
+						}
+
+						ListSelectionModel selectionModel = messageTable.getSelectionModel();
+						selectionModel.addListSelectionListener(new ListSelectionListener() {
+							@Override
+							public void valueChanged(ListSelectionEvent e) {
+								if (!e.getValueIsAdjusting()) {
+									int selectedRow = messageTable.getSelectedRow();
+									if (selectedRow != -1) {
+										// Get values from the clicked row
+										String Sender = (String) messageTable.getValueAt(selectedRow, 0);
+										String Content = (String) messageTable.getValueAt(selectedRow, 1);
+										MessageInformation(Sender, Content);
+									}
+								}
+							}
+						});
+						viewPanel.add(messageTable);
+						updatePanel(viewPanel);
+					}
+				}
 			}
 		});
-		
-		/*
-		datePicker.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String date = String.valueOf(model.getDay());
-				System.out.print(date);
-			}
-		});*/
 	}
 	
+	public void MessageInformation(String from,String content ) {
+		JInternalFrame internalFrame = new JInternalFrame("Compose A Message", true, true,true);
+		JButton button = new JButton("Reply");
+		JTextArea textarea = new JTextArea();
+		textarea.setBounds(10,30, 200,200);
+
+		JPanel panel = new JPanel(new GridLayout(4,1));
+		panel.add(new JLabel("From: " + from));
+		panel.add(new JLabel(content));
+		panel.add(textarea);
+		panel.add(button);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String Replycontent = textarea.getText();
+				Dashboardcontroller.sendMessage(Integer.toString(GenerateID()), Replycontent, from);
+			}
+		});
+
+		internalFrame.setSize(100, 100); 
+		internalFrame.setVisible(true);
+
+		internalFrame.add(panel);
+		frame.add(internalFrame);
+	}
+	
+	public int GenerateID() {
+		int min = 1000;  
+		int max = 10000;  
+		int MessageID = (int)(Math.random()*(max-min+1)+min);
+		return MessageID;
+	}
 	
 	public void clearPanel(JPanel panel) {
 		panel.removeAll();
-		//add your elements
 	}
-	
+
 	public void updatePanel(JPanel panel) {
 		panel.revalidate();
-		panel.repaint(); 
+		panel.repaint();
 		logger.info("Customer Dashboard Listeners initialized");
 	}
-	
 }

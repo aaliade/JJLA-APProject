@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import models.Customer;
 import models.Employee;
 import models.Equipment;
+import models.Event;
 import models.Invoice;
 import models.Message;
 import models.Receipt;
@@ -170,10 +171,23 @@ public class Server {
 								} else {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(equipmentList);
-									ObjOS.flush();
 									logger.info("Found equipments in database");
 								}
-							}else if(action.equals("Get Equipment By Category")) {
+							}else if(action.equals("Get Messages")) {
+								String username = (String) ObjIS.readObject();
+								Message message = new Message();
+								Message[] messageList = message.selectAllMessages(username);
+								if (messageList == null) {
+									System.out.print("Print from server: No message Found");
+									ObjOS.writeObject(false);
+								} else {
+									System.out.print("Print from server: message Found");
+									ObjOS.writeObject(true);
+									ObjOS.writeObject(messageList);
+									logger.info("Found equipments in database");
+								}
+							}
+							else if(action.equals("Get Equipment By Category")) {
 								String category = (String)  ObjIS.readObject();
 								Equipment defaulEquip = new Equipment();
 								Equipment[] equipmentList = defaulEquip.selectAvailableEquipmentByCategory(category);
@@ -245,21 +259,14 @@ public class Server {
 									ObjOS.writeObject(receiptList);
 									logger.info("Found receipt in database");
 								}
-							} else if (action.equals("Get Message")) {
-								Message defaulMessage = new Message();
-								Message[] messageList = defaulMessage.selectAllMessages();
-								if (messageList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(messageList);
-									logger.info("Found message in database");
-								}
-							}  else if (action.equals("Send Message")) {
+							}   else if (action.equals("Send Message")) {
 								Message defaulMessage = (Message) ObjIS.readObject();
-								defaulMessage.insertMessage(defaulMessage, dBConn);
+								String user = (String) ObjIS.readObject();
+								defaulMessage.insertMessage(defaulMessage, dBConn, user);
+							} else if (action.equals("Add Event")) {
+								Event defaultEvent = (Event) ObjIS.readObject();
+								defaultEvent.insert(defaultEvent, dBConn);
 							} 
-
 						} catch (ClassNotFoundException ex) {
 							ex.printStackTrace();
 						} catch (ClassCastException ex) {
@@ -299,9 +306,6 @@ public class Server {
 																										// connection
 					dBConn = DriverManager.getConnection(url, "root", "password"); // connecting with database
 
-					JOptionPane.showMessageDialog(null, "DB Connection Established", "Connection status",
-							JOptionPane.INFORMATION_MESSAGE); // if connection is successful a message dialog will be
-																// shown
 					connectorFactory = new DBConnectorFactory();
 					dBConn = DBConnectorFactory.getDatabaseConnection();
 					logger.info("Database Connection Established.");

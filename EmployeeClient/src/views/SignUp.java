@@ -3,7 +3,9 @@ package views;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +17,9 @@ import javax.swing.JTextField;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import controller.EmployeeClientController;
 
@@ -24,14 +29,16 @@ public class SignUp {
 	private JFrame frame;
 	private JTextField firstNameField, lastNameField, phoneField, emailField,
 						userNameField, passwordField, confirmPasswordField,
-						employeeRoleField, hireDayField, hireMonthField, hireYearField, addressField;
+						employeeRoleField,  addressField;
 	private JLabel titleLabel, firstNameLabel, lastNameLabel,
 					phoneNumberLabel, emailLabel, userNameLabel, passwordLabel, 
-					confirmPasswordLabel, employeeRole, hireDay, hireMonth, hireYear, hireDate, addressLabel;
+					confirmPasswordLabel, employeeRole, hireDate, addressLabel;
 	private JButton goBackBtn, submitBtn, clearBtn;
 	private JPanel[] panels;
+	UtilDateModel model;
+	JDatePanelImpl datePanel;
+	JDatePickerImpl datePicker;
 	private String firstName, lastName, phoneNumber, email, userName, password, confirmPassword, empRole, address;
-	private int day, month, year;
 	
 	private static final Logger logger = LogManager.getLogger(SignUp.class);
 	
@@ -58,10 +65,7 @@ public class SignUp {
 		passwordLabel = new JLabel("Password: ");
 		confirmPasswordLabel = new JLabel("Confirm Password: ");
 		employeeRole = new JLabel("Employee Role: ");
-		hireDay = new JLabel("Day: ");
-		hireMonth = new JLabel("Month: ");
-		hireYear = new JLabel("Year: ");
-		hireDate = new JLabel("Please Enter Your Hire Date");
+		hireDate = new JLabel("Please Select Your Hire Date");
 		addressLabel = new JLabel("Address: ");
 		
 		firstNameField = new JTextField();
@@ -72,9 +76,6 @@ public class SignUp {
 		passwordField = new JTextField();
 		confirmPasswordField = new JTextField();
 		employeeRoleField = new JTextField();
-		hireDayField = new JTextField();
-		hireMonthField = new JTextField();
-		hireYearField = new JTextField();
 		addressField = new JTextField();
 	
 		
@@ -82,7 +83,16 @@ public class SignUp {
 		submitBtn = new JButton("Submit");
 		clearBtn = new JButton("Clear");
 		
-		panels = new JPanel[15];
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+
+		model = new UtilDateModel();
+		datePanel = new JDatePanelImpl(model,p);
+		datePicker = new JDatePickerImpl(datePanel, null);
+		
+		panels = new JPanel[12];
 		for(int i=0;i<panels.length;i++) {
 			panels[i] = new JPanel();
 		}
@@ -91,7 +101,7 @@ public class SignUp {
 	}
 	
 	public void setLayout() {
-		frame.setLayout(new GridLayout(15,1)); 
+		frame.setLayout(new GridLayout(12,1)); 
 		
 		panels[0].setLayout(new GridLayout(1,1));
 		
@@ -105,13 +115,9 @@ public class SignUp {
 		panels[8].setLayout(new GridLayout(1,2));
 		panels[9].setLayout(new GridLayout(1,2));
 		
-		panels[10].setLayout(new GridLayout(1,1));
+		panels[10].setLayout(new GridLayout(1,2));
 		
-		panels[11].setLayout(new GridLayout(1,2));
-		panels[12].setLayout(new GridLayout(1,2));
-		panels[13].setLayout(new GridLayout(1,2));
-		
-		panels[14].setLayout(new GridLayout(1,3));
+		panels[11].setLayout(new GridLayout(1,3));
 	}
 	
 	public void addComponentsToPanel() {
@@ -145,19 +151,11 @@ public class SignUp {
 		panels[9].add(addressField);
 		
 		panels[10].add(hireDate);
+		panels[10].add(datePicker);
 		
-		panels[11].add(hireDay);
-		panels[11].add(hireDayField);
-		
-		panels[12].add(hireMonth);
-		panels[12].add(hireMonthField);
-		
-		panels[13].add(hireYear);
-		panels[13].add(hireYearField);
-		
-		panels[14].add(goBackBtn);
-		panels[14].add(clearBtn);
-		panels[14].add(submitBtn);
+		panels[11].add(goBackBtn);
+		panels[11].add(clearBtn);
+		panels[11].add(submitBtn);
 		logger.info("Components added to Panel");
 	}
 	
@@ -179,6 +177,19 @@ public class SignUp {
 	 
 	private void registerListeners() {
 		
+		datePicker.addActionListener(new ActionListener() {
+			@Override 
+			public void actionPerformed(ActionEvent e) {
+				int day = model.getDay();
+				int month = model.getMonth();
+				int year = model.getYear();
+
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
+				hireDate.setText(dateString);
+			} 
+		});
+		
 		clearBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -191,9 +202,6 @@ public class SignUp {
 				passwordField.setText("");
 				confirmPasswordField.setText("");
 				employeeRoleField.setText("");
-				hireDayField.setText("");
-				hireMonthField.setText("");
-				hireYearField.setText("");
 				addressField.setText("");
 			}
 		});
@@ -208,7 +216,7 @@ public class SignUp {
 
 				//if all the fields are filled out and the password is similar
 				if(CheckFields() && CheckPassword()) {
-					if(controller.CreateEmployeeObject(IDNumber, empRole, day, month, year, userName, password, firstName, lastName, phoneNumber, email, address, "Employee")) {
+					if(controller.CreateEmployeeObject(IDNumber, empRole, model.getDay(), model.getMonth(), model.getYear(), userName, password, firstName, lastName, phoneNumber, email, address, "Employee")) {
 						JOptionPane.showMessageDialog(frame, "User Successfully added to database", "Sign Up Complete", JOptionPane.INFORMATION_MESSAGE);
 						controller.goBackToLoginPage(frame);
 					}
@@ -226,6 +234,7 @@ public class SignUp {
 		});
 		logger.info("Sign Up Page Listeners initialized");
 	}
+
 	
 	public void GetFields() {
 		this.firstName = firstNameField.getText();				
@@ -237,26 +246,13 @@ public class SignUp {
 		this.confirmPassword = confirmPasswordField.getText();
 		this.empRole = employeeRoleField.getText();
 		this.address = addressField.getText();
-		try{
-			this.day = Integer.parseInt(hireDayField.getText());
-			this.month = Integer.parseInt(hireMonthField.getText());
-			this.year = Integer.parseInt(hireYearField.getText());
-			
-			if(this.day<1 || this.day>31 || this.month>12 || this.month <1 || this.year>Calendar.getInstance().get(Calendar.YEAR) || this.year<1945) {
-				JOptionPane.showMessageDialog(frame, "Error! please a logical date", "Date Out Of Bounds", JOptionPane.ERROR_MESSAGE);
-			}
-		}catch(NumberFormatException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(frame, "Error please enter an integer", "String Exception Caught", JOptionPane.ERROR_MESSAGE);
-		}
 	}
 	
 	public boolean CheckFields() {
 		//Check if the fields are empty
 		if(this.firstName.isEmpty() || this.lastName.isEmpty() || this.phoneNumber.isEmpty() ||
 				this.email.isEmpty() || this.userName.isEmpty() || this.password.isEmpty() || 
-				this.confirmPassword.isEmpty() || this.empRole.isEmpty() || this.hireDayField.getText().isEmpty() ||
-				this.hireMonthField.getText().isEmpty() || this.hireYearField.getText().isEmpty() || this.address.isEmpty()) {
+				this.confirmPassword.isEmpty() || this.empRole.isEmpty() || this.address.isEmpty()) {
 			JOptionPane.showMessageDialog(frame, "Please Fill Out All Fields", "Incomplete Registration", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}else {

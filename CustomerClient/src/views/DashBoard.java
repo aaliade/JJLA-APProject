@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
@@ -54,8 +55,8 @@ public class DashBoard {
 
 	private static final Logger logger = LogManager.getLogger(DashBoard.class);
 
-	private JMenu cart, account;
-	private JMenuItem viewProfile, updateProfile, deleteProfile, Logout, viewCart;
+	private JMenu account;
+	private JMenuItem viewProfile, updateProfile, deleteProfile, Logout;
 
 	private JTree treeView;
 	// Main TreeNode
@@ -94,8 +95,6 @@ public class DashBoard {
 		menuBar = new JMenuBar();
 
 		// Menu Items and Mnemonic for each
-		cart = new JMenu("Cart");
-		cart.setMnemonic('A');
 		account = new JMenu("Account");
 		account.setMnemonic('X');
 
@@ -104,11 +103,10 @@ public class DashBoard {
 		updateProfile = new JMenuItem("Update Profile");
 		deleteProfile = new JMenuItem("Delete Profile");
 		Logout = new JMenuItem("Logout");
-		viewCart = new JMenuItem("View Cart");
 
 		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
-		viewPanel = new JPanel();
+		viewPanel = new JPanel(new GridLayout(1,1));
 
 		// Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
@@ -134,7 +132,7 @@ public class DashBoard {
 		welcomeLabel = new JLabel(
 				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
 						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
-				SwingConstants.CENTER);
+						SwingConstants.CENTER);
 		welcomeLabel.setVerticalAlignment(JLabel.TOP);
 		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
 		welcomeLabel.setPreferredSize(new Dimension(600, 600));
@@ -147,7 +145,7 @@ public class DashBoard {
 		welcomeLabel = new JLabel(
 				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
 						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
-				SwingConstants.CENTER);
+						SwingConstants.CENTER);
 
 		welcomeLabel.setVerticalAlignment(JLabel.TOP);
 		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
@@ -166,13 +164,11 @@ public class DashBoard {
 		account.addSeparator(); // separates items
 		account.add(Logout);
 
-		cart.add(viewCart);
 		logger.info("Items added to Account and Cart Menus");
 	}
 
 	public void addMenusToMenuBar() {
 		menuBar.add(account);
-		menuBar.add(cart);
 		logger.info("Account and Cart Menus added to Menu Bar");
 	}
 
@@ -214,7 +210,7 @@ public class DashBoard {
 		frame.add(paneSplit);
 		logger.info("Components added to Window");
 	}
-
+ 
 	public void setWindowProperties() {
 		frame.setJMenuBar(menuBar);
 		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -253,9 +249,9 @@ public class DashBoard {
 				JButton cancelBtn, updateBtn;
 
 				JLabel addressLabel, emailLabel, firstNameLabel, lastNameLabel, passwordLabel, phoneLabel,
-						usernameLabel, instructionLabel;
+				usernameLabel, instructionLabel;
 				JTextField addressField, emailField, firstNameField, lastNameField, passwordField, phoneField,
-						usernameField;
+				usernameField;
 
 				cancelBtn = new JButton("Cancel");
 				updateBtn = new JButton("Update");
@@ -373,7 +369,7 @@ public class DashBoard {
 				pan.setLayout(new GridLayout(9, 1));
 
 				JLabel custIDLabel, accountBalanceLabel, addressLabel, emailLabel, firstNameLabel, lastNameLabel,
-						passwordLabel, phoneLabel, userTypeLabel, usernameLabel;
+				passwordLabel, phoneLabel, userTypeLabel, usernameLabel;
 
 				custIDLabel = new JLabel();
 				accountBalanceLabel = new JLabel();
@@ -416,13 +412,13 @@ public class DashBoard {
 					viewPanel.add(welcomeLabel);
 					updatePanel(viewPanel);
 				} else if (nodeName.equals("Equipment")) {
-					System.out.println("Equipment");
+					System.out.println("Equipment"); 
 					clearPanel(viewPanel);
 					Dashboardcontroller.getEquipmentsFromDatabase();
 					if (Dashboardcontroller.getCurrentEquipmentCount() > 0) {
 						JPanel panelView = new JPanel(new GridLayout(2, 1));
 						String[] catgegories = { "Lighting", "Stage", "Sound", "Power" };
-						
+
 						@SuppressWarnings("unchecked")
 						JLabel selectCategory = new JLabel("Select Category");
 						JButton sort = new JButton("Sort");
@@ -510,12 +506,6 @@ public class DashBoard {
 					}
 					// Add Something to panel
 					updatePanel(viewPanel);
-				} else if (nodeName.equals("Transactions")) {
-					System.out.println("Transactions");
-					clearPanel(viewPanel);
-					// Add Something to panel
-
-					updatePanel(viewPanel);
 				} else if (nodeName.equals("Invoice")) {
 					System.out.println("Invoice");
 					clearPanel(viewPanel);
@@ -528,21 +518,73 @@ public class DashBoard {
 					// Add Something to panel
 
 					updatePanel(viewPanel);
-				} else if (nodeName.equals("Message")) {
-					System.out.println("Message");
-					clearPanel(viewPanel);
-					// Add Something to panel
-
-					updatePanel(viewPanel);
 				} else if (nodeName.equals("Inbox")) {
-					System.out.println("Message");
 					clearPanel(viewPanel);
-					// Add Something to panel
+					System.out.println("Inbox");
+					Dashboardcontroller.getMessagesFromDatabase();
+					if (Dashboardcontroller.getCurrentMessageCount() > 0) {
+						JPanel panelView = new JPanel(new GridLayout(2, 1));
+						String[] columns = { "Sender Name", "Content"};
+						
+						// Create an empty table model with column names
+						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
+						tableModel.setColumnIdentifiers(columns);
 
-					updatePanel(viewPanel);
+						JTable messageTable = new JTable(tableModel);
+
+						// Set cell spacing
+						Dimension dim = new Dimension(20, 1);
+						messageTable.setIntercellSpacing(dim);
+
+						// Set up the table header with column names
+						JTableHeader tableHeader = messageTable.getTableHeader();
+						tableHeader.setFont(new Font("Arial", Font.BOLD, 70)); // Adjust font as needed
+						
+						Vector<Object> row = new Vector<>();
+						for (int i = 0; i < Dashboardcontroller.getCurrentMessageCount(); i++) {
+							row = Dashboardcontroller.updateMessageViewPanel(i);
+							tableModel.addRow(row);
+						}
+
+						ListSelectionModel selectionModel = messageTable.getSelectionModel();
+						selectionModel.addListSelectionListener(new ListSelectionListener() {
+							@Override
+							public void valueChanged(ListSelectionEvent e) {
+								if (!e.getValueIsAdjusting()) {
+									int selectedRow = messageTable.getSelectedRow();
+									if (selectedRow != -1) {
+										// Get values from the clicked row
+										String Sender = (String) messageTable.getValueAt(selectedRow, 0);
+										String Content = (String) messageTable.getValueAt(selectedRow, 1);
+										MessageInformation(Sender, Content);
+									}
+								}
+							}
+						});
+						viewPanel.add(messageTable);
+						updatePanel(viewPanel);
+					}
 				} else if (nodeName.equals("Compose")) {
 					System.out.println("Message");
 					clearPanel(viewPanel);
+					JTextArea textarea = new JTextArea();
+					textarea.setBounds(10,30, 200,200); 
+					JButton button = new JButton("Send");
+					JPanel panel = new JPanel(new GridLayout(2,1));
+					
+					panel.add(textarea);
+					panel.add(button);
+					
+					viewPanel.add(panel);
+					
+					button.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							String content = textarea.getText();
+							Dashboardcontroller.sendMessage(Integer.toString(GenerateMessageID()), content);
+						}
+						
+					});
 					// Add Something to panel
 
 					updatePanel(viewPanel);
@@ -550,11 +592,37 @@ public class DashBoard {
 			}
 		});
 	}
+	
+	public void MessageInformation(String from,String content ) {
+		JInternalFrame internalFrame = new JInternalFrame("Compose A Message", true, true,true);
+		JButton button = new JButton("Reply");
+		JTextArea textarea = new JTextArea();
+		textarea.setBounds(10,30, 200,200);
+
+		JPanel panel = new JPanel(new GridLayout(4,1));
+		panel.add(new JLabel("From: " + from));
+		panel.add(new JLabel(content));
+		panel.add(textarea);
+		panel.add(button);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String Replycontent = textarea.getText();
+				Dashboardcontroller.sendMessage(Integer.toString(GenerateMessageID()), Replycontent);
+			}
+		});
+
+		internalFrame.setSize(100, 100); 
+		internalFrame.setVisible(true);
+
+		internalFrame.add(panel);
+		frame.add(internalFrame);
+	}
 
 	public void ItemInformation(String ID, String Name,String Category, Double RentalRate,String Description ) {
 		JInternalFrame internalFrame = new JInternalFrame("Item Information", true, true,true);
-		JButton button = new JButton("Add to Cart");
-		
+		JButton button = new JButton("Send Request");
+
 		Properties p = new Properties();
 		p.put("text.today", "Today");
 		p.put("text.month", "Month");
@@ -563,29 +631,27 @@ public class DashBoard {
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
-		
-		
-		 
+
 		JPanel panel = new JPanel(new GridLayout(7,1));
 		JPanel Datepanel = new JPanel(new GridLayout(1,2));
 		JLabel pickDate = new JLabel("Pick a date you would want the equipment for: ");
-		
+
 		datePicker.addActionListener(new ActionListener() {
-			  @Override 
-			  public void actionPerformed(ActionEvent e) {
-				  	int day = model.getDay();
-					int month = model.getMonth();
-					int year = model.getYear();
-					
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-					String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
-					pickDate.setText(dateString);
-				  } 
-		  });
-		
+			@Override 
+			public void actionPerformed(ActionEvent e) {
+				int day = model.getDay();
+				int month = model.getMonth();
+				int year = model.getYear();
+
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
+				pickDate.setText(dateString);
+			} 
+		});
+
 		Datepanel.add(pickDate);
 		Datepanel.add(datePicker);
-		
+
 		panel.add(Datepanel);
 		panel.add( new JLabel("Equipment ID: "+ ID));
 		panel.add(new JLabel("Equipment Name: "+Name));
@@ -600,10 +666,10 @@ public class DashBoard {
 				int day = model.getDay();
 				int month = model.getMonth();
 				int year = model.getYear();
-				
+
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
-				
+
 				Date hireDate = null;
 				try {
 					hireDate = dateFormat.parse(dateString);
@@ -611,29 +677,26 @@ public class DashBoard {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
-					int min = 1000;  
-					int max = 10000;  
-					int MessageID = (int)(Math.random()*(max-min+1)+min);
-					
-					String content = ID + " " + dateString;
-					
-					Dashboardcontroller.sendMessage(Integer.toString(MessageID), content);
-				 
-				
-				
+
+				String content = ID + " " + dateString;
+				Dashboardcontroller.sendMessage(Integer.toString(GenerateMessageID()), content);
 			}
-			
 		});
-		
+
 		internalFrame.setSize(100, 100); 
 		internalFrame.setVisible(true);
-		
+
 		internalFrame.add(panel);
 		frame.add(internalFrame);
 	}
 
+	
+	public int GenerateMessageID() {
+		int min = 1000;  
+		int max = 10000;  
+		int MessageID = (int)(Math.random()*(max-min+1)+min);
+		return MessageID;
+	}
 	public void clearPanel(JPanel panel) {
 		panel.removeAll();
 	}
