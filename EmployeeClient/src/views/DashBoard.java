@@ -62,7 +62,8 @@ public class DashBoard {
 	// Main TreeNode
 	private DefaultMutableTreeNode dashBoardNode;
 	// SubTree Nodes Level 2
-	private DefaultMutableTreeNode homeNode, addEquipmentNode,EquipmentNode, checkEquipmentAvailability, scheduleEventNode, inboxNode, veiwEquipmentNode, createReceipt, createInvoice;
+	private DefaultMutableTreeNode homeNode, addEquipmentNode, EquipmentNode, checkEquipmentAvailability,
+			scheduleEventNode, inboxNode, veiwEquipmentNode, createReceipt, createInvoice;
 
 	private JPanel dashBoardPanel, viewPanel;
 
@@ -99,17 +100,17 @@ public class DashBoard {
 
 		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
-		viewPanel = new JPanel(new GridLayout(1,1));
+		viewPanel = new JPanel(new GridLayout(1, 1));
 
 		// Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
 		homeNode = new DefaultMutableTreeNode("Home");
 		EquipmentNode = new DefaultMutableTreeNode("Equipment");
-		addEquipmentNode= new DefaultMutableTreeNode("Add");
+		addEquipmentNode = new DefaultMutableTreeNode("Add");
 		veiwEquipmentNode = new DefaultMutableTreeNode("View");
 		checkEquipmentAvailability = new DefaultMutableTreeNode("Check Availability");
 		scheduleEventNode = new DefaultMutableTreeNode("Schedule");
-		createReceipt= new DefaultMutableTreeNode("Create Receipt");
+		createReceipt = new DefaultMutableTreeNode("Create Receipt");
 		createInvoice = new DefaultMutableTreeNode("Create Invoice");
 		inboxNode = new DefaultMutableTreeNode("Inbox");
 
@@ -117,7 +118,7 @@ public class DashBoard {
 		welcomeLabel = new JLabel(
 				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
 						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
-						SwingConstants.CENTER);
+				SwingConstants.CENTER);
 		welcomeLabel.setVerticalAlignment(JLabel.TOP);
 		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
 		welcomeLabel.setPreferredSize(new Dimension(600, 600));
@@ -142,18 +143,16 @@ public class DashBoard {
 		// Creating First Level
 		dashBoardNode.add(homeNode);
 		dashBoardNode.add(EquipmentNode);
-		
-		
+
 		dashBoardNode.add(inboxNode);
 		dashBoardNode.add(scheduleEventNode);
 		dashBoardNode.add(createInvoice);
 		dashBoardNode.add(createReceipt);
-		
-		
+
 		EquipmentNode.add(veiwEquipmentNode);
 		EquipmentNode.add(addEquipmentNode);
 		EquipmentNode.add(checkEquipmentAvailability);
-		
+
 		logger.info("Tree Structure created");
 	}
 
@@ -201,8 +200,65 @@ public class DashBoard {
 					updatePanel(viewPanel);
 				} else if (nodeName.equals("Add")) {
 					clearPanel(viewPanel);
-					System.out.println("Add");
-					//viewPanel.add(welcomeLabel);
+					JPanel panel = new JPanel(new GridLayout(6,1));
+					
+					JPanel equipIDpan = new JPanel(new GridLayout(1,2));
+					JPanel equipNamePan = new JPanel(new GridLayout(1,2));
+					JPanel categoryPan = new JPanel(new GridLayout(1,2));
+					JPanel descriptionPan = new JPanel(new GridLayout(1,2));
+					JPanel rentalRatePan = new JPanel(new GridLayout(1,2));
+					
+					JTextField equipIDField = new JTextField();
+					JTextField equipNameField = new JTextField();
+					JTextField categoryField = new JTextField();
+					JTextField descriptionField = new JTextField();
+					JTextField rentalRateField = new JTextField();
+					
+					JLabel equipIDLabel = new JLabel("Equipment ID: ");
+					JLabel equipNameLabel = new JLabel("Equipment Name: ");
+					JLabel categoryLabel = new JLabel("Category(Lighting, Sound, Stage, Power): ");
+					JLabel descriptionLabel = new JLabel("Description: ");
+					JLabel rentalRateLabel = new JLabel("Rental Rate: ");
+					
+					JButton btn = new JButton("Submit");
+					
+					equipIDpan.add(equipIDLabel);
+					equipIDpan.add(equipIDField);
+					
+					equipNamePan.add(equipNameLabel);
+					equipNamePan.add(equipNameField);
+					
+					categoryPan.add(categoryLabel);
+					categoryPan.add(categoryField);
+					
+					descriptionPan.add(descriptionLabel);
+					descriptionPan.add(descriptionField);
+					
+					rentalRatePan.add(rentalRateLabel);
+					rentalRatePan.add(rentalRateField);
+					
+					panel.add(equipIDpan);
+					panel.add(equipNamePan);
+					panel.add(categoryPan);
+					panel.add(descriptionPan);
+					panel.add(rentalRatePan);
+					panel.add(btn);
+					
+					btn.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							int result = JOptionPane.showConfirmDialog(frame,
+									"Are you sure you want to proceed with adding this equipment?", "Confirmation",
+									JOptionPane.YES_NO_OPTION);
+							if (result == JOptionPane.YES_OPTION) {
+					    		Dashboardcontroller.addEquipment(equipIDField.getText(), equipNameField.getText(),
+					    				descriptionField.getText(), categoryField.getText(), Double.parseDouble(rentalRateField.getText()));
+							}	
+						}
+						
+					});
+					viewPanel.add(panel);
 					updatePanel(viewPanel);
 				}else if (nodeName.equals("Check Availability")) {
 					clearPanel(viewPanel);
@@ -231,16 +287,51 @@ public class DashBoard {
 					});
 					updatePanel(viewPanel);
 				}else if (nodeName.equals("View")) {
+					System.out.println("Equipment"); 
 					clearPanel(viewPanel);
-					System.out.println("View");
-					//viewPanel.add(welcomeLabel);
+					Dashboardcontroller.getEquipmentsFromDatabase();
+					if (Dashboardcontroller.getCurrentEquipmentCount() > 0) {
+						JPanel panelView = new JPanel(new GridLayout(1, 1));
+					
+						System.out.print(Dashboardcontroller.getCurrentEquipmentCount());
+						String[] columnNames = { "ID", "Name", "Category", "Rental Rate", "Description", "Status" };
+
+						// Create an empty table model with column names
+						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
+						tableModel.setColumnIdentifiers(columnNames);
+
+						JTable equipmentTable = new JTable(tableModel);
+
+						// Set cell spacing
+						Dimension dim = new Dimension(20, 1);
+						equipmentTable.setIntercellSpacing(dim);
+
+						// Set up the table header with column names
+						JTableHeader tableHeader = equipmentTable.getTableHeader();
+						tableHeader.setFont(new Font("Arial", Font.BOLD, 70)); // Adjust font as needed
+
+						// Create a TableRowSorter for the JTable
+						TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(tableModel);
+						equipmentTable.setRowSorter(rowSorter);
+
+						Vector<Object> row = new Vector<>();
+						for (int i = 0; i < Dashboardcontroller.getCurrentEquipmentCount(); i++) {
+							row = Dashboardcontroller.updateEquipmentViewPanel(i);
+							tableModel.addRow(row);
+						}
+
+						panelView.add(equipmentTable);
+						viewPanel.add(panelView);
+					}
+					// Add Something to panel
 					updatePanel(viewPanel);
 				}else if (nodeName.equals("Schedule")) {
 					clearPanel(viewPanel);
-					JPanel panel = new JPanel(new GridLayout(6,1));
+					JPanel panel = new JPanel(new GridLayout(7,1));
 					JPanel Datepanel = new JPanel(new GridLayout(1,2));
 					JPanel EventNamepanel = new JPanel(new GridLayout(1,2));
 					JPanel EventLocationpanel = new JPanel(new GridLayout(1,2));
+					JPanel EquipmentIDpanel = new JPanel(new GridLayout(1,2));
 					String ID = Integer.toString(GenerateID());
 					
 					JLabel label = new JLabel("Enter Event Details");
@@ -250,6 +341,8 @@ public class DashBoard {
 					JTextField eventNameField = new JTextField();
 					JLabel location = new JLabel("Location: ");
 					JTextField locationField = new JTextField();
+					JLabel EquipmentIDLabel = new JLabel("Equipment ID: ");
+					JTextField EquipmentIDField = new JTextField();
 					JLabel date = new JLabel("Select The Event Date: ");
 					JButton submit = new JButton("Submit");
 					
@@ -279,13 +372,16 @@ public class DashBoard {
 					Datepanel.add(date);
 					Datepanel.add(datePicker);
 					
+					EquipmentIDpanel.add(EquipmentIDLabel);
+					EquipmentIDpanel.add(EquipmentIDField);
+					
 					panel.add(label);
 					panel.add(IDLabel);
 					panel.add(Datepanel);
 					panel.add(EventNamepanel);
 					panel.add(EventLocationpanel);
+					panel.add(EquipmentIDpanel);
 					panel.add(submit);
-					 
 					submit.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
@@ -295,7 +391,7 @@ public class DashBoard {
 							if (result == JOptionPane.YES_OPTION) {
 								String Name =  eventNameField.getText();
 								String location =  locationField.getText();
-								Dashboardcontroller.CreateEventObject(ID, Name, model.getDay(), model.getMonth(), model.getYear(), location);
+								Dashboardcontroller.CreateEventObject(ID, Name, model.getDay(), model.getMonth(), model.getYear(), location,EquipmentIDField.getText());
 							}							
 						}
 					});
@@ -305,12 +401,156 @@ public class DashBoard {
 				}else if (nodeName.equals("Create Receipt")) {
 					clearPanel(viewPanel);
 					System.out.println("Create Receipt");
-					//viewPanel.add(welcomeLabel);
+					JPanel panel = new JPanel(new GridLayout(6,1));
+					
+					JPanel payAmtpan = new JPanel(new GridLayout(1,2));
+					JPanel custIDpan = new JPanel(new GridLayout(1,2));
+					JPanel equipIDpan = new JPanel(new GridLayout(1,2));
+					JPanel payTypepan = new JPanel(new GridLayout(1,2));
+					
+					String[] type = { "Cash", "Card", "Cheque"};
+					JLabel selectCategory = new JLabel("Select Pay Type");
+					@SuppressWarnings("unchecked")
+					JComboBox categoryList = new JComboBox(type);
+					
+					
+					JTextField custIDField = new JTextField();
+					JTextField equipField = new JTextField();
+					JTextField payAmtField = new JTextField();
+					
+					int ID = GenerateID();
+					JLabel custIDLabel = new JLabel("Enter Customer ID: ");
+					JLabel recieptID = new JLabel("Generated Reciept Number: " + ID);
+					JLabel equipLabel = new JLabel("Enter Equipment ID: ");
+					JLabel payLabel = new JLabel("Enter Pay Amount: ");
+					
+					JButton btn = new JButton("Submit");
+					
+					custIDpan.add(custIDLabel);
+					custIDpan.add(custIDField);
+					
+					equipIDpan.add(equipLabel);
+					equipIDpan.add(equipField);
+					
+					payTypepan.add(selectCategory);
+					payTypepan.add(categoryList);
+					
+					payAmtpan.add(payLabel);
+					payAmtpan.add(payAmtField);
+					
+					panel.add(recieptID);
+					panel.add(custIDpan);
+					panel.add(equipIDpan);
+					panel.add(payTypepan);
+					panel.add(payAmtpan);
+					panel.add(btn);
+					
+					custIDpan.add(custIDLabel);
+					custIDpan.add(custIDField);
+					
+					
+					btn.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							int result = JOptionPane.showConfirmDialog(frame,
+									"Are you sure you want to proceed with adding this receipt?", "Confirmation",
+									JOptionPane.YES_NO_OPTION);
+							if (result == JOptionPane.YES_OPTION) {
+								String payType = (String) categoryList.getSelectedItem();
+					    		Dashboardcontroller.addReceipt(Integer.toString(ID), custIDField.getText(),
+					    				equipField.getText(), payType, Double.valueOf(payAmtField.getText()));
+							}	
+						}
+					});
+					viewPanel.add(panel);
 					updatePanel(viewPanel);
 				}else if (nodeName.equals("Create Invoice")) {
 					clearPanel(viewPanel);
 					System.out.println("Create Invoice");
-					//viewPanel.add(welcomeLabel);
+					JPanel panel = new JPanel(new GridLayout(6,1));
+					JPanel custIDpan = new JPanel(new GridLayout(1,2));
+					JPanel RentDatePan = new JPanel(new GridLayout(1,2));
+					JPanel ReturnDatePan = new JPanel(new GridLayout(1,2));
+					JPanel costPan = new JPanel(new GridLayout(1,2));
+					
+					JTextField custIDField = new JTextField();
+					JTextField costField = new JTextField();
+					
+					int ID = GenerateID();
+					JLabel custIDLabel = new JLabel("Enter Customer ID: ");
+					JLabel invoiceID = new JLabel("Generated Invoice ID: " + ID);
+					JLabel rentDateLabel = new JLabel("Select Rent Date: ");
+					JLabel returnDateLabel = new JLabel("Select Return Date: ");
+					JLabel costLabel = new JLabel("Enter Cost: ");
+					
+					JButton btn = new JButton("Submit");
+					
+					panel.add(invoiceID);
+					panel.add(custIDpan);
+					panel.add(RentDatePan);
+					panel.add(ReturnDatePan);
+					panel.add(costPan);
+					panel.add(btn);
+					
+					custIDpan.add(custIDLabel);
+					custIDpan.add(custIDField);
+					
+					costPan.add(costLabel);
+					costPan.add(costField);
+					
+					Properties p = new Properties();
+					p.put("text.today", "Today");
+					p.put("text.month", "Month");
+					p.put("text.year", "Year");
+					
+					UtilDateModel model = new UtilDateModel();
+					JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
+					JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
+					
+					UtilDateModel model2 = new UtilDateModel();
+					JDatePanelImpl datePanel2 = new JDatePanelImpl(model2,p);
+					JDatePickerImpl datePicker2 = new JDatePickerImpl(datePanel2, null);
+					
+					
+					RentDatePan.add(rentDateLabel);
+					RentDatePan.add(datePicker);
+					
+					ReturnDatePan.add(returnDateLabel);
+					ReturnDatePan.add(datePicker2);
+					
+					datePicker2.addActionListener(new ActionListener() {
+						@Override 
+						public void actionPerformed(ActionEvent e) {
+							String dateString = model2.getYear() + "-" + model2.getMonth() + "-" + model2.getDay(); // Format: yyyy-MM-dd
+							returnDateLabel.setText(dateString);
+						} 
+					});	
+					
+					datePicker.addActionListener(new ActionListener() {
+						@Override 
+						public void actionPerformed(ActionEvent e) {
+							String dateString = model.getYear() + "-" + model.getMonth() + "-" + model.getDay(); // Format: yyyy-MM-dd
+							rentDateLabel.setText(dateString);
+						} 
+					});
+					
+					btn.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							int result = JOptionPane.showConfirmDialog(frame,
+									"Are you sure you want to proceed with adding this invoice?", "Confirmation",
+									JOptionPane.YES_NO_OPTION);
+							if (result == JOptionPane.YES_OPTION) {
+					    		Dashboardcontroller.addInvoice(Integer.toString(ID), custIDField.getText(), model.getDay(),
+					    				model.getMonth(), model.getYear(), model2.getDay(), model2.getMonth(), 
+					    				model2.getYear(), Double.valueOf(costField.getText()));
+							}	
+						}
+						
+					});
+					viewPanel.add(panel);
 					updatePanel(viewPanel);
 				}else if (nodeName.equals("Inbox")) {
 					clearPanel(viewPanel);
@@ -362,14 +602,14 @@ public class DashBoard {
 			}
 		});
 	}
-	
-	public void MessageInformation(String from,String content ) {
-		JInternalFrame internalFrame = new JInternalFrame("Compose A Message", true, true,true);
+
+	public void MessageInformation(String from, String content) {
+		JInternalFrame internalFrame = new JInternalFrame("Compose A Message", true, true, true);
 		JButton button = new JButton("Reply");
 		JTextArea textarea = new JTextArea();
-		textarea.setBounds(10,30, 200,200);
+		textarea.setBounds(10, 30, 200, 200);
 
-		JPanel panel = new JPanel(new GridLayout(4,1));
+		JPanel panel = new JPanel(new GridLayout(4, 1));
 		panel.add(new JLabel("From: " + from));
 		panel.add(new JLabel(content));
 		panel.add(textarea);
@@ -382,20 +622,20 @@ public class DashBoard {
 			}
 		});
 
-		internalFrame.setSize(100, 100); 
+		internalFrame.setSize(100, 100);
 		internalFrame.setVisible(true);
 
 		internalFrame.add(panel);
 		frame.add(internalFrame);
 	}
-	
+
 	public int GenerateID() {
-		int min = 1000;  
-		int max = 10000;  
-		int MessageID = (int)(Math.random()*(max-min+1)+min);
+		int min = 1000;
+		int max = 10000;
+		int MessageID = (int) (Math.random() * (max - min + 1) + min);
 		return MessageID;
 	}
-	
+
 	public void clearPanel(JPanel panel) {
 		panel.removeAll();
 	}

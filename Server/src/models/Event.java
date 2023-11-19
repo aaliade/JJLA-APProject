@@ -24,6 +24,7 @@ public class Event implements Serializable {
 	private String eventLocation;
 	private Connection dbConn = null;
 	private Statement stmt = null;
+	private Statement transStmt = null;
 	private ResultSet result = null;
 
 	public Event() {
@@ -200,7 +201,7 @@ public class Event implements Serializable {
 		return eventList;
 	}
 
-	public boolean insert(Event event, int day, int month, int year, Connection Conn) {
+	public boolean insert(Event event, int day, int month, int year, String EquipID, Connection Conn) {
 		Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month); // Note: Calendar.MONTH is zero-based
@@ -219,6 +220,13 @@ public class Event implements Serializable {
 
 			int inserted = stmt.executeUpdate(sql);
 			if (inserted == 1) {
+				int status = 0;
+				String Transsql = "UPDATE grizzly’sentertainmentequipmentrental.equipment SET status = 0 WHERE equipID = '" + EquipID + "';";
+            	transStmt =  dbConn.createStatement();
+            	int Transinserted = stmt.executeUpdate(Transsql);
+            	if(Transinserted == 1) {
+            		System.out.print("Added to transaction");
+            	}
 				return true;
 			} else {
 				return false;
@@ -233,6 +241,7 @@ public class Event implements Serializable {
 		} finally {
 			try {
 				stmt.close();
+				transStmt.close();
 			} catch (SQLException e) {
 				System.err.println("Error while closing statement: " + e.getMessage());
 				logger.error("Error while closing statement: " + e.getMessage());

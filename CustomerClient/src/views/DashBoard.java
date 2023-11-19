@@ -7,12 +7,14 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
@@ -49,10 +51,13 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import controller.CustomerClientController;
 
-public class DashBoard {
+public class DashBoard extends Decorations {
 	private JFrame frame;
 	private JMenuBar menuBar;
 
+//	ImageIcon image = null;
+//	URL imageUrl = getClass().getResource("CustomerClient\\images\\logo.png");
+	
 	private static final Logger logger = LogManager.getLogger(DashBoard.class);
 
 	private JMenu account;
@@ -71,6 +76,7 @@ public class DashBoard {
 	private JTable equipmentTable;
 
 	private JLabel welcomeLabel;
+	private JLabel logoLabel;
 
 	private CustomerClientController Dashboardcontroller;
 
@@ -107,6 +113,9 @@ public class DashBoard {
 		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
 		viewPanel = new JPanel(new GridLayout(1,1));
+		dashBoardPanel.setBackground(cyan); 
+        viewPanel.setBackground(cyan);
+        
 
 		// Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
@@ -129,29 +138,21 @@ public class DashBoard {
 		invoiceNode = new DefaultMutableTreeNode("Invoice");
 
 		// Welcome Label
+//		image = new ImageIcon(imageUrl);
+//		logoLabel = new JLabel(image);
+//		logoLabel.setBorder(bevel);
+		
 		welcomeLabel = new JLabel(
-				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
+						"<html> Welcome to Grizzly's Entertainment!<br><br>We are a stage equipment business that offers the rental "
 						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
 						SwingConstants.CENTER);
-		welcomeLabel.setVerticalAlignment(JLabel.TOP);
-		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+		welcomeLabel.setVerticalAlignment(JLabel.CENTER);
+		welcomeLabel.setFont(verdana);
 		welcomeLabel.setPreferredSize(new Dimension(600, 600));
-		welcomeLabel.setForeground(new Color(120, 90, 40));
-		welcomeLabel.setBackground(new Color(100, 20, 70));
+		welcomeLabel.setForeground(brown);
+		welcomeLabel.setBorder(bevel);
 
 		logger.info("Customer Dashboard components initialized");
-
-		// Welcome Label
-		welcomeLabel = new JLabel(
-				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
-						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
-						SwingConstants.CENTER);
-
-		welcomeLabel.setVerticalAlignment(JLabel.TOP);
-		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
-		welcomeLabel.setPreferredSize(new Dimension(600, 600));
-		welcomeLabel.setForeground(new Color(120, 90, 40));
-		welcomeLabel.setBackground(new Color(100, 20, 70));
 
 		equipmentTable = new JTable();
 		logger.info("Customer Dashboard components initialized");
@@ -409,6 +410,7 @@ public class DashBoard {
 
 				if (nodeName.equals("Home")) {
 					clearPanel(viewPanel);
+					viewPanel.add(logoLabel);
 					viewPanel.add(welcomeLabel);
 					updatePanel(viewPanel);
 				} else if (nodeName.equals("Equipment")) {
@@ -508,15 +510,81 @@ public class DashBoard {
 					updatePanel(viewPanel);
 				} else if (nodeName.equals("Invoice")) {
 					System.out.println("Invoice");
-					clearPanel(viewPanel);
-					// Add Something to panel
+					Dashboardcontroller.getInvoiceFromDatabase();
+					if (Dashboardcontroller.getCurrentInvoiceCount() > 0) {
+						JPanel panelView = new JPanel(new GridLayout(1, 1));
+						String[] columns = { "Invoice Number", "Rent Date","Return Date","Cost"};
+						
+						// Create an empty table model with column names
+						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
+						tableModel.setColumnIdentifiers(columns);
 
+						JTable invoiceTable = new JTable(tableModel);
+
+						// Set cell spacing
+						Dimension dim = new Dimension(20, 1);
+						invoiceTable.setIntercellSpacing(dim);
+						
+						Vector<Object> row = new Vector<>();
+						for (int i = 0; i < Dashboardcontroller.getCurrentInvoiceCount(); i++) {
+							row = Dashboardcontroller.updateInvoiceViewPanel(i);
+							tableModel.addRow(row);
+						}
+
+						ListSelectionModel selectionModel = invoiceTable.getSelectionModel();
+						selectionModel.addListSelectionListener(new ListSelectionListener() {
+							@Override
+							public void valueChanged(ListSelectionEvent e) {
+								if (!e.getValueIsAdjusting()) {
+									int selectedRow = invoiceTable.getSelectedRow();
+									if (selectedRow != -1) {
+										// Get values from the clicked row
+										String InvoiceNumber = (String) invoiceTable.getValueAt(selectedRow, 0);
+										String RentDate = (String) invoiceTable.getValueAt(selectedRow, 1);
+										String ReturnDate = (String) invoiceTable.getValueAt(selectedRow, 2);
+										String Cost = (String) invoiceTable.getValueAt(selectedRow, 3);
+										InvoiceInformation(InvoiceNumber, RentDate, ReturnDate, Cost);
+									}
+								}
+							}
+						});
+						panelView.add(invoiceTable);
+						viewPanel.add(panelView);
+					}
 					updatePanel(viewPanel);
 				} else if (nodeName.equals("Reciepts")) {
-					System.out.println("Reciepts");
 					clearPanel(viewPanel);
-					// Add Something to panel
+					Dashboardcontroller.getReceiptFromDatabase();
+					if (Dashboardcontroller.getCurrentReceiptsCount() > 0) {
+						JPanel panelView = new JPanel(new GridLayout(1, 1));
+					
+						System.out.print(Dashboardcontroller.getCurrentReceiptsCount());
+						String[] columnNames = { "receiptNum", "payType", "payDate", "payAmt"};
 
+						// Create an empty table model with column names
+						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
+						tableModel.setColumnIdentifiers(columnNames);
+
+						JTable receiptTable = new JTable(tableModel);
+
+						// Set cell spacing
+						Dimension dim = new Dimension(20, 1);
+						receiptTable.setIntercellSpacing(dim);
+
+						// Set up the table header with column names
+						JTableHeader tableHeader = receiptTable.getTableHeader();
+						tableHeader.setFont(new Font("Arial", Font.BOLD, 70)); // Adjust font as needed
+
+						Vector<Object> row = new Vector<>();
+						for (int i = 0; i < Dashboardcontroller.getCurrentReceiptsCount(); i++) {
+							row = Dashboardcontroller.updateReceiptViewPanel(i);
+							tableModel.addRow(row);
+						}
+
+						panelView.add(receiptTable);
+						viewPanel.add(panelView);
+					}
+					// Add Something to panel
 					updatePanel(viewPanel);
 				} else if (nodeName.equals("Inbox")) {
 					clearPanel(viewPanel);
@@ -604,6 +672,33 @@ public class DashBoard {
 		panel.add(new JLabel(content));
 		panel.add(textarea);
 		panel.add(button);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String Replycontent = textarea.getText();
+				Dashboardcontroller.sendMessage(Integer.toString(GenerateMessageID()), Replycontent);
+			}
+		});
+
+		internalFrame.setSize(100, 100); 
+		internalFrame.setVisible(true);
+
+		internalFrame.add(panel);
+		frame.add(internalFrame);
+	}
+	
+	public void InvoiceInformation(String InvoiceNumber, String RentDate, String ReturnDate,String Cost ) {
+		JInternalFrame internalFrame = new JInternalFrame("Compose A Message", true, true,true);
+		JButton button = new JButton("Reply");
+		JTextArea textarea = new JTextArea();
+		textarea.setBounds(10,30, 200,200);
+
+		JPanel panel = new JPanel(new GridLayout(4,1));
+		
+		panel.add(new JLabel("Invoice Number: " + InvoiceNumber));
+		panel.add(new JLabel("Cost: " + Cost));
+		panel.add(new JLabel("Rent Date: " + RentDate));
+		panel.add(new JLabel("Return Date: " + ReturnDate));
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

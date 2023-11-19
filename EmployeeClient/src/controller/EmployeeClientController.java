@@ -35,6 +35,7 @@ public class EmployeeClientController {
 	private String action;
 	
 	private Message[] messageList;
+	private Equipment[] equipmentList;
 
 	//Models
 	private Employee employee = null;
@@ -43,6 +44,7 @@ public class EmployeeClientController {
 	private Login loginView;
 	private SignUp signupView;
 	private DashBoard DashboardView;
+	
 	
 	public EmployeeClientController() {
 		this.loginView = new Login(this);
@@ -120,7 +122,7 @@ public class EmployeeClientController {
 		
 	}
 	
-	public void CreateEventObject(String eventID, String eventName, int day, int month, int year, String eventLocation) {
+	public void CreateEventObject(String eventID, String eventName, int day, int month, int year, String eventLocation, String EquipmentID) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
 		Date eventDate = null; 
@@ -138,8 +140,10 @@ public class EmployeeClientController {
 		sendAction(Integer.toString(day));
 		sendAction(Integer.toString(month));
 		sendAction(Integer.toString(year));
+		sendAction(EquipmentID);
 		this.action = "Add Event"; 
 		receiveResponse();
+		
 		System.out.println("Response recieved");
 	}
 	
@@ -205,6 +209,13 @@ public class EmployeeClientController {
 			logger.error("Action failed: " + ex.getMessage());
 		}
 	}
+	public void getEquipmentsFromDatabase() {
+		sendAction("Get Equipment");
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+
+	}
 	
 	public void findEquipment(String equipmentID) {
 		try {
@@ -242,9 +253,16 @@ public class EmployeeClientController {
 		}
 	}
 	
-	public void sendEquipment(Equipment equipment) {
+	public void addEquipment(String equipID, String equipName, String description, String category, double rentalRate) {
 		try {
-			objOs.writeObject(equipment);
+			sendAction("Add Equipment");
+			objOs.writeObject(equipID);
+			objOs.writeObject(equipName);
+			objOs.writeObject(description);
+			objOs.writeObject(category);
+			objOs.writeObject(rentalRate);
+			this.action = "Add Equipment";
+			receiveResponse();			
 			logger.info("Equipment sent to Server");
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -272,6 +290,45 @@ public class EmployeeClientController {
 		}
 	}
 	
+	public void addInvoice(String invoiceNum, String custID, int rentDay,int rentMonth, int rentYear,
+    		int returnDay,int returnMonth, int returnYear,double cost) {
+		
+		sendAction("Add Invoice");
+		try {
+			objOs.writeObject(invoiceNum);
+			objOs.writeObject(custID);
+			objOs.writeObject(rentDay);
+			objOs.writeObject(rentMonth);
+			objOs.writeObject(rentYear);
+			objOs.writeObject(returnDay);
+			objOs.writeObject(returnMonth);
+			objOs.writeObject(returnYear);
+			objOs.writeObject(cost);
+			receiveResponse();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void addReceipt(String recieptID, String custID, String equipID, String payType,double payAmt) {
+		
+		sendAction("Add Receipt");
+		try {
+			objOs.writeObject(recieptID);
+			objOs.writeObject(custID);
+			objOs.writeObject(equipID);
+			objOs.writeObject(payType);
+			objOs.writeObject(payAmt);
+			receiveResponse();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -285,6 +342,27 @@ public class EmployeeClientController {
 		System.out.println("Index: " + index);
 		row.add(messageList[index].getSenderID());
 		row.add(messageList[index].getContent());
+		return row;
+	}
+	
+	public int getCurrentEquipmentCount() {
+		return equipmentList.length;
+	}
+
+	public Vector<Object> updateEquipmentViewPanel(int index) {
+		Vector<Object> row = new Vector<>();
+		System.out.println("Index: " + index);
+		row.add(equipmentList[index].getequipID());
+		row.add(equipmentList[index].getequipName());
+		row.add(equipmentList[index].getCategory());
+		row.add(equipmentList[index].getrentalRate());
+		row.add(equipmentList[index].getdescription());
+		if(equipmentList[index].getstatus()) {
+			row.add("Available");
+		}else {
+			row.add("Booked");
+		}
+		
 		return row;
 	}
 
@@ -312,6 +390,10 @@ public class EmployeeClientController {
 					JOptionPane.showMessageDialog(null, "Equipment Added Successfully",
 							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Equipment added to Database");
+				}else {
+					JOptionPane.showMessageDialog(null, "Equipment Not dded",
+							"Add Record Status", JOptionPane.ERROR_MESSAGE);
+					logger.info("Equipment not added to Database");
 				}
 			}
 			if (action.equalsIgnoreCase("Find Employee")) {
@@ -353,20 +435,49 @@ public class EmployeeClientController {
 							"Event Submission", JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Event found from database");
 				}else {
-					JOptionPane.showMessageDialog(null, "Event Successfully Added",
+					JOptionPane.showMessageDialog(null, "Event Was Not Added",
 							"Event Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Event not found from database");
 				}
 			}if (action.equalsIgnoreCase("Find Equipment")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Equipment Successfully Found",
-							"Event Submission", JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Event found from database");
 				}else {
-					JOptionPane.showMessageDialog(null, "Equipment ID Was Not Found",
-							"Event Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Event not found from database");
+				}
+			}if (action.equalsIgnoreCase("Add Invoice")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Invoice Successfully Added",
+							"Invoice Submission", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Invoice found from database");
+				}else {
+					JOptionPane.showMessageDialog(null, "Invoice Was Not Added",
+							"Invoice Submission", JOptionPane.ERROR_MESSAGE);
+					logger.info("Invoice not found from database");
+				}
+			}if (action.equalsIgnoreCase("Add Receipt")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Receipt Successfully Added",
+							"Receipt Submission", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Receipt added to database");
+				}else {
+					JOptionPane.showMessageDialog(null, "Receipt Was Not Added",
+							"Receipt Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Receipt not sent to database");
+				}
+			}if (action.equalsIgnoreCase("Get Equipment")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Equipment were successfully found in database",
+							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					equipmentList = (Equipment[]) objIs.readObject();
+				} else {
+					JOptionPane.showMessageDialog(null, "No Equipment was found in database, Will Update Shortly",
+							"Equipment Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Equipment not found from database");
 				}
 			}
 		} catch (ClassCastException ex) {
