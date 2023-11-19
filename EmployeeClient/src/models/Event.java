@@ -50,7 +50,7 @@ public class Event implements Serializable {
 		logger.info("Input accepted, Event Name set");
 	}
 
-	public Date geteventDate() {
+	public Date geteventDate() { 
 		logger.info("Event Date returned");
 		return eventDate;
 	}

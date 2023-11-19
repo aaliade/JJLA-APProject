@@ -123,7 +123,7 @@ public class EmployeeClientController {
 	public void CreateEventObject(String eventID, String eventName, int day, int month, int year, String eventLocation) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = year + "-" + month + "-" + day; // Format: yyyy-MM-dd
-		Date eventDate = null;
+		Date eventDate = null; 
 		try {
 			eventDate = dateFormat.parse(dateString);
 		} catch (ParseException e1) {
@@ -135,6 +135,10 @@ public class EmployeeClientController {
 		System.out.println("Action sent");
 		sendEvent(newEvent);
 		System.out.println("Object sent");
+		sendAction(Integer.toString(day));
+		sendAction(Integer.toString(month));
+		sendAction(Integer.toString(year));
+		this.action = "Add Event"; 
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
@@ -331,12 +335,23 @@ public class EmployeeClientController {
 				if (flag == true) {
 					JOptionPane.showMessageDialog(null, "Messges Successfully Send",
 							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
-					logger.info("Employee found from database");
+					logger.info("Message found from database");
 					this.messageList = (Message[]) objIs.readObject();
 				}else {
 					JOptionPane.showMessageDialog(null, "Message Failed to Send",
 							"Equipment Search", JOptionPane.ERROR_MESSAGE);
-					logger.info("Employee not found from database");
+					logger.info("Message not found from database");
+				}
+			}if (action.equalsIgnoreCase("Add Event")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Event Successfully Added",
+							"Event Search", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Event found from database");
+				}else {
+					JOptionPane.showMessageDialog(null, "Event Successfully Added",
+							"Event Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Event not found from database");
 				}
 			}
 		} catch (ClassCastException ex) {

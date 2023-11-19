@@ -99,8 +99,8 @@ public class Server {
 
 							if (action.equals("Add Employee")) {
 								Employee empObj = (Employee) ObjIS.readObject(); // Reading an Employee object from the
-																					// Object Input Stream and adding to
-																					// it
+								// Object Input Stream and adding to
+								// it
 								try {
 									if (empObj.create()) {
 										ObjOS.writeObject(true); // Return true to customer if successful
@@ -126,7 +126,7 @@ public class Server {
 								}
 							} else if (action.equals("Add Customer")) {
 								Customer custObj = (Customer) ObjIS.readObject(); // Reading a Customer object from the
-																					// Object Input Stream
+								// Object Input Stream
 								if (custObj.create()) {
 									ObjOS.writeObject(true); // Return true to customer if successful
 									logger.info("Customer added to database successfully.");
@@ -135,8 +135,8 @@ public class Server {
 									logger.warn("Failed to add customer to database.");
 								}
 							} else if (action.equals("Find Customer")) { // Reading an int representing custID from the
-																			// Object Input Stream and finding the
-																			// customer
+								// Object Input Stream and finding the
+								// customer
 								action = (String) ObjIS.readObject();
 								Customer searchCust = new Customer();
 								if (searchCust.findCustomer(action) == null) {
@@ -146,24 +146,27 @@ public class Server {
 									ObjOS.writeObject(searchCust.findCustomer(action));
 									logger.info("Found customer by username");
 								}
-							}else if (action.equals("Update Customer")) { // Reading an int representing custID from the Object Input Stream and finding the customer
+							} else if (action.equals("Update Customer")) { // Reading an int representing custID from
+																			// the Object Input Stream and finding the
+																			// customer
 								Customer updateCust = (Customer) ObjIS.readObject();
-								if(updateCust.update(updateCust)) {
+								if (updateCust.update(updateCust)) {
 									ObjOS.writeObject(true);
-								}else {
+								} else {
 									ObjOS.writeObject(false);
 									logger.info("Updated customer by with hibernate");
 								}
-							}else if (action.equals("Delete Customer")) { // Reading an int representing custID from the Object Input Stream and finding the customer
+							} else if (action.equals("Delete Customer")) { // Reading an int representing custID from
+																			// the Object Input Stream and finding the
+																			// customer
 								Customer deleteCust = (Customer) ObjIS.readObject();
-								if(deleteCust.delete(deleteCust)) {
+								if (deleteCust.delete(deleteCust)) {
 									ObjOS.writeObject(true);
-								}else {
+								} else {
 									ObjOS.writeObject(false);
 									logger.info("Updated customer by with hibernate");
 								}
-							}
-							else if(action.equals("Get Equipment")) {
+							} else if (action.equals("Get Equipment")) {
 								Equipment defaulEquip = new Equipment();
 								Equipment[] equipmentList = defaulEquip.selectAll();
 								if (equipmentList == null) {
@@ -173,7 +176,7 @@ public class Server {
 									ObjOS.writeObject(equipmentList);
 									logger.info("Found equipments in database");
 								}
-							}else if(action.equals("Get Messages")) {
+							} else if (action.equals("Get Messages")) {
 								String username = (String) ObjIS.readObject();
 								Message message = new Message();
 								Message[] messageList = message.selectAllMessages(username);
@@ -186,14 +189,13 @@ public class Server {
 									ObjOS.writeObject(messageList);
 									logger.info("Found equipments in database");
 								}
-							}
-							else if(action.equals("Get Equipment By Category")) {
-								String category = (String)  ObjIS.readObject();
+							} else if (action.equals("Get Equipment By Category")) {
+								String category = (String) ObjIS.readObject();
 								Equipment defaulEquip = new Equipment();
 								Equipment[] equipmentList = defaulEquip.selectAvailableEquipmentByCategory(category);
-								if(equipmentList == null) {
+								if (equipmentList == null) {
 									ObjOS.writeObject(false);
-								}else {
+								} else {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(equipmentList);
 									ObjOS.flush();
@@ -232,9 +234,9 @@ public class Server {
 							} else if (action.equals("Get Staging")) {
 								Equipment staging = new Equipment();
 								Equipment[] stagingList = staging.selectAvailableEquipmentByCategory("Staging");
-								if(stagingList == null) {
+								if (stagingList == null) {
 									ObjOS.writeObject(false);
-								}else {
+								} else {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(stagingList);
 									logger.info("Found staging equipments in database");
@@ -259,14 +261,22 @@ public class Server {
 									ObjOS.writeObject(receiptList);
 									logger.info("Found receipt in database");
 								}
-							}   else if (action.equals("Send Message")) {
+							} else if (action.equals("Send Message")) {
 								Message defaulMessage = (Message) ObjIS.readObject();
 								String user = (String) ObjIS.readObject();
 								defaulMessage.insertMessage(defaulMessage, dBConn, user);
 							} else if (action.equals("Add Event")) {
 								Event defaultEvent = (Event) ObjIS.readObject();
-								defaultEvent.insert(defaultEvent, dBConn);
-							} 
+								String day = (String) ObjIS.readObject();
+								String month = (String) ObjIS.readObject();
+								String year = (String) ObjIS.readObject();
+								if(defaultEvent.insert(defaultEvent, Integer.parseInt(day), Integer.parseInt(month),
+										Integer.parseInt(year), dBConn)) {
+									ObjOS.writeObject(true);
+								}else {
+									ObjOS.writeObject(false);
+								}
+							}
 						} catch (ClassNotFoundException ex) {
 							ex.printStackTrace();
 						} catch (ClassCastException ex) {
@@ -274,9 +284,9 @@ public class Server {
 						}
 					} catch (EOFException ex) {
 						System.out.println("Client has terminated connections with the server"); // Printing a message
-																									// when the client
-																									// terminates the
-																									// connection
+						// when the client
+						// terminates the
+						// connection
 						logger.warn("Client has terminated connections with the server");
 						break;
 					} catch (IOException ex) {
@@ -302,8 +312,8 @@ public class Server {
 			if (dBConn == null) { // checks if database connection is null
 				try {
 					String url = "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental"; // defines the URL
-																										// of the
-																										// connection
+					// of the
+					// connection
 					dBConn = DriverManager.getConnection(url, "root", "password"); // connecting with database
 
 					connectorFactory = new DBConnectorFactory();
