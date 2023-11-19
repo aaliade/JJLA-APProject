@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +23,7 @@ import controller.CustomerClientController;
 
 
 
-public class SignUp {
+public class SignUp extends Decorations {
 
 	private CustomerClientController controller;
 	private JFrame frame;
@@ -62,6 +64,16 @@ public class SignUp {
 		passwordLabel = new JLabel("Password: ");
 		confirmPasswordLabel = new JLabel("Confirm Password: ");
 		addressLabel = new JLabel("Address: ");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(os);
+		firstNameLabel.setFont(os);
+		lastNameLabel.setFont(os);
+		phoneNumberLabel.setFont(os);
+		emailLabel.setFont(os);
+		userNameLabel.setFont(os);
+		passwordLabel.setFont(os);
+		confirmPasswordLabel.setFont(os);
+		addressLabel.setFont(os);
 
 		firstNameField = new JTextField();
 		lastNameField = new JTextField();
@@ -71,11 +83,21 @@ public class SignUp {
 		passwordField = new JTextField();
 		confirmPasswordField = new JTextField();
 		addressField = new JTextField();
-		
+		firstNameField.setFont(rale);;
+		lastNameField.setFont(rale);
+		phoneField.setFont(rale);;
+		emailField.setFont(rale);
+		userNameField.setFont(rale);;
+		passwordField.setFont(rale);
+		confirmPasswordField.setFont(rale);;
+		addressField.setFont(rale);
 		
 		goBackBtn = new JButton("Go Back");
 		submitBtn = new JButton("Submit");
 		clearBtn = new JButton("Clear");
+		goBackBtn.setFont(os);
+		submitBtn.setFont(os);
+		clearBtn.setFont(os);
 
 		panels = new JPanel[10];
 		for(int i=0;i<panels.length;i++) {
@@ -92,6 +114,11 @@ public class SignUp {
 		panels[7].setLayout(new GridLayout(1,2));
 		panels[8].setLayout(new GridLayout(1,2));
 		panels[9].setLayout(new GridLayout(1,3));
+		
+		for (JPanel panel : panels) {
+            panel.setBackground(transCyan); 
+            panel.setBorder(bevel);
+        }
 
 		logger.info("Sign Up Components initialized");
 	}

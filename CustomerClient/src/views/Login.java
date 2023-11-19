@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import controller.CustomerClientController;
 
-public class Login {
+public class Login extends Decorations{
 	private JFrame frame;
 	private JLabel usernametext, userPassword, title, errorText;
 	private JTextField usernameField, userPasswordField;
@@ -28,7 +30,6 @@ public class Login {
 	private String password, username;
 
 	private static final Logger logger = LogManager.getLogger(Login.class);
-
 
 	public Login(CustomerClientController controller) {
 		this.controller = controller;
@@ -44,10 +45,16 @@ public class Login {
 	public void initializeComponents() {
 		frame = new JFrame("Grizzly’s Entertainment Equipment Rental");
 		frame.setLayout(new GridLayout(5,1));
-
+		
 		usernametext = new JLabel("Username: ");
 		userPassword = new JLabel("Password: ");
-		title = new JLabel("Welcome Customer, Login To Your Account.");
+		usernametext.setFont(os);
+		userPassword.setFont(os);
+		
+		title = new JLabel("Welcome to Grizzly's! Please Login To Your Account.");
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setFont(os);
+		
 		errorText = new JLabel("Error: wrong password/User ID. \r\n"
 				+ "Please Try Again");
 
@@ -56,12 +63,15 @@ public class Login {
 
 		usernameField = new JTextField();
 		userPasswordField = new JTextField();
-
+		usernameField.setFont(rale);;
+		userPasswordField.setFont(rale);
 
 		signUpBtn = new JButton("Sign Up");
 		loginBtn = new JButton("Login");
+		signUpBtn.setFont(os);
+		loginBtn.setFont(os);
 
-		panels = new JPanel[5];
+		panels = new JPanel[5]; 
 
 		for(int i=0;i<panels.length;i++) {
 			panels[i] = new JPanel();
@@ -73,9 +83,14 @@ public class Login {
 		panels[3].setLayout(new GridLayout(1,1));
 		panels[4].setLayout(new GridLayout(1,2));
 
+        // Changes the background color and border of each panel
+        for (JPanel panel : panels) {
+            panel.setBackground(transCyan); 
+            panel.setBorder(bevel);
+        }
+
 		logger.info("Login Components initialized");
 	}
-
 
 	public void addComponentsToPanel() {
 		panels[0].add(title);

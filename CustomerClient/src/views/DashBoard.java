@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
@@ -49,10 +50,12 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import controller.CustomerClientController;
 
-public class DashBoard {
+public class DashBoard extends Decorations {
 	private JFrame frame;
 	private JMenuBar menuBar;
 
+	ImageIcon image;
+	
 	private static final Logger logger = LogManager.getLogger(DashBoard.class);
 
 	private JMenu account;
@@ -71,6 +74,7 @@ public class DashBoard {
 	private JTable equipmentTable;
 
 	private JLabel welcomeLabel;
+	private JLabel logoLabel;
 
 	private CustomerClientController Dashboardcontroller;
 
@@ -107,6 +111,9 @@ public class DashBoard {
 		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
 		viewPanel = new JPanel(new GridLayout(1,1));
+		dashBoardPanel.setBackground(Cyan); 
+        viewPanel.setBackground(Cyan);
+        
 
 		// Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
@@ -129,29 +136,21 @@ public class DashBoard {
 		invoiceNode = new DefaultMutableTreeNode("Invoice");
 
 		// Welcome Label
+		image = new ImageIcon(getClass().getResource("logo.png"));
+		logoLabel = new JLabel(image);
+		logoLabel.setBorder(bevel);
+		
 		welcomeLabel = new JLabel(
-				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
+						"<html> Welcome to Grizzly's Entertainment!<br><br>We are a stage equipment business that offers the rental "
 						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
 						SwingConstants.CENTER);
-		welcomeLabel.setVerticalAlignment(JLabel.TOP);
-		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+		welcomeLabel.setVerticalAlignment(JLabel.CENTER);
+		welcomeLabel.setFont(verdana);
 		welcomeLabel.setPreferredSize(new Dimension(600, 600));
-		welcomeLabel.setForeground(new Color(120, 90, 40));
-		welcomeLabel.setBackground(new Color(100, 20, 70));
+		welcomeLabel.setForeground(brown);
+		welcomeLabel.setBorder(bevel);
 
 		logger.info("Customer Dashboard components initialized");
-
-		// Welcome Label
-		welcomeLabel = new JLabel(
-				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
-						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
-						SwingConstants.CENTER);
-
-		welcomeLabel.setVerticalAlignment(JLabel.TOP);
-		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
-		welcomeLabel.setPreferredSize(new Dimension(600, 600));
-		welcomeLabel.setForeground(new Color(120, 90, 40));
-		welcomeLabel.setBackground(new Color(100, 20, 70));
 
 		equipmentTable = new JTable();
 		logger.info("Customer Dashboard components initialized");
@@ -409,6 +408,7 @@ public class DashBoard {
 
 				if (nodeName.equals("Home")) {
 					clearPanel(viewPanel);
+					viewPanel.add(logoLabel);
 					viewPanel.add(welcomeLabel);
 					updatePanel(viewPanel);
 				} else if (nodeName.equals("Equipment")) {

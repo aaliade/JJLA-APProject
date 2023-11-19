@@ -13,7 +13,7 @@
 			com.mysql.cj.jdbc.Driver
 		</property>
 		<property name = "hibernate.connection.url">
-			jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental
+			jdbc:mysql://localhost:3307/grizzly’sentertainmentequipmentrental
 		</property>
 		<property name="connection.pool_size">
 			1
@@ -26,7 +26,7 @@
 			root
 		</property>
 		<property name = "hibernate.connection.password">
-			password
+			usbw
 			<!-- Change back password to " " for the other group members -->
 		</property>
 		

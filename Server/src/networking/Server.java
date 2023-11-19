@@ -301,10 +301,10 @@ public class Server {
 		private void getDatabaseConnection() {
 			if (dBConn == null) { // checks if database connection is null
 				try {
-					String url = "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental"; // defines the URL
+					String url = "jdbc:mysql://localhost:3307/grizzly’sentertainmentequipmentrental"; // defines the URL
 																										// of the
 																										// connection
-					dBConn = DriverManager.getConnection(url, "root", "password"); // connecting with database
+					dBConn = DriverManager.getConnection(url, "root", "usbw"); // connecting with database
 
 					connectorFactory = new DBConnectorFactory();
 					dBConn = DBConnectorFactory.getDatabaseConnection();
