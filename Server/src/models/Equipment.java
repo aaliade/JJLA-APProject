@@ -168,43 +168,19 @@ public class Equipment implements Serializable{
         return equipmentList;
     }
 
+	
 
-	public Equipment[] selectAvailableEquipmentByCategory(String category) {
-		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment WHERE category = '" + category + "';";
-		Equipment[] equipmentList = null;
-
-        try {
-        	stmt = dbConn.createStatement();
-            result = stmt.executeQuery(sql);
-            int count = 0;
-            
-            //If it checks and doesnt have a next in beginning 
-            if(!result.next()) {
-            	equipmentList = null;
-            	System.out.println("Nothing Is Here");
-            }else{
-            	result.close();
-                result = stmt.executeQuery(sql);
-                while(result.next()) {
-                	count++;
-                }
-                result.close();
-                result = stmt.executeQuery(sql);
-                equipmentList = new  Equipment[count];
-                int i = 0;
-                while (result.next()) {
-                        String equipID = result.getString("equipID");
-                        String equipName = result.getString("equipName");
-                        String description = result.getString("description");
-                        String Equipcategory = result.getString("category");
-                        boolean status = result.getBoolean("status");
-                        double rentalRate = result.getDouble("rentalRate");
-
-                        System.out.println("Equipment ID: " + equipID + "\nEquipment Name: " + equipName +
-                                "\nDescription: " + description + "\nStatus: " + status + "\nCategory: " + Equipcategory + "\nRental Rate: " + rentalRate + "\n");
-                        equipmentList[i] = new Equipment(equipID, equipName,description,status, Equipcategory, rentalRate); //initialize object
-                        i++;
-                    }
+	public boolean checkEquipmentByID(String id, Connection Conn) {
+		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.equipment WHERE equipID = '" + id + "';";
+		try  {
+			dbConn = Conn;
+			stmt = dbConn.createStatement();
+			result = stmt.executeQuery(sql);
+            // Check if there are any records
+            if (result.next()) {
+                return true;
+            } else {
+                return false;
             }
         } catch (SQLException e) {
             System.err.println("SQL Exception: " + e.getMessage());
@@ -218,7 +194,7 @@ public class Equipment implements Serializable{
                 logger.error("Error while closing statement/result: " + e.getMessage());
             }
         }
-        return equipmentList;
+        return false;
 	}
 	
 	public void insert(String equipID, String equipName, String description, boolean status, String category, int rentalRate) {

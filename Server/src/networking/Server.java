@@ -114,9 +114,9 @@ public class Server {
 							logger.info("Received action from client");
 
 							if (action.equals("Add Employee")) {
-								UserAccount<Employee> employeeService = 
-										context.getBean("employeeService", UserAccount.class);
-								
+								UserAccount<Employee> employeeService = context.getBean("employeeService",
+										UserAccount.class);
+
 								employeeService = (UserAccount<Employee>) ObjIS.readObject();
 								try {
 									if (employeeService.create()) {
@@ -146,7 +146,7 @@ public class Server {
 							} else if (action.equals("Add Customer")) {
 								UserAccount<Customer> customerService = context.getBean("customerService",
 										UserAccount.class);
-								customerService = (UserAccount<Customer>) ObjIS.readObject(); 
+								customerService = (UserAccount<Customer>) ObjIS.readObject();
 								if (customerService.create()) {
 									ObjOS.writeObject(true); // Return true to customer if successful
 									logger.info("Customer added to database successfully.");
@@ -215,59 +215,6 @@ public class Server {
 									ObjOS.writeObject(messageList);
 									logger.info("Found equipments in database");
 								}
-							}
-							else if(action.equals("Get Equipment By Category")) {
-								String category = (String)  ObjIS.readObject();
-								Equipment defaulEquip = new Equipment();
-								Equipment[] equipmentList = defaulEquip.selectAvailableEquipmentByCategory(category);
-								if (equipmentList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(equipmentList);
-									ObjOS.flush();
-									logger.info("Found equipments in database");
-								}
-							} else if (action.equals("Get Lighting")) {
-								Equipment lighting = new Equipment();
-								Equipment[] lightingList = lighting.selectAvailableEquipmentByCategory("Lighting");
-								if (lightingList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(lightingList);
-									logger.info("Found lighting equipments in database");
-								}
-							} else if (action.equals("Get Sound")) {
-								Equipment sound = new Equipment();
-								Equipment[] soundList = sound.selectAvailableEquipmentByCategory("Sound");
-								if (soundList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(soundList);
-									logger.info("Found sound equipments in database");
-								}
-							} else if (action.equals("Get Power")) {
-								Equipment power = new Equipment();
-								Equipment[] powerList = power.selectAvailableEquipmentByCategory("Power");
-								if (powerList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(powerList);
-									logger.info("Found power equipments in database");
-								}
-							} else if (action.equals("Get Staging")) {
-								Equipment staging = new Equipment();
-								Equipment[] stagingList = staging.selectAvailableEquipmentByCategory("Staging");
-								if (stagingList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(stagingList);
-									logger.info("Found staging equipments in database");
-								}
 							} else if (action.equals("Get Invoice")) {
 								Invoice defaulInvoice = new Invoice();
 								Invoice[] invoiceList = defaulInvoice.selectAllInvoices();
@@ -288,7 +235,7 @@ public class Server {
 									ObjOS.writeObject(receiptList);
 									logger.info("Found receipt in database");
 								}
-							}  else if (action.equals("Send Message")) {
+							} else if (action.equals("Send Message")) {
 								Message defaulMessage = (Message) ObjIS.readObject();
 								String user = (String) ObjIS.readObject();
 								defaulMessage.insertMessage(defaulMessage, dBConn, user);
@@ -297,14 +244,21 @@ public class Server {
 								String day = (String) ObjIS.readObject();
 								String month = (String) ObjIS.readObject();
 								String year = (String) ObjIS.readObject();
-								if(defaultEvent.insert(defaultEvent, Integer.parseInt(day), Integer.parseInt(month),
+								if (defaultEvent.insert(defaultEvent, Integer.parseInt(day), Integer.parseInt(month),
 										Integer.parseInt(year), dBConn)) {
 									ObjOS.writeObject(true);
-								}else {
+								} else {
+									ObjOS.writeObject(false);
+								}
+							} else if (action.equals("Find Equipment")) {
+								String equipmentID = (String) ObjIS.readObject();
+								Equipment defaultEquip = new Equipment();
+								if (defaultEquip.checkEquipmentByID(equipmentID, dBConn)) {
+									ObjOS.writeObject(true);
+								} else {
 									ObjOS.writeObject(false);
 								}
 							}
-
 						} catch (ClassNotFoundException ex) {
 							ex.printStackTrace();
 						} catch (ClassCastException ex) {
@@ -343,8 +297,6 @@ public class Server {
 					// of the
 					// connection
 					dBConn = DriverManager.getConnection(url, "root", "password"); // connecting with database
-
-
 					connectorFactory = new DBConnectorFactory();
 					dBConn = DBConnectorFactory.getDatabaseConnection();
 					logger.info("Database Connection Established.");

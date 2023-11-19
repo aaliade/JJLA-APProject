@@ -206,6 +206,18 @@ public class EmployeeClientController {
 		}
 	}
 	
+	public void findEquipment(String equipmentID) {
+		try {
+			sendAction("Find Equipment");
+			objOs.writeObject(equipmentID);
+			receiveResponse();
+			logger.info("Equipment ID sent to Server");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			logger.error("ID transfer failed: " + ex.getMessage());
+		}
+	}
+	
 	public void sendEmployee(Employee employee) {
 		try {
 			objOs.writeObject(employee);
@@ -302,14 +314,6 @@ public class EmployeeClientController {
 					logger.info("Equipment added to Database");
 				}
 			}
-			if (action.equalsIgnoreCase("Add Event")) {
-				Boolean flag = (Boolean) objIs.readObject();
-				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Event Added Successfully",
-							"Add Record Status", JOptionPane.INFORMATION_MESSAGE);
-					logger.info("Event added to Database");
-				}
-			}
 			if (action.equalsIgnoreCase("Find Employee")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
@@ -346,10 +350,21 @@ public class EmployeeClientController {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
 					JOptionPane.showMessageDialog(null, "Event Successfully Added",
-							"Event Search", JOptionPane.INFORMATION_MESSAGE);
+							"Event Submission", JOptionPane.INFORMATION_MESSAGE);
 					logger.info("Event found from database");
 				}else {
 					JOptionPane.showMessageDialog(null, "Event Successfully Added",
+							"Event Search", JOptionPane.ERROR_MESSAGE);
+					logger.info("Event not found from database");
+				}
+			}if (action.equalsIgnoreCase("Find Equipment")) {
+				Boolean flag = (Boolean) objIs.readObject();
+				if (flag == true) {
+					JOptionPane.showMessageDialog(null, "Equipment Successfully Found",
+							"Event Submission", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Event found from database");
+				}else {
+					JOptionPane.showMessageDialog(null, "Equipment ID Was Not Found",
 							"Event Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Event not found from database");
 				}

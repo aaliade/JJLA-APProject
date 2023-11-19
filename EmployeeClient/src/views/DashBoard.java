@@ -62,7 +62,7 @@ public class DashBoard {
 	// Main TreeNode
 	private DefaultMutableTreeNode dashBoardNode;
 	// SubTree Nodes Level 2
-	private DefaultMutableTreeNode homeNode, addEquipmentNode,EquipmentNode, scheduleEventNode, inboxNode, veiwEquipmentNode, createReceipt, createInvoice;
+	private DefaultMutableTreeNode homeNode, addEquipmentNode,EquipmentNode, checkEquipmentAvailability, scheduleEventNode, inboxNode, veiwEquipmentNode, createReceipt, createInvoice;
 
 	private JPanel dashBoardPanel, viewPanel;
 
@@ -107,6 +107,7 @@ public class DashBoard {
 		EquipmentNode = new DefaultMutableTreeNode("Equipment");
 		addEquipmentNode= new DefaultMutableTreeNode("Add");
 		veiwEquipmentNode = new DefaultMutableTreeNode("View");
+		checkEquipmentAvailability = new DefaultMutableTreeNode("Check Availability");
 		scheduleEventNode = new DefaultMutableTreeNode("Schedule");
 		createReceipt= new DefaultMutableTreeNode("Create Receipt");
 		createInvoice = new DefaultMutableTreeNode("Create Invoice");
@@ -151,6 +152,7 @@ public class DashBoard {
 		
 		EquipmentNode.add(veiwEquipmentNode);
 		EquipmentNode.add(addEquipmentNode);
+		EquipmentNode.add(checkEquipmentAvailability);
 		
 		logger.info("Tree Structure created");
 	}
@@ -197,10 +199,36 @@ public class DashBoard {
 					System.out.println("Home");
 					viewPanel.add(welcomeLabel);
 					updatePanel(viewPanel);
-				}else if (nodeName.equals("Add")) {
+				} else if (nodeName.equals("Add")) {
 					clearPanel(viewPanel);
 					System.out.println("Add");
 					//viewPanel.add(welcomeLabel);
+					updatePanel(viewPanel);
+				}else if (nodeName.equals("Check Availability")) {
+					clearPanel(viewPanel);
+					System.out.println("Check");
+					JPanel panel = new JPanel(new GridLayout(4,1));
+					JLabel label = new JLabel("Enter Equipment ID: "); 
+					JTextField searchField = new JTextField();
+					JButton btn = new JButton("Search"); 
+					
+					panel.add(label);
+					panel.add(searchField);
+					panel.add(btn);
+					
+					viewPanel.add(panel);
+					
+					btn.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							if(searchField.getText().isEmpty()) {
+								JOptionPane.showMessageDialog(null, "Please Enter An ID",
+										"Event Submission", JOptionPane.ERROR_MESSAGE);
+							}else {
+								Dashboardcontroller.findEquipment(searchField.getText());
+							}
+						}
+					});
 					updatePanel(viewPanel);
 				}else if (nodeName.equals("View")) {
 					clearPanel(viewPanel);

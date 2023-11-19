@@ -210,7 +210,6 @@ public class Event implements Serializable {
         Date utilDate = calendar.getTime();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		
-		
 		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.event (eventID, eventName, date, location)"
 				+ "VALUES ('" + event.geteventID() + "', '" + event.geteventName() + "', '" + sqlDate + "', '" 
 				+ event.geteventLocation() + "');";
@@ -221,7 +220,6 @@ public class Event implements Serializable {
 			int inserted = stmt.executeUpdate(sql);
 			if (inserted == 1) {
 				return true;
-				
 			} else {
 				return false;
 			}
