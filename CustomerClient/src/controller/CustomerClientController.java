@@ -18,9 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import models.Customer;
 import models.Employee;
 import models.Equipment;
@@ -52,7 +49,7 @@ public class CustomerClientController {
 	private Login loginView;
 	private SignUp signupView;
 	private DashBoard DashboardView;
-	
+
 	private boolean Deleted;
 
 	public CustomerClientController() {
@@ -188,7 +185,7 @@ public class CustomerClientController {
 			logger.error("Customer Message failed to be sent: " + ex.getMessage());
 		}
 	}
-	
+
 	public boolean GetDeleteStatus() {
 		return this.Deleted;
 	}
@@ -238,7 +235,8 @@ public class CustomerClientController {
 							"Lighting Equipment Search", JOptionPane.INFORMATION_MESSAGE);
 					equipmentList = (Equipment[]) objIs.readObject();
 				} else {
-					JOptionPane.showMessageDialog(null, "No Lighting Equipment was found in database, Will Update Shortly",
+					JOptionPane.showMessageDialog(null,
+							"No Lighting Equipment was found in database, Will Update Shortly",
 							"Lighting Equipment Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Lighting Equipment not found from database");
 				}
@@ -274,7 +272,8 @@ public class CustomerClientController {
 							"Staging Equipment Search", JOptionPane.INFORMATION_MESSAGE);
 					equipmentList = (Equipment[]) objIs.readObject();
 				} else {
-					JOptionPane.showMessageDialog(null, "No Staging Equipment was found in database, Will Update Shortly",
+					JOptionPane.showMessageDialog(null,
+							"No Staging Equipment was found in database, Will Update Shortly",
 							"Staging Equipment Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Staging Equipment not found from database");
 				}
@@ -282,8 +281,8 @@ public class CustomerClientController {
 			if (action.equalsIgnoreCase("Get Invoice")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Invoice was successfully found in database",
-							"Invoice Search", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Invoice was successfully found in database", "Invoice Search",
+							JOptionPane.INFORMATION_MESSAGE);
 					invoiceList = (Invoice[]) objIs.readObject();
 				} else {
 					JOptionPane.showMessageDialog(null, "No Invoice was found in database, Will Update Shortly",
@@ -294,8 +293,8 @@ public class CustomerClientController {
 			if (action.equalsIgnoreCase("Get Event")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Event was successfully found in database",
-							"Event Search", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Event was successfully found in database", "Event Search",
+							JOptionPane.INFORMATION_MESSAGE);
 					eventList = (Event[]) objIs.readObject();
 				} else {
 					JOptionPane.showMessageDialog(null, "No event was found in database, Will Update Shortly",
@@ -306,8 +305,8 @@ public class CustomerClientController {
 			if (action.equalsIgnoreCase("Get Message")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Message was successfully found in database",
-							"Message Search", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Message was successfully found in database", "Message Search",
+							JOptionPane.INFORMATION_MESSAGE);
 					messageList = (Message[]) objIs.readObject();
 				} else {
 					JOptionPane.showMessageDialog(null, "No Message was found in database, Will Update Shortly",
@@ -318,45 +317,50 @@ public class CustomerClientController {
 			if (action.equalsIgnoreCase("Get Receipt")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Receipt was successfully found in database",
-							"Receipt Search", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Receipt was successfully found in database", "Receipt Search",
+							JOptionPane.INFORMATION_MESSAGE);
 					receiptList = (Receipt[]) objIs.readObject();
 				} else {
 					JOptionPane.showMessageDialog(null, "No Receipt was found in database, Will Update Shortly",
 							"Receipt Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Receipt not found from database");
 				}
-			}if (action.equalsIgnoreCase("Get Equipment By Category")) {
+			}
+			if (action.equalsIgnoreCase("Get Equipment By Category")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Equipment were successfully found of this category in database",
-							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Equipment were successfully found of this category in database", "Equipment Search",
+							JOptionPane.INFORMATION_MESSAGE);
 					equipmentList = null;
 					equipmentList = (Equipment[]) objIs.readObject();
 				} else {
-					JOptionPane.showMessageDialog(null, "No Equipment was found in database by this category, Will Update Shortly",
+					JOptionPane.showMessageDialog(null,
+							"No Equipment was found in database by this category, Will Update Shortly",
 							"Equipment Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Customer not found from database");
 				}
-			}if (action.equalsIgnoreCase("Update Customer")) {
+			}
+			if (action.equalsIgnoreCase("Update Customer")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Customer successfully Updated",
-							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Customer successfully Updated", "Equipment Search",
+							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "Failed To Update User",
-							"Equipment Search", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Failed To Update User", "Equipment Search",
+							JOptionPane.ERROR_MESSAGE);
 					logger.info("Customer not found from database");
 				}
-			}if (action.equalsIgnoreCase("Delete Customer")) {
+			}
+			if (action.equalsIgnoreCase("Delete Customer")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
-					JOptionPane.showMessageDialog(null, "Customer successfully Deleted",
-							"Equipment Search", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Customer successfully Deleted", "Equipment Search",
+							JOptionPane.INFORMATION_MESSAGE);
 					this.Deleted = true;
 				} else {
-					JOptionPane.showMessageDialog(null, "Failed To Delete User",
-							"Equipment Search", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Failed To Delete User", "Equipment Search",
+							JOptionPane.ERROR_MESSAGE);
 					logger.info("Customer not found from database");
 					this.Deleted = false;
 				}
@@ -377,9 +381,9 @@ public class CustomerClientController {
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
-		
+
 	}
-	
+
 	public void getEquipmentsFromDatabaseByCategory(String category) {
 		sendAction("Get Equipment By Category");
 		System.out.println("Action sent");
@@ -388,56 +392,56 @@ public class CustomerClientController {
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public void getLightingEquipmentsFromDatabase() {
 		sendAction("Get Lighting");
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public void getSoundEquipmentsFromDatabase() {
 		sendAction("Get Sound");
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public void getPowerEquipmentsFromDatabase() {
 		sendAction("Get Power");
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public void getStagingEquipmentsFromDatabase() {
 		sendAction("Get Staging");
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public void getInvoiceFromDatabase() {
 		sendAction("Get Invoice");
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public void getEventFromDatabase() {
 		sendAction("Get Event");
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public void getMessageFromDatabase() {
 		sendAction("Get Message");
 		System.out.println("Action sent");
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public void getReceiptFromDatabase() {
 		sendAction("Get Receipt");
 		System.out.println("Action sent");
@@ -445,24 +449,30 @@ public class CustomerClientController {
 		System.out.println("Response recieved");
 	}
 
-	public void UpdateCustomerObject(String addressField, String emailField, String  firstNameField, 
+	public void UpdateCustomerObject(String addressField, String emailField, String firstNameField,
 			String lastNameField, String passwordField, String phoneField, String usernameField) {
-		if(!addressField.isEmpty()) {
+		if (!addressField.isEmpty()) {
 			customer.setAddress(addressField);
-		}if(!emailField.isEmpty()) {
+		}
+		if (!emailField.isEmpty()) {
 			customer.setEmail(emailField);
-		}if(!firstNameField.isEmpty()) {
+		}
+		if (!firstNameField.isEmpty()) {
 			customer.setFirstName(firstNameField);
-		}if(!lastNameField.isEmpty()) {
+		}
+		if (!lastNameField.isEmpty()) {
 			customer.setLastName(lastNameField);
-		}if(!passwordField.isEmpty()) {
+		}
+		if (!passwordField.isEmpty()) {
 			customer.setPassword(passwordField);
-		}if(!phoneField.isEmpty()) {
+		}
+		if (!phoneField.isEmpty()) {
 			customer.setPhone(phoneField);
-		}if(!usernameField.isEmpty()) {
+		}
+		if (!usernameField.isEmpty()) {
 			customer.setUsername(usernameField);
 		}
-		
+
 		sendAction("Update Customer");
 		System.out.println("Action sent");
 		sendCustomer(customer);
@@ -470,7 +480,7 @@ public class CustomerClientController {
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	
+
 	public boolean CreateCustomerObject(String username, String password, String firstName, String lastName,
 			String phone, String address, String email, String usertype, int custID, float accountBalance) {
 		Customer customer = new Customer(username, password, firstName, lastName, phone, address, email, usertype,
@@ -483,6 +493,7 @@ public class CustomerClientController {
 		System.out.println("Response recieved");
 		return true;
 	}
+
 	public void DeleteUser() {
 		sendAction("Delete Customer");
 		System.out.println("Action sent");
@@ -491,20 +502,21 @@ public class CustomerClientController {
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
-	public void setCustomerInfo(JLabel custIDLabel, JLabel accountBalanceLabel, JLabel addressLabel,
-			JLabel emailLabel,JLabel firstNameLabel, JLabel lastNameLabel, JLabel phoneLabel,
-			JLabel userTypeLabel, JLabel usernameLabel) {
+
+	public void setCustomerInfo(JLabel custIDLabel, JLabel accountBalanceLabel, JLabel addressLabel, JLabel emailLabel,
+			JLabel firstNameLabel, JLabel lastNameLabel, JLabel phoneLabel, JLabel userTypeLabel,
+			JLabel usernameLabel) {
 		custIDLabel.setText("Cutomer ID: " + Integer.toString(customer.getCustID()));
-		accountBalanceLabel.setText ("Account Balance: " + Float.toString(customer.getAccountBalance()));
+		accountBalanceLabel.setText("Account Balance: " + Float.toString(customer.getAccountBalance()));
 		addressLabel.setText("Address: " + customer.getAddress());
-		emailLabel.setText("Email: " +customer.getEmail());
+		emailLabel.setText("Email: " + customer.getEmail());
 		firstNameLabel.setText("First Name: " + customer.getFirstName());
-		lastNameLabel.setText("Last Name: " +customer.getLastName());
+		lastNameLabel.setText("Last Name: " + customer.getLastName());
 		phoneLabel.setText("Phone: " + customer.getPhone());
-		userTypeLabel.setText("User Type: " +customer.getUserType());
+		userTypeLabel.setText("User Type: " + customer.getUserType());
 		usernameLabel.setText("Username: " + customer.getUsername());
 	}
-	
+
 	public int getCurrentEquipmentCount() {
 		return equipmentList.length;
 	}
@@ -525,5 +537,4 @@ public class CustomerClientController {
 		logger.info("Customer Client Test Info message");
 		new CustomerClientController();
 	}
-
 }

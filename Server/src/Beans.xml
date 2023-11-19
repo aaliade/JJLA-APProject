@@ -7,11 +7,14 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd">
-	<!-- Define your beans here -->
-	<!-- define the dependency -->
-	<bean id="employee" class="models.Employee">
-		<property name="empRole" value="cashier"></property>
-	</bean>
 	
-	<bean id="customer" class="models.Customer"></bean>
+	<!-- Define common User bean (abstract) -->
+    <bean id="userService" class="models.User" abstract="true"/>
+
+    <!-- Define Employee bean -->
+    <bean id="employeeService" parent="userService" class="models.Employee" />
+
+    <!-- Define Customer bean -->
+    <bean id="customerService" parent="userService" class="models.Customer" />
+
 </beans>

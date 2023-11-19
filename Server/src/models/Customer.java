@@ -3,6 +3,7 @@ package models;
 import java.io.Serializable;
 
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -107,7 +108,7 @@ public class Customer extends User implements Serializable { //in order for the 
 	    }
 	}
 	
-	public Customer findCustomer(String username) {
+	public Customer find(String username) {
 		Session session = null;
 	    Transaction transaction = null;
 	    Logger logger = LogManager.getLogger(getClass());
@@ -178,14 +179,14 @@ public class Customer extends User implements Serializable { //in order for the 
 	    return false;
 	}
 	
-	public boolean delete(Customer cust) {
+	public boolean delete(Object user) {
 		Session session = null;
 		Transaction transaction = null;
 		Logger logger = LogManager.getLogger(getClass());
 		try {
 			session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
 			transaction = session.beginTransaction();
-			Customer existingCustomer = (Customer) session.get(Customer.class, cust.getUsername());
+			Customer existingCustomer = session.get(Customer.class, ((Customer) user).getUsername());
 			
 			session.delete(existingCustomer);
 			transaction.commit();
@@ -221,5 +222,6 @@ public class Customer extends User implements Serializable { //in order for the 
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }
