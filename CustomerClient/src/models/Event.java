@@ -11,7 +11,7 @@ public class Event implements Serializable {
 	public transient static final Logger logger = LogManager.getLogger(Event.class);
 	private String eventID;
 	private String eventName;
-	private Date eventDate;
+	private java.sql.Date eventDate;
 	private String eventLocation;
 
 	public Event() {
@@ -22,7 +22,7 @@ public class Event implements Serializable {
 		logger.info("Event initialized");
 	}
 
-	public Event(String eventID, String eventName, Date eventDate, String eventLocation) {
+	public Event(String eventID, String eventName, java.sql.Date eventDate, String eventLocation) {
 		this.eventID = eventID;
 		this.eventName = eventName;
 		this.eventDate = eventDate;
@@ -55,7 +55,7 @@ public class Event implements Serializable {
 		return eventDate;
 	}
 
-	public void seteventDate(Date eventDate) {
+	public void seteventDate(java.sql.Date eventDate) {
 		this.eventDate = eventDate;
 		logger.info("Input accepted, Event Date set");
 	}

@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 public class Employee extends User implements Serializable { // in order for the class to be sent across a network it
 																// needs to be serialized
 	private static final long serialVersionUID = 1L;
-
 	// no need to use @Id as the joined table is seen as a reference identifier
 	@Column(name = "empID")
 	private int empID;

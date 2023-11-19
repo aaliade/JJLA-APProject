@@ -111,8 +111,8 @@ public class DashBoard extends Decorations {
 		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
 		viewPanel = new JPanel(new GridLayout(1,1));
-		dashBoardPanel.setBackground(Cyan); 
-        viewPanel.setBackground(Cyan);
+		dashBoardPanel.setBackground(cyan); 
+        viewPanel.setBackground(cyan);
         
 
 		// Nodes for Jtree

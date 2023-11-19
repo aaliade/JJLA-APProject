@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -16,7 +17,7 @@ import factories.DBConnectorFactory;
 
 public class Event implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public static final Logger logger = LogManager.getLogger(Event.class);
+	private transient static final Logger logger = LogManager.getLogger(Event.class);
 	private String eventID;
 	private String eventName;
 	private Date eventDate;
@@ -199,9 +200,19 @@ public class Event implements Serializable {
 		return eventList;
 	}
 
-	public void insert(Event event, Connection Conn) {
+	public boolean insert(Event event, int day, int month, int year, Connection Conn) {
+		Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month); // Note: Calendar.MONTH is zero-based
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+
+        // Get the Date object
+        Date utilDate = calendar.getTime();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		
+		
 		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.event (eventID, eventName, date, location)"
-				+ "VALUES ('" + event.geteventID() + "', '" + event.geteventName() + "', '" + event.geteventDate() + "', '" 
+				+ "VALUES ('" + event.geteventID() + "', '" + event.geteventName() + "', '" + sqlDate + "', '" 
 				+ event.geteventLocation() + "');";
 		try {
 			dbConn = Conn;
@@ -209,15 +220,13 @@ public class Event implements Serializable {
 
 			int inserted = stmt.executeUpdate(sql);
 			if (inserted == 1) {
-				JOptionPane.showMessageDialog(null, "Event Record Inserted Successfully!", "Insertion Status",
-						JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Event Record (ID: " + eventID + ") Inserted Successfully");
+				return true;
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "Event Record Insertion Failed.", "Insertion Status",
-						JOptionPane.ERROR_MESSAGE);
-				logger.error("Event Record (ID: " + eventID + ") Insertion Failed");
+				return false;
 			}
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			System.err.println("SQL Exception: " + e.getMessage());
 			logger.error("SQL Exception while inserting Event Record (ID: " + eventID + "): " + e.getMessage());
 		} catch (Exception e) {
@@ -231,6 +240,7 @@ public class Event implements Serializable {
 				logger.error("Error while closing statement: " + e.getMessage());
 			}
 		}
+		return false;
 	}
 
 	public void update(String UNDECIDED) {

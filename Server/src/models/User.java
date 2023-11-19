@@ -1,38 +1,23 @@
 package models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.DiscriminatorType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.annotations.Columns;
-
-import factories.SessionFactoryBuilder;
 
 
 @Entity(name = "user")
 @Table(name = "user")
 //each subclass has its own table, and there is a table for the superclass containing common fields.
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User implements Serializable {
+public abstract class User implements Serializable, UserAccount<Object> {
 
 	private static final long serialVersionUID = 1L;
 	

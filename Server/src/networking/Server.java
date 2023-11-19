@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -32,6 +34,7 @@ import models.Event;
 import models.Invoice;
 import models.Message;
 import models.Receipt;
+import models.UserAccount;
 import factories.DBConnectorFactory;
 
 public class Server {
@@ -57,7 +60,8 @@ public class Server {
 				ClientHandler clientThread;
 
 				try {
-					clientThread = new ClientHandler(connectionSocket);
+					ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+					clientThread = new ClientHandler(connectionSocket, context);
 					Thread thread = new Thread((Runnable) clientThread); // thread object passing clientHandler obj
 					thread.start(); // starting the thread
 				} catch (IOException e) {
@@ -79,12 +83,24 @@ public class Server {
 		private Statement stmt;
 		private ResultSet result = null;
 
-		public ClientHandler(Socket clientSocket) throws IOException {
+		private static ClassPathXmlApplicationContext context;
+
+		public ClientHandler(Socket clientSocket, ClassPathXmlApplicationContext context) throws IOException {
 			this.clientSocket = clientSocket;
+			this.context = context;
+		}
+
+		public void initializeSpringContext() {
+			// Load the Spring ApplicationContext
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 		}
 
 		@Override
 		public void run() {
+			// Ensure that context is not null
+			if (context == null) {
+				throw new IllegalStateException("Spring context not initialized");
+			}
 			try (Socket clientConnect = this.clientSocket;
 					ObjectOutputStream ObjOS = new ObjectOutputStream(this.clientSocket.getOutputStream());
 					ObjectInputStream ObjIS = new ObjectInputStream(this.clientSocket.getInputStream());) {
@@ -98,12 +114,13 @@ public class Server {
 							logger.info("Received action from client");
 
 							if (action.equals("Add Employee")) {
-								Employee empObj = (Employee) ObjIS.readObject(); // Reading an Employee object from the
-																					// Object Input Stream and adding to
-																					// it
+								UserAccount<Employee> employeeService = 
+										context.getBean("employeeService", UserAccount.class);
+								
+								employeeService = (UserAccount<Employee>) ObjIS.readObject();
 								try {
-									if (empObj.create()) {
-										ObjOS.writeObject(true); // Return true to customer if successful
+									if (employeeService.create()) {
+										ObjOS.writeObject(true); // Return true to employee if successful
 										logger.info("Employee added to file successfully.");
 									} else {
 										ObjOS.writeObject(false); // returns false if execution fails
@@ -115,19 +132,22 @@ public class Server {
 								}
 							} else if (action.equals("Find Employee")) {
 								action = (String) ObjIS.readObject();
-								Employee searchEmp = new Employee();
-
-								if (searchEmp.findEmployee(action) == null) {
+								// String customerUsername = (String) ObjIS.readObject();
+								UserAccount<Employee> employeeService = (UserAccount<Employee>) context
+										.getBean("employeeService");
+								// Customer foundCustomer = customerService.find(customerUsername);
+								if (employeeService.find(action) == null) {
 									ObjOS.writeObject(false);
 								} else {
 									ObjOS.writeObject(true);
-									ObjOS.writeObject(searchEmp.findEmployee(action));
+									ObjOS.writeObject(employeeService.find(action));
 									logger.info("Found employee by username");
 								}
 							} else if (action.equals("Add Customer")) {
-								Customer custObj = (Customer) ObjIS.readObject(); // Reading a Customer object from the
-																					// Object Input Stream
-								if (custObj.create()) {
+								UserAccount<Customer> customerService = context.getBean("customerService",
+										UserAccount.class);
+								customerService = (UserAccount<Customer>) ObjIS.readObject(); 
+								if (customerService.create()) {
 									ObjOS.writeObject(true); // Return true to customer if successful
 									logger.info("Customer added to database successfully.");
 								} else {
@@ -135,35 +155,44 @@ public class Server {
 									logger.warn("Failed to add customer to database.");
 								}
 							} else if (action.equals("Find Customer")) { // Reading an int representing custID from the
-																			// Object Input Stream and finding the
-																			// customer
+								// Object Input Stream and finding the
+								// customer
 								action = (String) ObjIS.readObject();
-								Customer searchCust = new Customer();
-								if (searchCust.findCustomer(action) == null) {
+								// String customerUsername = (String) ObjIS.readObject();
+								UserAccount<Customer> customerService = (UserAccount<Customer>) context
+										.getBean("customerService");
+								// Customer foundCustomer = customerService.find(customerUsername);
+								if (customerService.find(action) == null) {
 									ObjOS.writeObject(false);
+									logger.info("Customer not found.");
 								} else {
 									ObjOS.writeObject(true);
-									ObjOS.writeObject(searchCust.findCustomer(action));
+									ObjOS.writeObject(customerService.find(action));
 									logger.info("Found customer by username");
 								}
-							}else if (action.equals("Update Customer")) { // Reading an int representing custID from the Object Input Stream and finding the customer
+							} else if (action.equals("Update Customer")) { // Reading an int representing custID from
+																			// the Object Input Stream and finding the
+																			// customer
 								Customer updateCust = (Customer) ObjIS.readObject();
-								if(updateCust.update(updateCust)) {
+								if (updateCust.update(updateCust)) {
 									ObjOS.writeObject(true);
-								}else {
+								} else {
 									ObjOS.writeObject(false);
-									logger.info("Updated customer by with hibernate");
+									logger.info("Updated customer");
 								}
-							}else if (action.equals("Delete Customer")) { // Reading an int representing custID from the Object Input Stream and finding the customer
-								Customer deleteCust = (Customer) ObjIS.readObject();
-								if(deleteCust.delete(deleteCust)) {
+							} else if (action.equals("Delete Customer")) { // Reading an int representing custID from
+																			// the Object Input Stream and finding the
+																			// customer
+								Customer customerService = (Customer) context.getBean("customerService",
+										UserAccount.class);
+								customerService = (Customer) ObjIS.readObject();
+								if (customerService.delete(customerService)) {
 									ObjOS.writeObject(true);
-								}else {
+								} else {
 									ObjOS.writeObject(false);
-									logger.info("Updated customer by with hibernate");
+									logger.info("Deleted customer");
 								}
-							}
-							else if(action.equals("Get Equipment")) {
+							} else if (action.equals("Get Equipment")) {
 								Equipment defaulEquip = new Equipment();
 								Equipment[] equipmentList = defaulEquip.selectAll();
 								if (equipmentList == null) {
@@ -173,7 +202,7 @@ public class Server {
 									ObjOS.writeObject(equipmentList);
 									logger.info("Found equipments in database");
 								}
-							}else if(action.equals("Get Messages")) {
+							} else if (action.equals("Get Messages")) {
 								String username = (String) ObjIS.readObject();
 								Message message = new Message();
 								Message[] messageList = message.selectAllMessages(username);
@@ -191,9 +220,9 @@ public class Server {
 								String category = (String)  ObjIS.readObject();
 								Equipment defaulEquip = new Equipment();
 								Equipment[] equipmentList = defaulEquip.selectAvailableEquipmentByCategory(category);
-								if(equipmentList == null) {
+								if (equipmentList == null) {
 									ObjOS.writeObject(false);
-								}else {
+								} else {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(equipmentList);
 									ObjOS.flush();
@@ -232,9 +261,9 @@ public class Server {
 							} else if (action.equals("Get Staging")) {
 								Equipment staging = new Equipment();
 								Equipment[] stagingList = staging.selectAvailableEquipmentByCategory("Staging");
-								if(stagingList == null) {
+								if (stagingList == null) {
 									ObjOS.writeObject(false);
-								}else {
+								} else {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(stagingList);
 									logger.info("Found staging equipments in database");
@@ -259,14 +288,23 @@ public class Server {
 									ObjOS.writeObject(receiptList);
 									logger.info("Found receipt in database");
 								}
-							}   else if (action.equals("Send Message")) {
+							}  else if (action.equals("Send Message")) {
 								Message defaulMessage = (Message) ObjIS.readObject();
 								String user = (String) ObjIS.readObject();
 								defaulMessage.insertMessage(defaulMessage, dBConn, user);
 							} else if (action.equals("Add Event")) {
 								Event defaultEvent = (Event) ObjIS.readObject();
-								defaultEvent.insert(defaultEvent, dBConn);
-							} 
+								String day = (String) ObjIS.readObject();
+								String month = (String) ObjIS.readObject();
+								String year = (String) ObjIS.readObject();
+								if(defaultEvent.insert(defaultEvent, Integer.parseInt(day), Integer.parseInt(month),
+										Integer.parseInt(year), dBConn)) {
+									ObjOS.writeObject(true);
+								}else {
+									ObjOS.writeObject(false);
+								}
+							}
+
 						} catch (ClassNotFoundException ex) {
 							ex.printStackTrace();
 						} catch (ClassCastException ex) {
@@ -274,9 +312,9 @@ public class Server {
 						}
 					} catch (EOFException ex) {
 						System.out.println("Client has terminated connections with the server"); // Printing a message
-																									// when the client
-																									// terminates the
-																									// connection
+						// when the client
+						// terminates the
+						// connection
 						logger.warn("Client has terminated connections with the server");
 						break;
 					} catch (IOException ex) {
@@ -301,9 +339,10 @@ public class Server {
 		private void getDatabaseConnection() {
 			if (dBConn == null) { // checks if database connection is null
 				try {
+					
 					String url = "jdbc:mysql://localhost:3307/grizzly’sentertainmentequipmentrental"; // defines the URL
-																										// of the
-																										// connection
+					// of the
+					// connection
 					dBConn = DriverManager.getConnection(url, "root", "usbw"); // connecting with database
 
 					connectorFactory = new DBConnectorFactory();

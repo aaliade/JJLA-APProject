@@ -238,6 +238,7 @@ public class DashBoard {
 						@Override 
 						public void actionPerformed(ActionEvent e) {
 							String dateString = model.getYear() + "-" + model.getMonth() + "-" + model.getDay(); // Format: yyyy-MM-dd
+							date.setText(dateString);
 						} 
 					});
 					
@@ -256,7 +257,7 @@ public class DashBoard {
 					panel.add(EventNamepanel);
 					panel.add(EventLocationpanel);
 					panel.add(submit);
-					
+					 
 					submit.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
@@ -270,6 +271,7 @@ public class DashBoard {
 							}							
 						}
 					});
+					
 					viewPanel.add(panel); 
 					updatePanel(viewPanel);
 				}else if (nodeName.equals("Create Receipt")) {
