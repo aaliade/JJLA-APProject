@@ -220,11 +220,9 @@ public class Event implements Serializable {
 
 			int inserted = stmt.executeUpdate(sql);
 			if (inserted == 1) {
-				logger.info("Event Record (ID: " + eventID + ") Inserted Successfully");
 				return true;
 				
 			} else {
-				logger.error("Event Record (ID: " + eventID + ") Insertion Failed");
 				return false;
 			}
 		} 
