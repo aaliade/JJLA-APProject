@@ -10,13 +10,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import controller.EmployeeClientController;
 
-public class Login {
+public class Login extends Decorations {
 	private JFrame frame;
 	private JLabel usernametext, userPassword, title, errorText;
 	private JTextField usernameField, userPasswordField;
@@ -47,19 +48,28 @@ public class Login {
 
 		usernametext = new JLabel("Username: ");
 		userPassword = new JLabel("Password: ");
-		title = new JLabel("Welcome Employee, Login To Your Account.");
+		usernametext.setFont(os);
+		userPassword.setFont(os);
+		
+		title = new JLabel("Welcome to Grizzly's, Employee! Login To Your Account.");
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setFont(os);
 		errorText = new JLabel("Error: wrong password/User ID. \r\n"
 				+ "Please Try Again");
+		
 
 		//set error text to be invisible
 		errorText.setVisible(false);
 
 		usernameField = new JTextField();
 		userPasswordField = new JTextField();
-
+		usernameField.setFont(rale);;
+		userPasswordField.setFont(rale);
 
 		signUpBtn = new JButton("Sign Up");
 		loginBtn = new JButton("Login");
+		signUpBtn.setFont(os);
+		loginBtn.setFont(os);
 
 		panels = new JPanel[5];
 
@@ -72,6 +82,12 @@ public class Login {
 		panels[2].setLayout(new GridLayout(1,2));
 		panels[3].setLayout(new GridLayout(1,1));
 		panels[4].setLayout(new GridLayout(1,2));
+		
+		// Changes the background color and border of each panel
+        for (JPanel panel : panels) {
+            panel.setBackground(transCyan); 
+            panel.setBorder(bevel);
+        }
 
 		logger.info("Login Components initialized");
 	}

@@ -51,7 +51,7 @@ public class Login extends Decorations{
 		usernametext.setFont(os);
 		userPassword.setFont(os);
 		
-		title = new JLabel("Welcome to Grizzly's! Please Login To Your Account.");
+		title = new JLabel("Welcome to Grizzly's, Customer! Please Login To Your Account.");
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setFont(os);
 		
@@ -63,7 +63,7 @@ public class Login extends Decorations{
 
 		usernameField = new JTextField();
 		userPasswordField = new JTextField();
-		usernameField.setFont(rale);;
+		usernameField.setFont(rale);
 		userPasswordField.setFont(rale);
 
 		signUpBtn = new JButton("Sign Up");

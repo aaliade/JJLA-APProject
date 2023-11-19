@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
@@ -49,10 +50,12 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import controller.EmployeeClientController;
 
-public class DashBoard {
+public class DashBoard extends Decorations{
 	private JFrame frame;
 	private JMenuBar menuBar;
 
+	private ImageIcon image, open, close, leaf;
+	
 	private static final Logger logger = LogManager.getLogger(DashBoard.class);
 
 	private JMenu account;
@@ -67,6 +70,7 @@ public class DashBoard {
 	private JPanel dashBoardPanel, viewPanel;
 
 	private JLabel welcomeLabel;
+	private JLabel logoLabel;
 
 	private EmployeeClientController Dashboardcontroller;
 
@@ -83,24 +87,28 @@ public class DashBoard {
 		this.addComponentsToWindow();
 		this.setWindowProperties();
 		this.registerListeners();
-		logger.info("Customer Dashboard created");
+		logger.info("Employee Dashboard created");
 	}
 
 	public void initializeComponents() {
 		frame.setLayout(new GridLayout(1, 1));
 		menuBar = new JMenuBar();
+		menuBar.setBorder(bevel);
 
 		// Menu Items and Mnemonic for each
 		account = new JMenu("Account");
 		account.setMnemonic('X');
+		account.setBorder(bevel);
 
 		// Menu Items For MenuBar
 		Logout = new JMenuItem("Logout");
+		Logout.setBorder(bevel);
 
 		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
 		viewPanel = new JPanel(new GridLayout(1,1));
-
+		viewPanel.setBackground(cyan);
+	
 		// Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
 		homeNode = new DefaultMutableTreeNode("Home");
@@ -113,17 +121,21 @@ public class DashBoard {
 		inboxNode = new DefaultMutableTreeNode("Inbox");
 
 		// Welcome Label
+		image = new ImageIcon(getClass().getResource("logo.png"));
+		logoLabel = new JLabel(image);
+		logoLabel.setBorder(bevel);
+		
 		welcomeLabel = new JLabel(
-				"<html>Welcome to Grizzly's Entertainment<br><br>We are a stage equipment business that offers the rental "
+						"<html> Welcome to Grizzly's Entertainment!<br><br>We are a stage equipment business that offers the rental "
 						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
 						SwingConstants.CENTER);
-		welcomeLabel.setVerticalAlignment(JLabel.TOP);
-		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
+		welcomeLabel.setVerticalAlignment(JLabel.CENTER);
+		welcomeLabel.setFont(verdana);
 		welcomeLabel.setPreferredSize(new Dimension(600, 600));
-		welcomeLabel.setForeground(new Color(120, 90, 40));
-		welcomeLabel.setBackground(new Color(100, 20, 70));
+		welcomeLabel.setForeground(brown);
+		welcomeLabel.setBorder(bevel);
 
-		logger.info("Customer Dashboard components initialized");
+		logger.info("Employee Dashboard components initialized");
 	}
 
 	public void addMenuItemsToMenu() {
@@ -158,12 +170,19 @@ public class DashBoard {
 	public void addTreeNodesToTree() {
 		treeView = new JTree(dashBoardNode);
 		treeView.setSize(100, 400);
+		treeView.setBackground(coral);
+		treeView.setBorder(bevel);
 
 		// Remove default JTree icons
 		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
-		renderer.setLeafIcon(null);
-		renderer.setClosedIcon(null);
-		renderer.setOpenIcon(null);
+		open = new ImageIcon(getClass().getResource("plus.png"));
+		close = new ImageIcon(getClass().getResource("minus.png"));
+		leaf = new ImageIcon(getClass().getResource("leaf.png")); 
+		
+		renderer.setLeafIcon(leaf);
+		renderer.setClosedIcon(close);
+		renderer.setOpenIcon(open);
+		renderer.setBorder(bevel);
 		logger.info("Nodes added to Tree");
 	}
 
@@ -195,6 +214,7 @@ public class DashBoard {
 				if (nodeName.equals("Home")) {
 					clearPanel(viewPanel);
 					System.out.println("Home");
+					viewPanel.add(logoLabel);
 					viewPanel.add(welcomeLabel);
 					updatePanel(viewPanel);
 				}else if (nodeName.equals("Add")) {
@@ -215,6 +235,16 @@ public class DashBoard {
 					JPanel EventLocationpanel = new JPanel(new GridLayout(1,2));
 					String ID = Integer.toString(GenerateID());
 					
+					panel.setBackground(cyan);
+					panel.setBorder(bevel);
+					Datepanel.setBackground(cyan);
+					Datepanel.setBorder(bevel);
+					EventNamepanel.setBackground(cyan);
+					EventNamepanel.setBorder(bevel);
+					EventLocationpanel.setBackground(cyan);
+					EventLocationpanel.setBorder(bevel);
+					
+					
 					JLabel label = new JLabel("Enter Event Details");
 					
 					JLabel IDLabel = new JLabel("Generated ID Code For Event:   " + ID);
@@ -225,6 +255,15 @@ public class DashBoard {
 					JLabel date = new JLabel("Select The Event Date: ");
 					JButton submit = new JButton("Submit");
 					
+					label.setHorizontalAlignment(SwingConstants.CENTER);
+					label.setFont(rale);
+					
+					IDLabel.setBorder(bevel);
+					eventNameField.setBorder(bevel);
+					location.setBorder(bevel);
+					locationField.setBorder(bevel);
+					submit.setBorder(bevel);
+					
 					Properties p = new Properties();
 					p.put("text.today", "Today");
 					p.put("text.month", "Month");
@@ -233,6 +272,7 @@ public class DashBoard {
 					UtilDateModel model = new UtilDateModel();
 					JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
 					JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
+					datePicker.setBackground(coral);
 					
 					datePicker.addActionListener(new ActionListener() {
 						@Override 
@@ -375,6 +415,6 @@ public class DashBoard {
 	public void updatePanel(JPanel panel) {
 		panel.revalidate();
 		panel.repaint();
-		logger.info("Customer Dashboard Listeners initialized");
+		logger.info("Employee Dashboard Listeners initialized");
 	}
 }

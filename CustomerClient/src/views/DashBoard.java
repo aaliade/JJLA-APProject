@@ -54,7 +54,7 @@ public class DashBoard extends Decorations {
 	private JFrame frame;
 	private JMenuBar menuBar;
 
-	ImageIcon image;
+	private ImageIcon image, open, close, leaf;
 	
 	private static final Logger logger = LogManager.getLogger(DashBoard.class);
 
@@ -97,21 +97,26 @@ public class DashBoard extends Decorations {
 	public void initializeComponents() {
 		frame.setLayout(new GridLayout(1, 1));
 		menuBar = new JMenuBar();
+		menuBar.setBorder(bevel);
 
 		// Menu Items and Mnemonic for each
 		account = new JMenu("Account");
 		account.setMnemonic('X');
+		account.setBorder(bevel);
 
 		// Menu Items For MenuBar
 		viewProfile = new JMenuItem("View Profile");
 		updateProfile = new JMenuItem("Update Profile");
 		deleteProfile = new JMenuItem("Delete Profile");
 		Logout = new JMenuItem("Logout");
+		viewProfile.setBorder(bevel);
+		updateProfile.setBorder(bevel);
+		deleteProfile.setBorder(bevel);
+		Logout.setBorder(bevel);
 
 		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
 		viewPanel = new JPanel(new GridLayout(1,1));
-		dashBoardPanel.setBackground(cyan); 
         viewPanel.setBackground(cyan);
         
 
@@ -121,6 +126,7 @@ public class DashBoard extends Decorations {
 		veiwEquipmentNode = new DefaultMutableTreeNode("Equipment");
 		pastTransactionNode = new DefaultMutableTreeNode("Transactions");
 		messageNode = new DefaultMutableTreeNode("Message");
+		
 
 		inboxNode = new DefaultMutableTreeNode("Inbox");
 		composeNode = new DefaultMutableTreeNode("Compose");
@@ -194,12 +200,19 @@ public class DashBoard extends Decorations {
 	public void addTreeNodesToTree() {
 		treeView = new JTree(dashBoardNode);
 		treeView.setSize(100, 400);
+		treeView.setBackground(coral);
+		treeView.setBorder(bevel);
 
 		// Remove default JTree icons
 		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
-		renderer.setLeafIcon(null);
-		renderer.setClosedIcon(null);
-		renderer.setOpenIcon(null);
+		open = new ImageIcon(getClass().getResource("plus.png"));
+		close = new ImageIcon(getClass().getResource("minus.png"));
+		leaf = new ImageIcon(getClass().getResource("leaf.png")); 
+		
+		renderer.setLeafIcon(leaf);
+		renderer.setClosedIcon(close);
+		renderer.setOpenIcon(open);
+		renderer.setBorder(bevel);
 		logger.info("Nodes added to Tree");
 	}
 
@@ -420,13 +433,16 @@ public class DashBoard extends Decorations {
 						String[] catgegories = { "Lighting", "Stage", "Sound", "Power" };
 
 						@SuppressWarnings("unchecked")
-						JLabel selectCategory = new JLabel("Select Category");
+						JLabel selectCategory = new JLabel("Select Category:");
 						JButton sort = new JButton("Sort");
-
 						JComboBox categoryList = new JComboBox(catgegories);
+						
+						selectCategory.setBorder(bevel);
+						categoryList.setBorder(bevel);
 
 						JPanel split = new JPanel(new GridLayout(1, 3));
 
+						split.setBorder(low);
 						split.add(selectCategory);
 						split.add(categoryList);
 						split.add(sort);
@@ -531,6 +547,7 @@ public class DashBoard extends Decorations {
 						tableModel.setColumnIdentifiers(columns);
 
 						JTable messageTable = new JTable(tableModel);
+						
 
 						// Set cell spacing
 						Dimension dim = new Dimension(20, 1);
@@ -631,10 +648,18 @@ public class DashBoard extends Decorations {
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
+		datePicker.setBackground(coral);
 
 		JPanel panel = new JPanel(new GridLayout(7,1));
 		JPanel Datepanel = new JPanel(new GridLayout(1,2));
 		JLabel pickDate = new JLabel("Pick a date you would want the equipment for: ");
+		
+		panel.setBackground(cyan);
+		panel.setBorder(bevel);
+		Datepanel.setBackground(cyan);
+		Datepanel.setBorder(bevel);
+		pickDate.setBackground(cyan);
+		pickDate.setBorder(bevel);
 
 		datePicker.addActionListener(new ActionListener() {
 			@Override 
@@ -651,13 +676,23 @@ public class DashBoard extends Decorations {
 
 		Datepanel.add(pickDate);
 		Datepanel.add(datePicker);
-
+		JLabel id =  new JLabel("Equipment ID: "+ ID);
+		JLabel name = new JLabel("Equipment Name: "+ Name);
+		JLabel category = new JLabel("Equipment Category: "+ Category);
+		JLabel rate = new JLabel("Rental Rate: "+ Double.toString(RentalRate));
+		JLabel description = new JLabel("Description: "+ Description);
+		id.setBorder(bevel);
+		name.setBorder(bevel);
+		category.setBorder(bevel);
+		rate.setBorder(bevel);
+		description.setBorder(bevel);
+		
 		panel.add(Datepanel);
-		panel.add( new JLabel("Equipment ID: "+ ID));
-		panel.add(new JLabel("Equipment Name: "+Name));
-		panel.add(new JLabel("Equipment Category: "+Category));
-		panel.add(new JLabel("Rental Rate: "+ Double.toString(RentalRate)));
-		panel.add(new JLabel("Description: "+ Description));
+		panel.add(id);
+		panel.add(name);
+		panel.add(category);
+		panel.add(rate);
+		panel.add(description);
 		panel.add(button);
 		button.addActionListener(new ActionListener() {
 			@Override

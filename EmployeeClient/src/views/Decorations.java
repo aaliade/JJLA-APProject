@@ -1,10 +1,15 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JTree;
 import javax.swing.border.Border;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class Decorations {
 	
@@ -21,5 +26,6 @@ public class Decorations {
 	Color cyan = new Color(173, 216, 230);
 	Color brown = new Color(120, 90, 40);
 	Color coral = new Color(238, 169, 110);
-
+	
+	
 }

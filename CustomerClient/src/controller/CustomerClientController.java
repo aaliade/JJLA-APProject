@@ -63,11 +63,11 @@ public class CustomerClientController {
 	private void createConnection() {
 		try {
 			connectionSocket = new Socket(InetAddress.getLocalHost(), 8888);
-			System.out.println("Employee Client established connection");
-			logger.info("Employee Client established connection");
+			System.out.println("Customer Client established connection");
+			logger.info("Customer Client established connection");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Employee Client failed to establish connection: " + ex.getMessage());
+			logger.error("Customer Client failed to establish connection: " + ex.getMessage());
 		}
 	}
 
@@ -76,10 +76,10 @@ public class CustomerClientController {
 			this.objOs = new ObjectOutputStream(connectionSocket.getOutputStream());
 			this.objIs = new ObjectInputStream(connectionSocket.getInputStream());
 
-			logger.info("Employee Client streams initialized");
+			logger.info("Customer Client streams initialized");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Employee Client failed to initialise streams: " + ex.getMessage());
+			logger.error("Customer Client failed to initialise streams: " + ex.getMessage());
 		}
 	}
 
@@ -88,10 +88,10 @@ public class CustomerClientController {
 			objOs.close();
 			objIs.close();
 			connectionSocket.close();
-			logger.info("Employee Client connection closed");
+			logger.info("Customer Client connection closed");
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			logger.error("Employee Client failed to close connection: " + ex.getMessage());
+			logger.error("Customer Client failed to close connection: " + ex.getMessage());
 		}
 	}
 

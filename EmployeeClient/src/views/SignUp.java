@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,7 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import controller.EmployeeClientController;
 
-public class SignUp {
+public class SignUp extends Decorations {
 
 	private EmployeeClientController controller;
 	private JFrame frame;
@@ -68,6 +69,19 @@ public class SignUp {
 		hireDate = new JLabel("Please Select Your Hire Date");
 		addressLabel = new JLabel("Address: ");
 		
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(os);
+		firstNameLabel.setFont(os);
+		lastNameLabel.setFont(os);
+		phoneNumberLabel.setFont(os);
+		emailLabel.setFont(os);
+		userNameLabel.setFont(os);
+		passwordLabel.setFont(os);
+		confirmPasswordLabel.setFont(os);
+		employeeRole.setFont(os);
+		hireDate.setFont(os);
+		addressLabel.setFont(os);
+		
 		firstNameField = new JTextField();
 		lastNameField = new JTextField();
 		phoneField = new JTextField();
@@ -77,11 +91,25 @@ public class SignUp {
 		confirmPasswordField = new JTextField();
 		employeeRoleField = new JTextField();
 		addressField = new JTextField();
+		
+		firstNameField.setFont(rale);
+		lastNameField.setFont(rale);
+		phoneField.setFont(rale);
+		emailField.setFont(rale);
+		userNameField.setFont(rale);
+		passwordField.setFont(rale);
+		confirmPasswordField.setFont(rale);
+		employeeRoleField.setFont(rale);
+		addressField.setFont(rale);
 	
 		
 		goBackBtn = new JButton("Go Back");
 		submitBtn = new JButton("Submit");
 		clearBtn = new JButton("Clear");
+		
+		goBackBtn.setFont(os);
+		submitBtn.setFont(os);
+		clearBtn.setFont(os);
 		
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -91,11 +119,17 @@ public class SignUp {
 		model = new UtilDateModel();
 		datePanel = new JDatePanelImpl(model,p);
 		datePicker = new JDatePickerImpl(datePanel, null);
+		datePicker.setBackground(coral);
 		
 		panels = new JPanel[12];
 		for(int i=0;i<panels.length;i++) {
 			panels[i] = new JPanel();
 		}
+		
+		for (JPanel panel : panels) {
+            panel.setBackground(cyan); 
+            panel.setBorder(bevel);
+        }
 		
 		logger.info("Sign Up Components initialized");
 	}

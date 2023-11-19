@@ -64,6 +64,7 @@ public class SignUp extends Decorations {
 		passwordLabel = new JLabel("Password: ");
 		confirmPasswordLabel = new JLabel("Confirm Password: ");
 		addressLabel = new JLabel("Address: ");
+		
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(os);
 		firstNameLabel.setFont(os);
@@ -83,13 +84,14 @@ public class SignUp extends Decorations {
 		passwordField = new JTextField();
 		confirmPasswordField = new JTextField();
 		addressField = new JTextField();
-		firstNameField.setFont(rale);;
+		
+		firstNameField.setFont(rale);
 		lastNameField.setFont(rale);
-		phoneField.setFont(rale);;
+		phoneField.setFont(rale);
 		emailField.setFont(rale);
-		userNameField.setFont(rale);;
+		userNameField.setFont(rale);
 		passwordField.setFont(rale);
-		confirmPasswordField.setFont(rale);;
+		confirmPasswordField.setFont(rale);
 		addressField.setFont(rale);
 		
 		goBackBtn = new JButton("Go Back");
