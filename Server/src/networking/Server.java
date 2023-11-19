@@ -114,16 +114,10 @@ public class Server {
 							logger.info("Received action from client");
 
 							if (action.equals("Add Employee")) {
-<<<<<<< HEAD
-								Employee empObj = (Employee) ObjIS.readObject(); // Reading an Employee object from the
-								// Object Input Stream and adding to
-								// it
-=======
 								UserAccount<Employee> employeeService = 
 										context.getBean("employeeService", UserAccount.class);
 								
-								employeeService = (UserAccount<Employee>) ObjIS.readObject(); 
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+								employeeService = (UserAccount<Employee>) ObjIS.readObject();
 								try {
 									if (employeeService.create()) {
 										ObjOS.writeObject(true); // Return true to employee if successful
@@ -150,16 +144,10 @@ public class Server {
 									logger.info("Found employee by username");
 								}
 							} else if (action.equals("Add Customer")) {
-<<<<<<< HEAD
-								Customer custObj = (Customer) ObjIS.readObject(); // Reading a Customer object from the
-								// Object Input Stream
-								if (custObj.create()) {
-=======
 								UserAccount<Customer> customerService = context.getBean("customerService",
 										UserAccount.class);
 								customerService = (UserAccount<Customer>) ObjIS.readObject(); 
 								if (customerService.create()) {
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 									ObjOS.writeObject(true); // Return true to customer if successful
 									logger.info("Customer added to database successfully.");
 								} else {
@@ -195,25 +183,15 @@ public class Server {
 							} else if (action.equals("Delete Customer")) { // Reading an int representing custID from
 																			// the Object Input Stream and finding the
 																			// customer
-<<<<<<< HEAD
-								Customer deleteCust = (Customer) ObjIS.readObject();
-								if (deleteCust.delete(deleteCust)) {
-=======
-								
 								Customer customerService = (Customer) context.getBean("customerService",
 										UserAccount.class);
 								customerService = (Customer) ObjIS.readObject();
 								if (customerService.delete(customerService)) {
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 									ObjOS.writeObject(true);
 								} else {
 									ObjOS.writeObject(false);
 									logger.info("Deleted customer");
 								}
-<<<<<<< HEAD
-=======
-								
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 							} else if (action.equals("Get Equipment")) {
 								Equipment defaulEquip = new Equipment();
 								Equipment[] equipmentList = defaulEquip.selectAll();
@@ -223,15 +201,8 @@ public class Server {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(equipmentList);
 									logger.info("Found equipments in database");
-<<<<<<< HEAD
 								}
 							} else if (action.equals("Get Messages")) {
-=======
-								}
-							} else if (action.equals("Get Equipment By Category")) {
-								String category = (String) ObjIS.readObject();
-							}else if(action.equals("Get Messages")) {
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 								String username = (String) ObjIS.readObject();
 								Message message = new Message();
 								Message[] messageList = message.selectAllMessages(username);
@@ -244,14 +215,9 @@ public class Server {
 									ObjOS.writeObject(messageList);
 									logger.info("Found equipments in database");
 								}
-<<<<<<< HEAD
-							} else if (action.equals("Get Equipment By Category")) {
-								String category = (String) ObjIS.readObject();
-=======
 							}
 							else if(action.equals("Get Equipment By Category")) {
 								String category = (String)  ObjIS.readObject();
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 								Equipment defaulEquip = new Equipment();
 								Equipment[] equipmentList = defaulEquip.selectAvailableEquipmentByCategory(category);
 								if (equipmentList == null) {
@@ -322,23 +288,12 @@ public class Server {
 									ObjOS.writeObject(receiptList);
 									logger.info("Found receipt in database");
 								}
-							} else if (action.equals("Get Message")) {
-								Message defaulMessage = new Message();
-								Message[] messageList = defaulMessage.selectAllMessages();
-								if (messageList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(messageList);
-									logger.info("Found message in database");
-								}
-							} else if (action.equals("Send Message")) {
+							}  else if (action.equals("Send Message")) {
 								Message defaulMessage = (Message) ObjIS.readObject();
 								String user = (String) ObjIS.readObject();
 								defaulMessage.insertMessage(defaulMessage, dBConn, user);
 							} else if (action.equals("Add Event")) {
 								Event defaultEvent = (Event) ObjIS.readObject();
-<<<<<<< HEAD
 								String day = (String) ObjIS.readObject();
 								String month = (String) ObjIS.readObject();
 								String year = (String) ObjIS.readObject();
@@ -349,10 +304,7 @@ public class Server {
 									ObjOS.writeObject(false);
 								}
 							}
-=======
-								defaultEvent.insert(defaultEvent, dBConn);
-							} 
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+
 						} catch (ClassNotFoundException ex) {
 							ex.printStackTrace();
 						} catch (ClassCastException ex) {
@@ -388,15 +340,10 @@ public class Server {
 			if (dBConn == null) { // checks if database connection is null
 				try {
 					String url = "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental"; // defines the URL
-<<<<<<< HEAD
 					// of the
 					// connection
 					dBConn = DriverManager.getConnection(url, "root", "password"); // connecting with database
-=======
-																										// of the
-																										// connection
-					dBConn = DriverManager.getConnection(url, "root", ""); // connecting with database
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
+
 
 					connectorFactory = new DBConnectorFactory();
 					dBConn = DBConnectorFactory.getDatabaseConnection();
