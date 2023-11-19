@@ -1,5 +1,6 @@
 package models;
  
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,17 +14,18 @@ import org.apache.logging.log4j.Logger;
 
 import factories.DBConnectorFactory;
 
-public class Message {
+public class Message implements Serializable {
+	private static final long serialVersionUID = 1L;
     private String messageID;
     private String senderID;
     private String receiverID;
     private String content;
     private Date timeStamp;
-    private Connection dbConn = null;
-    private Statement stmt = null;
-    private ResultSet result = null;
+    private transient Connection dbConn = null;
+    private transient Statement stmt = null;
+    private transient ResultSet result = null;
 
-    private static final Logger logger = LogManager.getLogger(Message.class);
+    private transient static final Logger logger = LogManager.getLogger(Message.class);
 
     public Message() { // default constructor
         this.messageID = "";
@@ -102,32 +104,42 @@ public class Message {
                 + " | Content: " + content + " | Date: " + timeStamp;
     }
     
-    public Message[] selectAllMessages() {
-		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.message;";
+    public Message[] selectAllMessages(String username) {
+    	//where reciever = username
+		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.message WHERE receiverID = '" + username + "' ;";
 		Message[] messageList = null;
 		try {
+			
 			stmt = dbConn.createStatement();
 			result = stmt.executeQuery(sql);
 			int count = 0;
-			while (result.next()) {
-				count++;
-			}
-			result.close();
-			result = stmt.executeQuery(sql);
-			messageList = new Message[count];
-			int i = 0;
-			while (result.next()) {
-                String messageID = result.getString("messageID");
-                String senderID = result.getString("senderID");
-                String receiverID = result.getString("receiverID");
-                String content = result.getString("content");
-                Date timeStamp = result.getDate("timestamp");
+			
+			//If it checks and doesnt have a next in beginning 
+            if(!result.next()) {
+            	messageList = null;
+            }else{
+            	result.close();
+                result = stmt.executeQuery(sql);
+                while(result.next()) {
+                	count++;
+                }
+                result.close();
+                result = stmt.executeQuery(sql);
+                messageList = new  Message[count];
+                int i = 0;
+                while (result.next()) {
+                	 String messageID = result.getString("messageID");
+                     String senderID = result.getString("senderID");
+                     String receiverID = result.getString("receiverID");
+                     String content = result.getString("content");
+                     //Date timeStamp = result.getDate("timestamp");
 
-                System.out.println("Message ID: " + messageID + "\nSender ID: " + senderID +
-                        "\nReceiver ID: " + receiverID + "\nContent: " + content + "\nTimeStamp: " + timeStamp + "\n");
-                messageList[i] = new Message(messageID, senderID, receiverID, content, timeStamp); // initialize object
-				i++;
-			}
+                     System.out.println("Message ID: " + messageID + "\nSender ID: " + senderID +
+                             "\nReceiver ID: " + receiverID + "\nContent: " + content + "\nTimeStamp: " + timeStamp + "\n");
+                     messageList[i] = new Message(messageID, senderID, receiverID, content, new Date()); // initialize object
+     				i++;
+                    }
+            }
 		} catch (SQLException e) {
 			System.err.println("SQL Exception: " + e.getMessage());
 			logger.error("SQL Exception while selecting messages: " + e.getMessage());
@@ -143,73 +155,70 @@ public class Message {
 		return messageList;
 	}
     
-    public Message[] selectMessagesBySender(String senderID) {
-        String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.message WHERE senderID = " + senderID + ";";
-		Message[] messageList = null;
-		try {
-			stmt = dbConn.createStatement();
-			result = stmt.executeQuery(sql);
-			int count = 0;
-			while (result.next()) {
-				count++;
-			}
-			result.close();
-			result = stmt.executeQuery(sql);
-			messageList = new Message[count];
-			int i = 0;
-			while (result.next()) {
-                String messageID = result.getString("messageID");
-                String senderID1 = result.getString("senderID");
-                String receiverID = result.getString("receiverID");
-                String content = result.getString("content");
-                Date timeStamp = result.getDate("timestamp");
 
-                System.out.println("Message ID: " + messageID + "\nSender ID: " + senderID +
-                        "\nReceiver ID: " + receiverID + "\nContent: " + content + "\nTimeStamp: " + timeStamp + "\n");
-                messageList[i] = new Message(messageID, senderID, receiverID, content, timeStamp); // initialize object
-				i++;
-			}
-		} catch (SQLException e) {
-			System.err.println("SQL Exception: " + e.getMessage());
-			logger.error("SQL Exception while selecting messages by sender: " + e.getMessage());
-		} finally {
-			try {
-				stmt.close();
-				result.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement/result: " + e.getMessage());
-				logger.error("Error while closing statement/result: " + e.getMessage());
-			}
-		}
-		return messageList;
-	}
+    public void insertMessage(Message message,Connection Conn, String User) {
+    	if(User.equals("Customer")) {
+    	     String FindEmpsql = "SELECT * FROM grizzly’sentertainmentequipmentrental.employee;" ; //Searches for atleast one employee in the system
+    		 try { 
+    	        	this.dbConn = Conn;
+    	            stmt = dbConn.createStatement();
+    	            String employeeID = null;
+    	            result = stmt.executeQuery(FindEmpsql);
+    	            while (result.next()) {
+    	                 employeeID = result.getString("username");
+    				}
+    	            
+    	            String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.message (senderID, receiverID, content, messageID) VALUES "
+        	                + "('" + message.getSenderID() + "', '" + employeeID + "', '" + message.getContent() + "', '" + message.getMessageID() + "');";
+    	            int inserted = stmt.executeUpdate(sql);
 
-    public void insertMessage(String senderID, String receiverID, String content) {
-        String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.message (senderID, receiverID, content) VALUES "
-                + "(" + senderID + ", " + receiverID + ", '" + content + "');";
+    	            if (inserted == 1) {
+    	                JOptionPane.showMessageDialog(null, "Message Record Inserted Successfully!", "Insert Status", JOptionPane.INFORMATION_MESSAGE);
+    	                logger.info("Message Record Inserted Successfully");
+    	            } else {
+    	                JOptionPane.showMessageDialog(null, "Message Record Insertion Failed.", "Insert Status", JOptionPane.ERROR_MESSAGE);
+    	                logger.error("Message Record Insertion Failed");
+    	            }
+    	        } catch (SQLException e) {
+    	            System.err.println("SQL Exception: " + e.getMessage());
+    	            logger.error("SQL Exception while inserting Message Record: " + e.getMessage());
+    	        } finally {
+    	        	try {
+    					stmt.close();
+    					result.close();
+    				} catch (SQLException e) {
+    					System.err.println("Error while closing statement: " + e.getMessage());	
+    					logger.error("Error while closing statement: " + e.getMessage());
+    				}
+    	        }
+    	}else if (User.equals("Employee")) {
+    		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.message (senderID, receiverID, content, messageID) VALUES "
+   	                + "('" + message.getSenderID() + "', '" + message.getReceiverID() + "', '" + message.getContent() + "', '" + message.getMessageID() + "');";
+   		 try { 
+   	        	this.dbConn = Conn;
+   	            stmt = dbConn.createStatement();
+   	            int inserted = stmt.executeUpdate(sql);
 
-        try {
-            stmt = dbConn.createStatement();
-            int inserted = stmt.executeUpdate(sql);
-
-            if (inserted == 1) {
-                JOptionPane.showMessageDialog(null, "Message Record Inserted Successfully!", "Insert Status", JOptionPane.INFORMATION_MESSAGE);
-                logger.info("Message Record Inserted Successfully");
-            } else {
-                JOptionPane.showMessageDialog(null, "Message Record Insertion Failed.", "Insert Status", JOptionPane.ERROR_MESSAGE);
-                logger.error("Message Record Insertion Failed");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            logger.error("SQL Exception while inserting Message Record: " + e.getMessage());
-        } finally {
-        	try {
-				stmt.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement: " + e.getMessage());	
-				logger.error("Error while closing statement: " + e.getMessage());
-			}
-        }
+   	            if (inserted == 1) {
+   	                JOptionPane.showMessageDialog(null, "Message Record Inserted Successfully!", "Insert Status", JOptionPane.INFORMATION_MESSAGE);
+   	                logger.info("Message Record Inserted Successfully");
+   	            } else {
+   	                JOptionPane.showMessageDialog(null, "Message Record Insertion Failed.", "Insert Status", JOptionPane.ERROR_MESSAGE);
+   	                logger.error("Message Record Insertion Failed");
+   	            }
+   	        } catch (SQLException e) {
+   	            System.err.println("SQL Exception: " + e.getMessage());
+   	            logger.error("SQL Exception while inserting Message Record: " + e.getMessage());
+   	        } finally {
+   	        	try {
+   					stmt.close();
+   				} catch (SQLException e) {
+   					System.err.println("Error while closing statement: " + e.getMessage());	
+   					logger.error("Error while closing statement: " + e.getMessage());
+   				}
+   	        }
+    	}
+       
     }
 
     public void updateMessage(String messageID, String newContent) {

@@ -1,24 +1,28 @@
 package models;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Event {
-	public static final Logger logger = LogManager.getLogger(Event.class);
+public class Event implements Serializable {
+	private static final long serialVersionUID = 1L;
+	public transient static final Logger logger = LogManager.getLogger(Event.class);
 	private String eventID;
 	private String eventName;
-	private String eventDate;
+	private Date eventDate;
 	private String eventLocation;
 
 	public Event() {
 		eventID = "";
 		eventName = "";
-		eventDate = "";
+		eventDate = null;
 		eventLocation = "";
 		logger.info("Event initialized");
 	}
 
-	public Event(String eventID, String eventName, String eventDate, String eventLocation) {
+	public Event(String eventID, String eventName, Date eventDate, String eventLocation) {
 		this.eventID = eventID;
 		this.eventName = eventName;
 		this.eventDate = eventDate;
@@ -46,12 +50,12 @@ public class Event {
 		logger.info("Input accepted, Event Name set");
 	}
 
-	public String geteventDate() {
+	public Date geteventDate() {
 		logger.info("Event Date returned");
 		return eventDate;
 	}
 
-	public void seteventDate(String eventDate) {
+	public void seteventDate(Date eventDate) {
 		this.eventDate = eventDate;
 		logger.info("Input accepted, Event Date set");
 	}

@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -99,7 +100,7 @@ public class CustomerClientController {
 		this.signupView = new SignUp(this, frame);
 		logger.info("Sign up page displayed");
 	}
-
+ 
 	public void loginEmployee(JFrame frame) {
 		clearFrame(frame);
 		this.DashboardView = new DashBoard(this, frame);
@@ -131,7 +132,7 @@ public class CustomerClientController {
 		sendAction("Find Customer");
 		findCustomer(username);
 		receiveResponse();
-
+ 
 		if (customer != null) {
 			System.out.println(customer.getUsername());
 			System.out.println(customer.getFirstName());
@@ -176,9 +177,34 @@ public class CustomerClientController {
 		}
 	}
 
-	public void sendMessage(Message message) {
-		try {
+	public void getMessagesFromDatabase() {
+		sendAction("Get Messages");
+		sendAction(customer.getUsername());
+		this.action = "Get Messages";
+		System.out.println("Action sent");
+		receiveResponse();
+		System.out.println("Response recieved");
+		
+	}
+	
+	public Vector<Object> updateMessageViewPanel(int index) {
+		Vector<Object> row = new Vector<>();
+		System.out.println("Index: " + index);
+		row.add(messageList[index].getSenderID());
+		row.add(messageList[index].getContent());
+		return row;
+	}
+	
+	public int getCurrentMessageCount() {
+		return messageList.length;
+	}
+	
+	public void sendMessage(String messageID, String content) {
+		Message message = new Message(messageID, customer.getUsername(), "markan", content, new Date());
+		sendAction("Send Message");
+		try { 
 			objOs.writeObject(message);
+			sendAction(customer.getUserType());
 			logger.info("Customer Message sent to Server");
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -227,7 +253,7 @@ public class CustomerClientController {
 							"Equipment Search", JOptionPane.ERROR_MESSAGE);
 					logger.info("Equipment not found from database");
 				}
-			}
+			} 
 			if (action.equalsIgnoreCase("Get Lighting")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
@@ -302,7 +328,7 @@ public class CustomerClientController {
 					logger.info("Event not found from database");
 				}
 			}
-			if (action.equalsIgnoreCase("Get Message")) {
+			if (action.equalsIgnoreCase("Get Messages")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
 					JOptionPane.showMessageDialog(null, "Message was successfully found in database", "Message Search",
