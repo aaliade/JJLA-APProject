@@ -2,18 +2,13 @@
 package models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,9 +16,7 @@ import javax.persistence.TemporalType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.Type;
 
 import factories.SessionFactoryBuilder;
 
@@ -175,7 +168,7 @@ public class Employee extends User implements Serializable { // in order for the
 		}
 	}
 	
-	public Employee findEmployee(String username) {
+	public Employee find(String username) {
 		 Session session = SessionFactoryBuilder.getEmployeeSessionFactroy().getCurrentSession();
 		 Transaction transaction = session.beginTransaction();
 		 Employee employee = null;
@@ -202,6 +195,38 @@ public class Employee extends User implements Serializable { // in order for the
 		        }
 		    }
 		 return employee;
+	}
+	
+	public boolean delete(Object user) {
+		Session session = null;
+		Transaction transaction = null;
+		Logger logger = LogManager.getLogger(getClass());
+		try {
+			session = SessionFactoryBuilder.getCustomerSessionFactroy().getCurrentSession();
+			transaction = session.beginTransaction();
+			Employee existingEmployee = session.get(Employee.class, ((Employee) user).getUsername());
+		
+			session.delete(existingEmployee);
+			transaction.commit();
+			return true;
+		} catch (HibernateException e) {
+			// Log and handle HibernateException
+			logger.error("Error occurred while deleting user", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		} catch (Exception e) {
+			// Log and handle other exceptions
+			logger.error("Error occurred while deleting user", e);
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return false;
 	}
 
 	@Override

@@ -582,3 +582,473 @@
 [INFO ] 2023-11-17 16:15:30.740 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
 [INFO ] 2023-11-17 16:15:32.021 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
 [INFO ] 2023-11-17 16:16:10.185 [AWT-EventQueue-0] DashBoard - Customer Dashboard Listeners initialized
+[INFO ] 2023-11-18 16:00:37.512 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 16:00:39.794 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 16:00:39.797 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:00:39.797 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:00:40.703 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 16:00:40.721 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:00:40.721 [main] Login - Login Page created
+[INFO ] 2023-11-18 16:00:40.744 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 16:00:41.316 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 16:00:41.316 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 16:02:35.209 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 16:02:35.890 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 16:02:35.892 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:02:35.893 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:02:36.469 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 16:02:36.486 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:02:36.486 [main] Login - Login Page created
+[INFO ] 2023-11-18 16:02:36.510 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 16:02:37.019 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 16:02:37.021 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 16:02:46.154 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 16:02:46.172 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-18 16:02:46.173 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-18 16:02:46.177 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-18 16:02:46.186 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-18 16:02:46.190 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-18 16:02:46.191 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-18 16:03:11.566 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[INFO ] 2023-11-18 16:03:11.575 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 16:03:11.583 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[ERROR] 2023-11-18 16:03:11.593 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 16:03:13.074 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 16:03:13.075 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:03:13.076 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:03:13.101 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 16:03:13.102 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:03:13.102 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 16:03:13.103 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[ERROR] 2023-11-18 16:05:56.155 [AWT-EventQueue-0] CustomerClientController - Action failed: Broken pipe
+[INFO ] 2023-11-18 16:05:56.157 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 16:05:56.158 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 16:06:13.784 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 16:06:13.787 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 16:06:13.788 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 16:12:24.612 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 16:12:26.687 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 16:12:26.689 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:12:26.690 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:12:27.561 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 16:12:27.582 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:12:27.582 [main] Login - Login Page created
+[INFO ] 2023-11-18 16:12:27.603 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 16:12:28.118 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 16:12:28.119 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 16:12:34.211 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 16:12:34.234 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-18 16:12:34.237 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-18 16:12:34.238 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-18 16:12:34.250 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-18 16:12:34.254 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-18 16:12:34.255 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-18 16:12:56.974 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[INFO ] 2023-11-18 16:12:56.982 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 16:12:56.987 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[INFO ] 2023-11-18 16:13:00.832 [AWT-EventQueue-0] CustomerClientController - Customer Record added to Database
+[INFO ] 2023-11-18 16:13:02.302 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 16:13:02.304 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:13:02.306 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:13:02.342 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 16:13:02.342 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:13:02.342 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 16:13:02.342 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-18 16:17:55.128 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 16:17:56.243 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 16:17:56.246 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:17:56.247 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:17:57.118 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 16:17:57.135 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:17:57.135 [main] Login - Login Page created
+[ERROR] 2023-11-18 16:17:57.168 [main] CustomerClientController - Employee Client failed to establish connection: Connection refused
+[INFO ] 2023-11-18 16:18:28.777 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 16:18:29.429 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 16:18:29.431 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:18:29.432 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:18:29.981 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 16:18:29.996 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:18:29.996 [main] Login - Login Page created
+[INFO ] 2023-11-18 16:18:30.018 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 16:18:34.269 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 16:18:34.271 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 16:18:48.837 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 16:18:48.838 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 16:19:13.522 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 16:19:14.160 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 16:19:14.162 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:19:14.163 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:19:14.733 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 16:19:14.757 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:19:14.757 [main] Login - Login Page created
+[INFO ] 2023-11-18 16:19:14.776 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 16:19:17.044 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 16:19:17.061 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-18 16:19:17.063 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-18 16:19:17.065 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-18 16:19:17.077 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-18 16:19:17.080 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-18 16:19:17.080 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-18 16:19:26.914 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[INFO ] 2023-11-18 16:19:26.919 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 16:19:26.922 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[INFO ] 2023-11-18 16:20:35.714 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 16:20:36.399 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 16:20:36.402 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 16:20:36.403 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 16:20:36.981 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 16:20:36.999 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 16:20:37.000 [main] Login - Login Page created
+[INFO ] 2023-11-18 16:20:37.019 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 16:20:37.548 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 16:20:37.549 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 16:20:44.544 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 16:20:44.545 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 16:20:44.547 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 16:20:48.701 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[ERROR] 2023-11-18 16:20:48.710 [AWT-EventQueue-0] CustomerClientController - Error Sending username Broken pipe
+[ERROR] 2023-11-18 16:20:48.711 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 17:05:31.582 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:05:32.753 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:05:32.755 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:05:32.756 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:05:33.637 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:05:33.662 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:05:33.663 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:05:33.688 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:05:34.360 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 17:05:34.360 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:05:43.312 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:05:43.314 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 17:05:43.316 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[ERROR] 2023-11-18 17:08:36.831 [AWT-EventQueue-0] CustomerClientController - Action failed: Broken pipe
+[INFO ] 2023-11-18 17:08:36.833 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 17:08:36.834 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 17:10:41.505 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:10:42.584 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:10:42.590 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:10:42.591 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:10:43.463 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:10:43.485 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:10:43.486 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:10:43.515 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:10:44.056 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 17:10:44.056 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:10:51.446 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:10:51.447 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 17:10:51.449 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 17:11:11.321 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[ERROR] 2023-11-18 17:11:11.330 [AWT-EventQueue-0] CustomerClientController - Error Sending username Broken pipe
+[ERROR] 2023-11-18 17:11:11.331 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 17:15:20.439 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:15:21.504 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:15:21.506 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:15:21.507 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:15:22.412 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:15:22.441 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:15:22.442 [main] Login - Login Page created
+[ERROR] 2023-11-18 17:15:22.486 [main] CustomerClientController - Employee Client failed to establish connection: Connection refused
+[INFO ] 2023-11-18 17:15:50.773 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:15:52.395 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:15:52.398 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:15:52.399 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:15:53.063 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:15:53.081 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:15:53.081 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:15:53.099 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:15:53.621 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 17:15:53.621 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:16:00.569 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:16:00.570 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 17:16:00.572 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 17:20:15.031 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:20:15.746 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:20:15.750 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:20:15.751 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:20:16.337 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:20:16.354 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:20:16.354 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:20:16.373 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:20:20.605 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:20:20.606 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 17:21:52.117 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:21:52.870 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:21:52.872 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:21:52.873 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:21:53.628 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:21:53.648 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:21:53.648 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:21:53.672 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:21:54.205 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 17:21:54.205 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:22:00.646 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:22:00.647 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 17:22:00.649 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: null
+[INFO ] 2023-11-18 17:23:38.547 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:23:39.221 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:23:39.224 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:23:39.225 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:23:39.824 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:23:39.840 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:23:39.841 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:23:39.864 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:23:56.585 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:23:56.587 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 17:35:02.658 [main] CustomerClientController - Employee Client failed to initialise streams: Connection reset
+[INFO ] 2023-11-18 17:35:02.659 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:42:30.896 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:42:33.035 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:42:33.039 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:42:33.040 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:42:33.901 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:42:33.921 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:42:33.922 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:42:33.946 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:42:34.438 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 17:42:34.439 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:42:57.661 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:42:57.663 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 17:43:00.152 [AWT-EventQueue-0] Customer - Customer ID returned
+[INFO ] 2023-11-18 17:43:00.160 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 17:43:00.408 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 17:43:00.504 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 17:43:00.510 [AWT-EventQueue-0] DashBoard - Items added to Account and Cart Menus
+[INFO ] 2023-11-18 17:43:00.511 [AWT-EventQueue-0] DashBoard - Account and Cart Menus added to Menu Bar
+[INFO ] 2023-11-18 17:43:00.511 [AWT-EventQueue-0] DashBoard - Tree Structure created
+[INFO ] 2023-11-18 17:43:00.526 [AWT-EventQueue-0] DashBoard - Nodes added to Tree
+[INFO ] 2023-11-18 17:43:00.531 [AWT-EventQueue-0] DashBoard - Components added to Window
+[INFO ] 2023-11-18 17:43:00.562 [AWT-EventQueue-0] DashBoard - Window Properties set
+[INFO ] 2023-11-18 17:43:00.569 [AWT-EventQueue-0] DashBoard - Customer Dashboard created
+[INFO ] 2023-11-18 17:43:00.569 [AWT-EventQueue-0] CustomerClientController - Customer logged in, Dashboard displayed
+[INFO ] 2023-11-18 17:44:31.383 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:44:32.390 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:44:32.393 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:44:32.394 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:44:32.978 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:44:33.000 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:44:33.000 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:44:33.017 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:44:33.537 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 17:44:33.537 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:44:40.686 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:44:40.688 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 17:44:42.986 [AWT-EventQueue-0] Customer - Customer ID returned
+[INFO ] 2023-11-18 17:44:42.991 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 17:44:43.215 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 17:44:43.303 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 17:44:43.308 [AWT-EventQueue-0] DashBoard - Items added to Account and Cart Menus
+[INFO ] 2023-11-18 17:44:43.309 [AWT-EventQueue-0] DashBoard - Account and Cart Menus added to Menu Bar
+[INFO ] 2023-11-18 17:44:43.310 [AWT-EventQueue-0] DashBoard - Tree Structure created
+[INFO ] 2023-11-18 17:44:43.325 [AWT-EventQueue-0] DashBoard - Nodes added to Tree
+[INFO ] 2023-11-18 17:44:43.330 [AWT-EventQueue-0] DashBoard - Components added to Window
+[INFO ] 2023-11-18 17:44:43.365 [AWT-EventQueue-0] DashBoard - Window Properties set
+[INFO ] 2023-11-18 17:44:43.371 [AWT-EventQueue-0] DashBoard - Customer Dashboard created
+[INFO ] 2023-11-18 17:44:43.372 [AWT-EventQueue-0] CustomerClientController - Customer logged in, Dashboard displayed
+[INFO ] 2023-11-18 17:45:12.092 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:45:12.740 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:45:12.742 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:45:12.743 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:45:13.320 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:45:13.340 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:45:13.341 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:45:13.364 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:45:13.528 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 17:45:13.528 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:45:17.814 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:45:17.815 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 17:45:17.865 [AWT-EventQueue-0] Customer - Customer ID returned
+[INFO ] 2023-11-18 17:45:17.869 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 17:45:18.101 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 17:45:18.179 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 17:45:18.185 [AWT-EventQueue-0] DashBoard - Items added to Account and Cart Menus
+[INFO ] 2023-11-18 17:45:18.186 [AWT-EventQueue-0] DashBoard - Account and Cart Menus added to Menu Bar
+[INFO ] 2023-11-18 17:45:18.186 [AWT-EventQueue-0] DashBoard - Tree Structure created
+[INFO ] 2023-11-18 17:45:18.201 [AWT-EventQueue-0] DashBoard - Nodes added to Tree
+[INFO ] 2023-11-18 17:45:18.209 [AWT-EventQueue-0] DashBoard - Components added to Window
+[INFO ] 2023-11-18 17:45:18.230 [AWT-EventQueue-0] DashBoard - Window Properties set
+[INFO ] 2023-11-18 17:45:18.237 [AWT-EventQueue-0] DashBoard - Customer Dashboard created
+[INFO ] 2023-11-18 17:45:18.237 [AWT-EventQueue-0] CustomerClientController - Customer logged in, Dashboard displayed
+[INFO ] 2023-11-18 17:46:07.356 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 17:46:08.326 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 17:46:08.329 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:46:08.329 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:46:08.960 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 17:46:08.984 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:46:08.985 [main] Login - Login Page created
+[INFO ] 2023-11-18 17:46:09.010 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 17:46:09.144 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 17:46:09.145 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 17:46:12.377 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 17:46:12.398 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-18 17:46:12.399 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-18 17:46:12.402 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-18 17:46:12.647 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-18 17:46:12.650 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-18 17:46:12.651 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-18 17:46:28.880 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[INFO ] 2023-11-18 17:46:28.885 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:46:28.890 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[INFO ] 2023-11-18 17:46:29.818 [AWT-EventQueue-0] CustomerClientController - Customer Record added to Database
+[INFO ] 2023-11-18 17:46:30.855 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 17:46:30.856 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 17:46:30.856 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 17:46:30.894 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 17:46:30.894 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 17:46:30.894 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 17:46:30.895 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-18 17:46:34.591 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 17:46:34.592 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 17:46:34.606 [AWT-EventQueue-0] CustomerClientController - Customer not found from database
+[INFO ] 2023-11-18 18:45:35.558 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 18:45:36.257 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 18:45:36.260 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:45:36.261 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:45:36.831 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 18:45:36.850 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:45:36.850 [main] Login - Login Page created
+[INFO ] 2023-11-18 18:45:36.872 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 18:45:37.356 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 18:45:37.357 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 18:45:42.597 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 18:45:42.621 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-18 18:45:42.622 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-18 18:45:42.624 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-18 18:45:42.645 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-18 18:45:42.649 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-18 18:45:42.649 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-18 18:45:55.311 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[INFO ] 2023-11-18 18:45:55.317 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 18:45:55.321 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[INFO ] 2023-11-18 18:45:59.381 [AWT-EventQueue-0] CustomerClientController - Customer Record added to Database
+[INFO ] 2023-11-18 18:46:00.427 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 18:46:00.427 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:46:00.428 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:46:00.452 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 18:46:00.453 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:46:00.453 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 18:46:00.453 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-18 18:46:04.013 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 18:46:04.013 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 18:46:04.114 [AWT-EventQueue-0] Customer - Customer ID returned
+[INFO ] 2023-11-18 18:46:04.119 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 18:46:04.316 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 18:46:04.406 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 18:46:04.413 [AWT-EventQueue-0] DashBoard - Items added to Account and Cart Menus
+[INFO ] 2023-11-18 18:46:04.413 [AWT-EventQueue-0] DashBoard - Account and Cart Menus added to Menu Bar
+[INFO ] 2023-11-18 18:46:04.413 [AWT-EventQueue-0] DashBoard - Tree Structure created
+[INFO ] 2023-11-18 18:46:04.427 [AWT-EventQueue-0] DashBoard - Nodes added to Tree
+[INFO ] 2023-11-18 18:46:04.433 [AWT-EventQueue-0] DashBoard - Components added to Window
+[INFO ] 2023-11-18 18:46:04.459 [AWT-EventQueue-0] DashBoard - Window Properties set
+[INFO ] 2023-11-18 18:46:04.463 [AWT-EventQueue-0] DashBoard - Customer Dashboard created
+[INFO ] 2023-11-18 18:46:04.463 [AWT-EventQueue-0] CustomerClientController - Customer logged in, Dashboard displayed
+[INFO ] 2023-11-18 18:46:34.631 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 18:46:34.635 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[INFO ] 2023-11-18 18:46:35.880 [AWT-EventQueue-0] CustomerClientController - Employee Client connection closed
+[INFO ] 2023-11-18 18:46:35.914 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 18:46:35.915 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:46:35.915 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:46:35.934 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 18:46:35.935 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:46:35.935 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 18:46:35.935 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-18 18:54:51.176 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 18:54:52.306 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 18:54:52.310 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:54:52.311 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:54:53.195 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 18:54:53.216 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:54:53.217 [main] Login - Login Page created
+[INFO ] 2023-11-18 18:54:53.235 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 18:54:53.710 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 18:54:53.710 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 18:55:20.038 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 18:55:20.040 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[INFO ] 2023-11-18 18:55:23.552 [AWT-EventQueue-0] Customer - Customer ID returned
+[INFO ] 2023-11-18 18:55:23.560 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 18:55:23.802 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 18:55:23.887 [AWT-EventQueue-0] DashBoard - Customer Dashboard components initialized
+[INFO ] 2023-11-18 18:55:23.894 [AWT-EventQueue-0] DashBoard - Items added to Account and Cart Menus
+[INFO ] 2023-11-18 18:55:23.896 [AWT-EventQueue-0] DashBoard - Account and Cart Menus added to Menu Bar
+[INFO ] 2023-11-18 18:55:23.896 [AWT-EventQueue-0] DashBoard - Tree Structure created
+[INFO ] 2023-11-18 18:55:23.912 [AWT-EventQueue-0] DashBoard - Nodes added to Tree
+[INFO ] 2023-11-18 18:55:23.917 [AWT-EventQueue-0] DashBoard - Components added to Window
+[INFO ] 2023-11-18 18:55:23.950 [AWT-EventQueue-0] DashBoard - Window Properties set
+[INFO ] 2023-11-18 18:55:23.956 [AWT-EventQueue-0] DashBoard - Customer Dashboard created
+[INFO ] 2023-11-18 18:55:23.956 [AWT-EventQueue-0] CustomerClientController - Customer logged in, Dashboard displayed
+[INFO ] 2023-11-18 18:55:55.534 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 18:55:55.538 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[INFO ] 2023-11-18 18:55:57.078 [AWT-EventQueue-0] CustomerClientController - Employee Client connection closed
+[INFO ] 2023-11-18 18:55:57.105 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 18:55:57.106 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:55:57.106 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:55:57.135 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 18:55:57.136 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:55:57.136 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 18:55:57.136 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-18 18:56:25.331 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 18:56:25.355 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-18 18:56:25.355 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-18 18:56:25.359 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-18 18:56:25.367 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-18 18:56:25.368 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-18 18:56:25.369 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-18 18:56:37.450 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[ERROR] 2023-11-18 18:56:37.466 [AWT-EventQueue-0] CustomerClientController - Action failed: Socket closed
+[ERROR] 2023-11-18 18:56:37.468 [AWT-EventQueue-0] CustomerClientController - Customer failed to be sent: Socket closed
+[ERROR] 2023-11-18 18:56:37.468 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: Socket closed
+[INFO ] 2023-11-18 18:56:38.846 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 18:56:38.848 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:56:38.848 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:56:38.883 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 18:56:38.883 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:56:38.883 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 18:56:38.883 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-18 18:56:43.582 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 18:56:43.582 [AWT-EventQueue-0] CustomerClientController - Username sent to server
+[ERROR] 2023-11-18 18:56:43.582 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: Socket closed
+[INFO ] 2023-11-18 18:57:00.361 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 18:57:00.380 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-18 18:57:00.380 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-18 18:57:00.382 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-18 18:57:00.393 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-18 18:57:00.393 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-18 18:57:00.393 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-18 18:57:10.549 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[INFO ] 2023-11-18 18:57:10.554 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[ERROR] 2023-11-18 18:57:10.557 [AWT-EventQueue-0] CustomerClientController - Customer failed to be sent: Socket closed
+[ERROR] 2023-11-18 18:57:10.558 [AWT-EventQueue-0] CustomerClientController - Failed to recieve response: Socket closed
+[INFO ] 2023-11-18 18:57:12.049 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 18:57:12.053 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:57:12.053 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:57:12.084 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 18:57:12.085 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:57:12.085 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 18:57:12.085 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
+[INFO ] 2023-11-18 18:58:20.124 [main] CustomerClientController - Customer Client Test Info message
+[INFO ] 2023-11-18 18:58:21.189 [main] Login - Login Components initialized
+[INFO ] 2023-11-18 18:58:21.191 [main] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:58:21.192 [main] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:58:22.098 [main] Login - Window Prperties set
+[INFO ] 2023-11-18 18:58:22.115 [main] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:58:22.116 [main] Login - Login Page created
+[INFO ] 2023-11-18 18:58:22.139 [main] CustomerClientController - Employee Client established connection
+[INFO ] 2023-11-18 18:58:22.373 [main] CustomerClientController - Employee Client streams initialized
+[INFO ] 2023-11-18 18:58:22.374 [main] CustomerClientController - Customer Client initialized
+[INFO ] 2023-11-18 18:58:26.433 [AWT-EventQueue-0] CustomerClientController - Page cleared
+[INFO ] 2023-11-18 18:58:26.456 [AWT-EventQueue-0] SignUp - Sign Up Components initialized
+[INFO ] 2023-11-18 18:58:26.457 [AWT-EventQueue-0] SignUp - Compenets added to Panel
+[INFO ] 2023-11-18 18:58:26.460 [AWT-EventQueue-0] SignUp - Panel added to Frame
+[INFO ] 2023-11-18 18:58:26.475 [AWT-EventQueue-0] SignUp - Window Properties set
+[INFO ] 2023-11-18 18:58:26.479 [AWT-EventQueue-0] SignUp - Sign Up Page created
+[INFO ] 2023-11-18 18:58:26.479 [AWT-EventQueue-0] CustomerClientController - Sign up page displayed
+[INFO ] 2023-11-18 18:58:35.845 [AWT-EventQueue-0] Customer - Input accepted, Customer initialized
+[INFO ] 2023-11-18 18:58:35.852 [AWT-EventQueue-0] CustomerClientController - Action sent to Server
+[INFO ] 2023-11-18 18:58:35.858 [AWT-EventQueue-0] CustomerClientController - Customer sent to Server
+[INFO ] 2023-11-18 18:58:36.507 [AWT-EventQueue-0] CustomerClientController - Customer Record added to Database
+[INFO ] 2023-11-18 18:58:37.262 [AWT-EventQueue-0] Login - Login Components initialized
+[INFO ] 2023-11-18 18:58:37.263 [AWT-EventQueue-0] Login - Compenents added to Panel
+[INFO ] 2023-11-18 18:58:37.264 [AWT-EventQueue-0] Login - Panel added to Frame
+[INFO ] 2023-11-18 18:58:37.290 [AWT-EventQueue-0] Login - Window Prperties set
+[INFO ] 2023-11-18 18:58:37.290 [AWT-EventQueue-0] Login - Login Page Listeners initialized
+[INFO ] 2023-11-18 18:58:37.290 [AWT-EventQueue-0] Login - Login Page created
+[INFO ] 2023-11-18 18:58:37.291 [AWT-EventQueue-0] CustomerClientController - Returned to Login page
