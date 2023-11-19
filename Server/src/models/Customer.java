@@ -21,7 +21,7 @@ import factories.SessionFactoryBuilder;
 @PrimaryKeyJoinColumn(name = "username")
 @Table(name = "customer")
 public class Customer extends User implements Serializable { //in order for the class to be sent across a network it needs to be serialized 
-	
+	 
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "custID")

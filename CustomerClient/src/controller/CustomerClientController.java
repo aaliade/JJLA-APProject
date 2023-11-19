@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -340,7 +341,7 @@ public class CustomerClientController {
 					logger.info("Message not found from database");
 				}
 			}
-			if (action.equalsIgnoreCase("Get Receipt")) {
+			if (action.equalsIgnoreCase("Get Receipts")) {
 				Boolean flag = (Boolean) objIs.readObject();
 				if (flag == true) {
 					JOptionPane.showMessageDialog(null, "Receipt was successfully found in database", "Receipt Search",
@@ -450,10 +451,17 @@ public class CustomerClientController {
 	public void getInvoiceFromDatabase() {
 		sendAction("Get Invoice");
 		System.out.println("Action sent");
+		sendAction(Integer.toString(customer.getCustID()));
+		this.action = "Get Invoice";
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
 
+	public int getCurrentInvoiceCount() {
+		return invoiceList.length;
+	}
+	
+	
 	public void getEventFromDatabase() {
 		sendAction("Get Event");
 		System.out.println("Action sent");
@@ -467,13 +475,50 @@ public class CustomerClientController {
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
+	
+	public Vector<Object> updateReceiptViewPanel(int index) {
+		Vector<Object> row = new Vector<>();
+		System.out.println("Index: " + index);
+		
+		row.add(receiptList[index].getReceiptNum());
+		row.add(receiptList[index].getPayType());
+		row.add(receiptList[index].getPayAmt());
+		
+		String PaydateString = null;
+		java.util.Date PayDate = new java.util.Date(receiptList[index].getPayDate().getTime());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		PaydateString = dateFormat.format(PayDate);
+		
+		row.add(PaydateString);
+		
+		System.out.println(receiptList[index].getReceiptNum());
+		System.out.println(receiptList[index].getPayType());
+		System.out.println(receiptList[index].getPayAmt());
+		System.out.println(PaydateString);
+		return row;
+	}
 
+	
+	
 	public void getReceiptFromDatabase() {
-		sendAction("Get Receipt");
+		sendAction("Get Receipts");
 		System.out.println("Action sent");
+		try {
+			objOs.writeObject(Integer.toString(customer.getCustID()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.action = "Get Receipts";
 		receiveResponse();
 		System.out.println("Response recieved");
 	}
+	
+	public int getCurrentReceiptsCount() {
+		return receiptList.length;
+	}
+	
+	
 
 	public void UpdateCustomerObject(String addressField, String emailField, String firstNameField,
 			String lastNameField, String passwordField, String phoneField, String usernameField) {
@@ -556,6 +601,28 @@ public class CustomerClientController {
 		row.add(equipmentList[index].getrentalRate());
 		row.add(equipmentList[index].getdescription());
 		row.add(equipmentList[index].getstatus());
+		return row;
+	}
+	
+	public Vector<Object> updateInvoiceViewPanel(int index) {
+		Vector<Object> row = new Vector<>();
+		System.out.println("Index: " + index);
+		
+		String ReturndateString = null;
+		String RentdateString = null;
+		java.util.Date ReturnDate = new java.util.Date(invoiceList[index].getReturnDate().getTime());
+		java.util.Date RentDate = new java.util.Date(invoiceList[index].getRentDate().getTime());
+		
+		
+		 // Format the java.util.Date as a String
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 ReturndateString = dateFormat.format(ReturnDate);
+		 RentdateString = dateFormat.format(RentDate);
+		
+		row.add(invoiceList[index].getInvoiceNum());
+		row.add(RentdateString);
+		row.add(ReturndateString);
+		row.add(Double.toString(invoiceList[index].getCost()));
 		return row;
 	}
 

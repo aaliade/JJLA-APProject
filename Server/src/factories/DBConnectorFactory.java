@@ -22,7 +22,7 @@ public class DBConnectorFactory {
 		if (dbConn == null) {
 			try {
 				//if u have it without password just uncomment
-				dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3307/grizzly’sentertainmentequipmentrental", "root", "usbw");
+				dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental", "root", "password");
 				//dbConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental", "root", ""); EDITED TO 3307
 				logger.info("Database Connection Established");
 				logger.info("Connection Established");

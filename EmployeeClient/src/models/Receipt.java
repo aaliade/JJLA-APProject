@@ -1,10 +1,13 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Receipt {
+public class Receipt implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private String receiptNum;
 	private String payType;
 	private Date payDate;

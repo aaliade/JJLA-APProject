@@ -1,11 +1,13 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Invoice {
+public class Invoice implements Serializable{
+	private static final long serialVersionUID = 1L;
     private String invoiceNum;
     private String custID;
     private Date rentDate;

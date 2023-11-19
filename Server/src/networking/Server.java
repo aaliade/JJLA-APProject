@@ -114,9 +114,9 @@ public class Server {
 							logger.info("Received action from client");
 
 							if (action.equals("Add Employee")) {
-								UserAccount<Employee> employeeService = 
-										context.getBean("employeeService", UserAccount.class);
-								
+								UserAccount<Employee> employeeService = context.getBean("employeeService",
+										UserAccount.class);
+
 								employeeService = (UserAccount<Employee>) ObjIS.readObject();
 								try {
 									if (employeeService.create()) {
@@ -146,7 +146,7 @@ public class Server {
 							} else if (action.equals("Add Customer")) {
 								UserAccount<Customer> customerService = context.getBean("customerService",
 										UserAccount.class);
-								customerService = (UserAccount<Customer>) ObjIS.readObject(); 
+								customerService = (UserAccount<Customer>) ObjIS.readObject();
 								if (customerService.create()) {
 									ObjOS.writeObject(true); // Return true to customer if successful
 									logger.info("Customer added to database successfully.");
@@ -202,7 +202,21 @@ public class Server {
 									ObjOS.writeObject(equipmentList);
 									logger.info("Found equipments in database");
 								}
-							} else if (action.equals("Get Messages")) {
+							}else if (action.equals("Add Equipment")) {
+								Equipment defaulEquip = new Equipment();
+								String equipID = (String) ObjIS.readObject();
+								String equipName = (String) ObjIS.readObject();
+								String description = (String) ObjIS.readObject();
+								String category = (String) ObjIS.readObject();
+								Double rentalRate = (Double) ObjIS.readObject();
+								if (defaulEquip.insert(equipID, equipName, description, category, rentalRate, dBConn)) {
+									ObjOS.writeObject(true);
+								} else {
+									ObjOS.writeObject(false);
+									logger.info("Found equipments in database");
+								}
+							} 
+							else if (action.equals("Get Messages")) {
 								String username = (String) ObjIS.readObject();
 								Message message = new Message();
 								Message[] messageList = message.selectAllMessages(username);
@@ -215,62 +229,25 @@ public class Server {
 									ObjOS.writeObject(messageList);
 									logger.info("Found equipments in database");
 								}
-							}
-							else if(action.equals("Get Equipment By Category")) {
-								String category = (String)  ObjIS.readObject();
-								Equipment defaulEquip = new Equipment();
-								Equipment[] equipmentList = defaulEquip.selectAvailableEquipmentByCategory(category);
-								if (equipmentList == null) {
+							}else if (action.equals("Get Receipts")) {
+								String username = (String) ObjIS.readObject();
+								Receipt receipt = new Receipt();
+								Receipt[] receiptList = receipt.selectAllReceipts();
+								if (receiptList == null) {
 									ObjOS.writeObject(false);
 								} else {
+									//Customer customer = new Customer();
+									//Equipment[] equipment;
+									//System.out.print("Print from server: No Receipts Found");
+									System.out.print("Print from server: Receipts Found");
 									ObjOS.writeObject(true);
-									ObjOS.writeObject(equipmentList);
-									ObjOS.flush();
-									logger.info("Found equipments in database");
-								}
-							} else if (action.equals("Get Lighting")) {
-								Equipment lighting = new Equipment();
-								Equipment[] lightingList = lighting.selectAvailableEquipmentByCategory("Lighting");
-								if (lightingList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(lightingList);
-									logger.info("Found lighting equipments in database");
-								}
-							} else if (action.equals("Get Sound")) {
-								Equipment sound = new Equipment();
-								Equipment[] soundList = sound.selectAvailableEquipmentByCategory("Sound");
-								if (soundList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(soundList);
-									logger.info("Found sound equipments in database");
-								}
-							} else if (action.equals("Get Power")) {
-								Equipment power = new Equipment();
-								Equipment[] powerList = power.selectAvailableEquipmentByCategory("Power");
-								if (powerList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(powerList);
-									logger.info("Found power equipments in database");
-								}
-							} else if (action.equals("Get Staging")) {
-								Equipment staging = new Equipment();
-								Equipment[] stagingList = staging.selectAvailableEquipmentByCategory("Staging");
-								if (stagingList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(stagingList);
-									logger.info("Found staging equipments in database");
+									ObjOS.writeObject(receiptList);
+									logger.info("Found receiptList in database");
 								}
 							} else if (action.equals("Get Invoice")) {
+								String custID = (String) ObjIS.readObject();
 								Invoice defaulInvoice = new Invoice();
-								Invoice[] invoiceList = defaulInvoice.selectAllInvoices();
+								Invoice[] invoiceList = defaulInvoice.selectInvoiceByCustID(custID);
 								if (invoiceList == null) {
 									ObjOS.writeObject(false);
 								} else {
@@ -288,7 +265,7 @@ public class Server {
 									ObjOS.writeObject(receiptList);
 									logger.info("Found receipt in database");
 								}
-							}  else if (action.equals("Send Message")) {
+							} else if (action.equals("Send Message")) {
 								Message defaulMessage = (Message) ObjIS.readObject();
 								String user = (String) ObjIS.readObject();
 								defaulMessage.insertMessage(defaulMessage, dBConn, user);
@@ -297,14 +274,56 @@ public class Server {
 								String day = (String) ObjIS.readObject();
 								String month = (String) ObjIS.readObject();
 								String year = (String) ObjIS.readObject();
-								if(defaultEvent.insert(defaultEvent, Integer.parseInt(day), Integer.parseInt(month),
-										Integer.parseInt(year), dBConn)) {
+								String EquipID = (String) ObjIS.readObject();
+								if (defaultEvent.insert(defaultEvent, Integer.parseInt(day), Integer.parseInt(month),
+										Integer.parseInt(year), EquipID, dBConn )) {
 									ObjOS.writeObject(true);
-								}else {
+								} else {
+									ObjOS.writeObject(false);
+								}
+							} else if (action.equals("Find Equipment")) {
+								String equipmentID = (String) ObjIS.readObject();
+								Equipment defaultEquip = new Equipment();
+								if (defaultEquip.checkEquipmentByID(equipmentID, dBConn)) {
+									ObjOS.writeObject(true);
+								} else {
+									ObjOS.writeObject(false);
+								}
+							}else if (action.equals("Add Invoice")) {
+								String invoiceNum = (String) ObjIS.readObject();
+								String custID = (String) ObjIS.readObject();
+								int rentDay = (int) ObjIS.readObject();
+								int rentMonth = (int) ObjIS.readObject();
+								int rentYear = (int) ObjIS.readObject();
+								int returnDay = (int) ObjIS.readObject();
+								int returnMonth = (int) ObjIS.readObject();
+								int returnYear = (int) ObjIS.readObject();
+								double cost = (double) ObjIS.readObject(); 
+								
+								Invoice defaultInvoice = new Invoice();
+								
+								if (defaultInvoice.insertInvoice(invoiceNum, custID, rentDay, rentMonth, rentYear, returnDay, returnMonth, returnYear, cost, dBConn)) {
+									ObjOS.writeObject(true);
+								} else {
+									ObjOS.writeObject(false);
+								}
+							}else if (action.equals("Add Receipt")) {
+								/*receiptNum	payType	payDate	payAmt	CustID EQuipID*/
+								
+								String recieptID = (String) ObjIS.readObject();
+								String custID = (String) ObjIS.readObject();
+								String equipID = (String) ObjIS.readObject();
+								String payType = (String) ObjIS.readObject();
+								double payAmt = (double) ObjIS.readObject(); 
+								
+								Receipt defaultReceipt = new Receipt();
+								
+								if (defaultReceipt.insertReceipt(recieptID, custID, equipID, payType, payAmt, dBConn)) {
+									ObjOS.writeObject(true);
+								} else {
 									ObjOS.writeObject(false);
 								}
 							}
-
 						} catch (ClassNotFoundException ex) {
 							ex.printStackTrace();
 						} catch (ClassCastException ex) {
@@ -339,11 +358,9 @@ public class Server {
 		private void getDatabaseConnection() {
 			if (dBConn == null) { // checks if database connection is null
 				try {
-					
-					String url = "jdbc:mysql://localhost:3307/grizzly’sentertainmentequipmentrental"; // defines the URL
-					// of the
-					// connection
-					dBConn = DriverManager.getConnection(url, "root", "usbw"); // connecting with database
+					String url = "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental"; // defines the URL
+	
+					dBConn = DriverManager.getConnection(url, "root", "password"); // connecting with database
 
 					connectorFactory = new DBConnectorFactory();
 					dBConn = DBConnectorFactory.getDatabaseConnection();
