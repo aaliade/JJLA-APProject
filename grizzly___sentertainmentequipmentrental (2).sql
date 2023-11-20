@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 20, 2023 at 06:56 PM
+-- Generation Time: Nov 20, 2023 at 07:37 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -297,7 +297,7 @@ ALTER TABLE `message`
 -- Constraints for table `receipt`
 --
 ALTER TABLE `receipt`
-  ADD CONSTRAINT `customerFK` FOREIGN KEY (`custIDfk`) REFERENCES `equipment` (`equipID`),
+  ADD CONSTRAINT `customerFK` FOREIGN KEY (`custIDfk`) REFERENCES `customer` (`custID`),
   ADD CONSTRAINT `equipmentFK` FOREIGN KEY (`equipIDfk`) REFERENCES `equipment` (`equipID`);
 
 --
