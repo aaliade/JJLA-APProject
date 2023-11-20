@@ -107,14 +107,9 @@ public class DashBoard extends Decorations{
 
 		// Two view Panels in the window
 		dashBoardPanel = new JPanel();
-<<<<<<< HEAD
 		viewPanel = new JPanel(new GridLayout(1,1));
 		viewPanel.setBackground(cyan);
 	
-=======
-		viewPanel = new JPanel(new GridLayout(1, 1));
-
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 		// Nodes for Jtree
 		dashBoardNode = new DefaultMutableTreeNode("DashBoard");
 		homeNode = new DefaultMutableTreeNode("Home");
@@ -128,22 +123,15 @@ public class DashBoard extends Decorations{
 		inboxNode = new DefaultMutableTreeNode("Inbox");
 
 		// Welcome Label
-		image = new ImageIcon(getClass().getResource("logo.png"));
-		logoLabel = new JLabel(image);
-		logoLabel.setBorder(bevel);
+		
 		
 		welcomeLabel = new JLabel(
 						"<html> Welcome to Grizzly's Entertainment!<br><br>We are a stage equipment business that offers the rental "
 						+ "of equipment for events requiring: <br><br>Staging, Lighting, Power, and Sound.</html>",
-<<<<<<< HEAD
-						SwingConstants.CENTER);
-		welcomeLabel.setVerticalAlignment(JLabel.CENTER);
-		welcomeLabel.setFont(verdana);
-=======
+
 				SwingConstants.CENTER);
 		welcomeLabel.setVerticalAlignment(JLabel.TOP);
 		welcomeLabel.setFont(new Font("Verdana", Font.BOLD, 15));
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 		welcomeLabel.setPreferredSize(new Dimension(600, 600));
 		welcomeLabel.setForeground(brown);
 		welcomeLabel.setBorder(bevel);
@@ -186,15 +174,15 @@ public class DashBoard extends Decorations{
 		treeView.setBorder(bevel);
 
 		// Remove default JTree icons
-		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
-		open = new ImageIcon(getClass().getResource("plus.png"));
-		close = new ImageIcon(getClass().getResource("minus.png"));
-		leaf = new ImageIcon(getClass().getResource("leaf.png")); 
+//		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
+//		open = new ImageIcon(getClass().getResource("plus.png"));
+//		close = new ImageIcon(getClass().getResource("minus.png"));
+//		leaf = new ImageIcon(getClass().getResource("leaf.png")); 
 		
-		renderer.setLeafIcon(leaf);
-		renderer.setClosedIcon(close);
-		renderer.setOpenIcon(open);
-		renderer.setBorder(bevel);
+//		renderer.setLeafIcon(leaf);
+//		renderer.setClosedIcon(close);
+//		renderer.setOpenIcon(open);
+//		renderer.setBorder(bevel);
 		logger.info("Nodes added to Tree");
 	}
 

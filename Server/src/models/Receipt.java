@@ -21,6 +21,8 @@ public class Receipt implements Serializable{
 	private String payType;
 	private Date payDate;
 	private double payAmt;
+	private String customerID;
+	private String equipMentCode;
 	private Connection dbConn = null;
 	private Statement stmt = null;
 	private Statement transStmt = null;
@@ -33,18 +35,37 @@ public class Receipt implements Serializable{
 		this.payType = "";
 		this.payDate = new Date();
 		this.payAmt = 0.0;
+		this.customerID = "";
+		this.equipMentCode = "";
 		logger.info("Receipt initialized");
 		this.dbConn = DBConnectorFactory.getDatabaseConnection();
 	}
 
-	public Receipt(String receiptNum, String payType, Date payDate, double payAmt) {
+	public Receipt(String receiptNum, String payType, Date payDate, double payAmt, String customerID, String EqupID) {
 		this.receiptNum = receiptNum;
 		this.payType = payType;
 		this.payDate = payDate;
 		this.payAmt = payAmt;
+		this.customerID = customerID;
+		this.equipMentCode = EqupID;
 		logger.info("Input accepted, Receipt initialized");
 	}
 
+	public void setCustID(String id) {
+		this.customerID = "";
+	}
+
+	public String getCustID() {
+		return customerID;
+	}
+	
+	public void setEquipCode(String id) {
+		this.equipMentCode = "";
+	}
+
+	public String getEquipCode() {
+		return equipMentCode;
+	}
 	public String getReceiptNum() {
 		return receiptNum;
 	}
@@ -84,8 +105,8 @@ public class Receipt implements Serializable{
 				+ " | Payment Amount: " + payAmt;
 	}
 
-	public Receipt[] selectAllReceipts() {
-		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt;";
+	public Receipt[] selectReceiptByCustomerID(String customerID) {
+		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt WHERE custIDfk = " + customerID + ";";
 		Receipt[] receiptList = null;
 		try {
 
@@ -110,58 +131,12 @@ public class Receipt implements Serializable{
 					String payType = result.getString("payType");
 					Date payDate = result.getDate("payDate");
 					double payAmt = result.getDouble("payAmt");
+					String CustomerId = result.getString("custIDfk");
+					String EquipID = result.getString("equipIDfk");
 
 					System.out.println("Receipt Number: " + receiptNum + "\nPayment Type: " + payType +
 							"\nPayment Date: " + payDate + "\nPayment Amount: " + payAmt + "\n");
-					receiptList[i] = new Receipt(receiptNum, payType, payDate, payAmt); // initialize object
-					i++;
-				}
-			}
-		} catch (SQLException e) {
-			System.err.println("SQL Exception: " + e.getMessage());
-			logger.error("SQL Exception while selecting receipt: " + e.getMessage());
-		} finally {
-			try {
-				stmt.close();
-				result.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement/result: " + e.getMessage());
-				logger.error("Error while closing statement/result: " + e.getMessage());
-			}
-		}
-		return receiptList;
-	}
-
-	public Receipt[] selectReceiptByReceiptID(String receiptNum) {
-		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt WHERE receiptNum = " + receiptNum + ";";
-		Receipt[] receiptList = null;
-		try {
-
-			stmt = dbConn.createStatement();
-			result = stmt.executeQuery(sql);
-			int count = 0;
-			//If it checks and doesnt have a next in beginning 
-			if(!result.next()) {
-				receiptList = null;
-			}else{
-				result.close();
-				result = stmt.executeQuery(sql);
-				while(result.next()) {
-					count++;
-				}
-				result.close();
-				result = stmt.executeQuery(sql);
-				receiptList = new Receipt[count];
-				int i = 0;
-				while (result.next()) {
-					String receiptNum1 = result.getString("receiptNum");
-					String payType = result.getString("payType");
-					Date payDate = result.getDate("payDate");
-					double payAmt = result.getDouble("payAmt");
-
-					System.out.println("Receipt Number: " + receiptNum + "\nPayment Type: " + payType +
-							"\nPayment Date: " + payDate + "\nPayment Amount: " + payAmt + "\n");
-					receiptList[i] = new Receipt(receiptNum, payType, payDate, payAmt); // initialize object
+					receiptList[i] = new Receipt(receiptNum, payType, payDate, payAmt,CustomerId, EquipID); // initialize object
 					i++;
 				}
 			}
@@ -181,9 +156,8 @@ public class Receipt implements Serializable{
 	}
 
 	public boolean insertReceipt(String recieptID, String custID, String equipID, String payType, double payAmt, Connection Conn) {
-		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.receipt (receiptNum, payType, payDate, payAmt ) VALUES "
-				+ "('" + recieptID + "', '" + payType + "', CURDATE(), " + payAmt + ");";
-
+		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.receipt (receiptNum, payType, payDate, payAmt, custIDfk ,equipIDfk) VALUES "
+				+ "('" + recieptID + "', '" + payType + "', CURDATE(), " + payAmt +  ",'" + custID + "', '"+ equipID + "');";
 		try {
 			dbConn = Conn;
 			stmt = dbConn.createStatement();

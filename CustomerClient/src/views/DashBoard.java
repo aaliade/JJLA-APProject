@@ -55,12 +55,10 @@ public class DashBoard extends Decorations {
 	private JFrame frame;
 	private JMenuBar menuBar;
 
-<<<<<<< HEAD
+
 	private ImageIcon image, open, close, leaf;
-=======
-//	ImageIcon image = null;
+	//ImageIcon image = null;
 //	URL imageUrl = getClass().getResource("CustomerClient\\images\\logo.png");
->>>>>>> branch 'main' of https://github.com/aaliade/JJLA-APProject.git
 	
 	private static final Logger logger = LogManager.getLogger(DashBoard.class);
 
@@ -211,9 +209,9 @@ public class DashBoard extends Decorations {
 
 		// Remove default JTree icons
 		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) treeView.getCellRenderer();
-		open = new ImageIcon(getClass().getResource("plus.png"));
-		close = new ImageIcon(getClass().getResource("minus.png"));
-		leaf = new ImageIcon(getClass().getResource("leaf.png")); 
+		//open = new ImageIcon(getClass().getResource("plus.png"));
+		//close = new ImageIcon(getClass().getResource("minus.png"));
+		//leaf = new ImageIcon(getClass().getResource("leaf.png")); 
 		
 		renderer.setLeafIcon(leaf);
 		renderer.setClosedIcon(close);
@@ -579,7 +577,7 @@ public class DashBoard extends Decorations {
 						JPanel panelView = new JPanel(new GridLayout(1, 1));
 					
 						System.out.print(Dashboardcontroller.getCurrentReceiptsCount());
-						String[] columnNames = { "receiptNum", "payType", "payDate", "payAmt"};
+						String[] columnNames = { "receiptNum","EquipmentCode", "payType", "payDate", "payAmt"};
 
 						// Create an empty table model with column names
 						DefaultTableModel tableModel = new DefaultTableModel(0, 0);
@@ -600,6 +598,27 @@ public class DashBoard extends Decorations {
 							row = Dashboardcontroller.updateReceiptViewPanel(i);
 							tableModel.addRow(row);
 						}
+						ListSelectionModel selectionModel = receiptTable.getSelectionModel();
+						selectionModel.addListSelectionListener(new ListSelectionListener() {
+							@Override
+							public void valueChanged(ListSelectionEvent e) {
+								if (!e.getValueIsAdjusting()) {
+									int selectedRow = receiptTable.getSelectedRow();
+									if (selectedRow != -1) {
+										// Get values from the clicked row
+										String receiptNum = (String) receiptTable.getValueAt(selectedRow, 0);
+										String payType = (String) receiptTable.getValueAt(selectedRow, 1);
+										String payAmt = (String) receiptTable.getValueAt(selectedRow, 2);
+										String payDate = (String) receiptTable.getValueAt(selectedRow, 3);
+										String EquipmentCode = (String) receiptTable.getValueAt(selectedRow, 4);
+										
+										
+										
+										ReceiptInformation(receiptNum, EquipmentCode, payType, payDate, payAmt);
+									}
+								}
+							}
+						});
 
 						panelView.add(receiptTable);
 						viewPanel.add(panelView);
@@ -709,7 +728,7 @@ public class DashBoard extends Decorations {
 	}
 	
 	public void InvoiceInformation(String InvoiceNumber, String RentDate, String ReturnDate,String Cost ) {
-		JInternalFrame internalFrame = new JInternalFrame("Compose A Message", true, true,true);
+		JInternalFrame internalFrame = new JInternalFrame("Invoice Information", true, true,true);
 		JButton button = new JButton("Reply");
 		JTextArea textarea = new JTextArea();
 		textarea.setBounds(10,30, 200,200);
@@ -734,6 +753,21 @@ public class DashBoard extends Decorations {
 		internalFrame.add(panel);
 		frame.add(internalFrame);
 	}
+	
+	public void ReceiptInformation(String receiptNum,String EquipmentCode,String payType, String payDate,String payAmt ) {
+		JInternalFrame internalFrame = new JInternalFrame("Invoice Information", true, true,true);
+		JPanel panel = new JPanel(new GridLayout(5,1));
+		panel.add(new JLabel("Reciept Number: " + receiptNum));
+		panel.add(new JLabel("Equipment Code: " + EquipmentCode));
+		panel.add(new JLabel("Pay Type: " + payType));
+		panel.add(new JLabel("Pay Date: " + payDate));
+		panel.add(new JLabel("Pay Amount: $" + payAmt));
+		internalFrame.setSize(100, 100); 
+		internalFrame.setVisible(true);
+		internalFrame.add(panel);
+		frame.add(internalFrame);
+	}
+
 
 	public void ItemInformation(String ID, String Name,String Category, Double RentalRate,String Description ) {
 		JInternalFrame internalFrame = new JInternalFrame("Item Information", true, true,true);

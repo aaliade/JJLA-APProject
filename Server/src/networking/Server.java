@@ -230,9 +230,9 @@ public class Server {
 									logger.info("Found equipments in database");
 								}
 							}else if (action.equals("Get Receipts")) {
-								String username = (String) ObjIS.readObject();
+								String custID = (String) ObjIS.readObject();
 								Receipt receipt = new Receipt();
-								Receipt[] receiptList = receipt.selectAllReceipts();
+								Receipt[] receiptList = receipt.selectReceiptByCustomerID(custID);
 								if (receiptList == null) {
 									ObjOS.writeObject(false);
 								} else {
@@ -254,16 +254,6 @@ public class Server {
 									ObjOS.writeObject(true);
 									ObjOS.writeObject(invoiceList);
 									logger.info("Found invoice in database");
-								}
-							} else if (action.equals("Get Receipt")) {
-								Receipt defaulReceipt = new Receipt();
-								Receipt[] receiptList = defaulReceipt.selectAllReceipts();
-								if (receiptList == null) {
-									ObjOS.writeObject(false);
-								} else {
-									ObjOS.writeObject(true);
-									ObjOS.writeObject(receiptList);
-									logger.info("Found receipt in database");
 								}
 							} else if (action.equals("Send Message")) {
 								Message defaulMessage = (Message) ObjIS.readObject();
@@ -360,7 +350,7 @@ public class Server {
 				try {
 					String url = "jdbc:mysql://localhost:3306/grizzly’sentertainmentequipmentrental"; // defines the URL
 	
-					dBConn = DriverManager.getConnection(url, "root", "password"); // connecting with database
+					dBConn = DriverManager.getConnection(url, "root", ""); // connecting with database
 
 					connectorFactory = new DBConnectorFactory();
 					dBConn = DBConnectorFactory.getDatabaseConnection();

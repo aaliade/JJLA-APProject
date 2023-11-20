@@ -482,7 +482,7 @@ public class CustomerClientController {
 		
 		row.add(receiptList[index].getReceiptNum());
 		row.add(receiptList[index].getPayType());
-		row.add(receiptList[index].getPayAmt());
+		row.add(Double.toString(receiptList[index].getPayAmt()));
 		
 		String PaydateString = null;
 		java.util.Date PayDate = new java.util.Date(receiptList[index].getPayDate().getTime());
@@ -490,10 +490,12 @@ public class CustomerClientController {
 		PaydateString = dateFormat.format(PayDate);
 		
 		row.add(PaydateString);
-		
+		row.add(receiptList[index].getEquipCode());
+	
 		System.out.println(receiptList[index].getReceiptNum());
 		System.out.println(receiptList[index].getPayType());
 		System.out.println(receiptList[index].getPayAmt());
+		System.out.println(receiptList[index].getEquipCode());
 		System.out.println(PaydateString);
 		return row;
 	}

@@ -13,6 +13,8 @@ public class Receipt implements Serializable{
 	private String payType;
 	private Date payDate;
 	private double payAmt;
+	private String customerID;
+	private String equipMentCode;
 
 	private static final Logger logger = LogManager.getLogger(Receipt.class);
 
@@ -21,15 +23,35 @@ public class Receipt implements Serializable{
 		this.payType = "";
 		this.payDate = new Date();
 		this.payAmt = 0.0;
+		this.customerID = "";
+		this.equipMentCode = "";
 		logger.info("Receipt initialized");
 	}
 
-	public Receipt(String receiptNum, String payType, Date payDate, double payAmt) {
+	public Receipt(String receiptNum, String payType, Date payDate, double payAmt, String customerID, String EqupID) {
 		this.receiptNum = receiptNum;
 		this.payType = payType;
 		this.payDate = payDate;
 		this.payAmt = payAmt;
+		this.customerID = customerID;
+		this.equipMentCode = EqupID;
 		logger.info("Input accepted, Receipt initialized");
+	}
+	
+	public void setCustID(String id) {
+		this.customerID = "";
+	}
+
+	public String getCustID() {
+		return customerID;
+	}
+	
+	public void setEquipCode(String id) {
+		this.equipMentCode = "";
+	}
+
+	public String getEquipCode() {
+		return equipMentCode;
 	}
 
 	public String getReceiptNum() {
