@@ -490,12 +490,12 @@ public class CustomerClientController {
 		PaydateString = dateFormat.format(PayDate);
 		
 		row.add(PaydateString);
-		row.add(receiptList[index].getEquipCode());
+		row.add(receiptList[index].getEquipID());
 	
 		System.out.println(receiptList[index].getReceiptNum());
 		System.out.println(receiptList[index].getPayType());
 		System.out.println(receiptList[index].getPayAmt());
-		System.out.println(receiptList[index].getEquipCode());
+		System.out.println(receiptList[index].getEquipID());
 		System.out.println(PaydateString);
 		return row;
 	}

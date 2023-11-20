@@ -7,89 +7,89 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Receipt implements Serializable{
-
 	private static final long serialVersionUID = 1L;
-	private String receiptNum;
-	private String payType;
-	private Date payDate;
-	private double payAmt;
-	private String customerID;
-	private String equipMentCode;
+    private String receiptNum;
+    private String equipID;
+    private String custID;
+    private String payType;
+    private Date payDate;
+    private double payAmt;
 
-	private static final Logger logger = LogManager.getLogger(Receipt.class);
 
-	public Receipt() {
-		this.receiptNum = "";
-		this.payType = "";
-		this.payDate = new Date();
-		this.payAmt = 0.0;
-		this.customerID = "";
-		this.equipMentCode = "";
-		logger.info("Receipt initialized");
-	}
+    private static final Logger logger = LogManager.getLogger(Receipt.class);
 
-	public Receipt(String receiptNum, String payType, Date payDate, double payAmt, String customerID, String EqupID) {
-		this.receiptNum = receiptNum;
-		this.payType = payType;
-		this.payDate = payDate;
-		this.payAmt = payAmt;
-		this.customerID = customerID;
-		this.equipMentCode = EqupID;
-		logger.info("Input accepted, Receipt initialized");
-	}
-	
-	public void setCustID(String id) {
-		this.customerID = "";
-	}
+    public Receipt() {
+        this.receiptNum = "";
+        this.equipID = "";
+        this.custID = "";
+        this.payType = "";
+        this.payDate = new Date();
+        this.payAmt = 0.0;
+        logger.info("Receipt initialized");
+    }
 
-	public String getCustID() {
-		return customerID;
-	}
-	
-	public void setEquipCode(String id) {
-		this.equipMentCode = "";
-	}
+    public Receipt(String receiptNum, String equipID, String custID, String payType, Date payDate, double payAmt) {
+        this.receiptNum = receiptNum;
+        this.equipID = equipID;
+        this.custID = custID;
+        this.payType = payType;
+        this.payDate = payDate;
+        this.payAmt = payAmt;
+        logger.info("Input accepted, Receipt initialized");
+    }
 
-	public String getEquipCode() {
-		return equipMentCode;
-	}
+    public String getReceiptNum() {
+        return receiptNum;
+    }
 
-	public String getReceiptNum() {
-		return receiptNum;
-	}
+    public void setReceiptNum(String receiptNum) {
+        this.receiptNum = receiptNum;
+    }
 
-	public void setReceiptNum(String receiptNum) {
-		this.receiptNum = receiptNum;
-	}
+    public String getEquipID() {
+        return equipID;
+    }
 
-	public String getPayType() {
-		return payType;
-	}
+    public void setEquipID(String equipID) {
+        this.equipID = equipID;
+    }
 
-	public void setPayType(String payType) {
-		this.payType = payType;
-	}
+    public String getCustID() {
+        return custID;
+    }
 
-	public Date getPayDate() {
-		return payDate;
-	}
+    public void setCustID(String custID) {
+        this.custID = custID;
+    }
 
-	public void setPayDate(Date payDate) {
-		this.payDate = payDate;
-	}
+    public String getPayType() {
+        return payType;
+    }
 
-	public double getPayAmt() {
-		return payAmt;
-	}
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
 
-	public void setPayAmt(double payAmt) {
-		this.payAmt = payAmt;
-	}
+    public Date getPayDate() {
+        return payDate;
+    }
 
-	@Override
-	public String toString() {
-		logger.info("Receipt Information returned");
-		return "Receipt Number: " + receiptNum + " | Payment Type: " + payType + " | Payment Date: " + payDate
-				+ " | Payment Amount: " + payAmt;
-	}
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
+
+    public double getPayAmt() {
+        return payAmt;
+    }
+
+    public void setPayAmt(double payAmt) {
+        this.payAmt = payAmt;
+    }
+
+    @Override
+    public String toString() {
+        logger.info("Receipt Information returned");
+        return "Receipt Number: " + receiptNum + " | Equipment ID: " + equipID + " | Customer ID: " + custID
+                + " | Payment Type: " + payType + " | Payment Date: " + payDate + " | Payment Amount: " + payAmt;
+    }
 }

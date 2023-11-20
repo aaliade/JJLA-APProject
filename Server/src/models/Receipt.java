@@ -15,131 +15,168 @@ import org.apache.logging.log4j.Logger;
 import factories.DBConnectorFactory;
 
 public class Receipt implements Serializable{
-
 	private static final long serialVersionUID = 1L;
-	private String receiptNum;
-	private String payType;
-	private Date payDate;
-	private double payAmt;
-	private String customerID;
-	private String equipMentCode;
-	private Connection dbConn = null;
-	private Statement stmt = null;
-	private Statement transStmt = null;
-	private ResultSet result = null;
+    private String receiptNum;
+    private String equipID;
+    private String custID;
+    private String payType;
+    private Date payDate;
+    private double payAmt;
+    private Connection dbConn = null;
+    private Statement stmt = null;
+    private ResultSet result = null;
 
-	private static final Logger logger = LogManager.getLogger(Receipt.class);
+    private static final Logger logger = LogManager.getLogger(Receipt.class);
 
-	public Receipt() {
-		this.receiptNum = "";
-		this.payType = "";
-		this.payDate = new Date();
-		this.payAmt = 0.0;
-		this.customerID = "";
-		this.equipMentCode = "";
-		logger.info("Receipt initialized");
-		this.dbConn = DBConnectorFactory.getDatabaseConnection();
-	}
+    public Receipt() {
+        this.receiptNum = "";
+        this.equipID = "";
+        this.custID = "";
+        this.payType = "";
+        this.payDate = new Date();
+        this.payAmt = 0.0;
+        logger.info("Receipt initialized");
+        this.dbConn = DBConnectorFactory.getDatabaseConnection();
+    }
 
-	public Receipt(String receiptNum, String payType, Date payDate, double payAmt, String customerID, String EqupID) {
-		this.receiptNum = receiptNum;
-		this.payType = payType;
-		this.payDate = payDate;
-		this.payAmt = payAmt;
-		this.customerID = customerID;
-		this.equipMentCode = EqupID;
-		logger.info("Input accepted, Receipt initialized");
-	}
+    public Receipt(String receiptNum, String equipID, String custID, String payType, Date payDate, double payAmt) {
+        this.receiptNum = receiptNum;
+        this.equipID = equipID;
+        this.custID = custID;
+        this.payType = payType;
+        this.payDate = payDate;
+        this.payAmt = payAmt;
+        logger.info("Input accepted, Receipt initialized");
+    }
 
-	public void setCustID(String id) {
-		this.customerID = "";
-	}
 
-	public String getCustID() {
-		return customerID;
-	}
-	
-	public void setEquipCode(String id) {
-		this.equipMentCode = "";
-	}
+    public String getReceiptNum() {
+        return receiptNum;
+    }
 
-	public String getEquipCode() {
-		return equipMentCode;
-	}
-	public String getReceiptNum() {
-		return receiptNum;
-	}
+    public void setReceiptNum(String receiptNum) {
+        this.receiptNum = receiptNum;
+    }
+    
+    public String getEquipID() {
+        return equipID;
+    }
 
-	public void setReceiptNum(String receiptNum) {
-		this.receiptNum = receiptNum;
-	}
+    public void setEquipID(String equipID) {
+        this.equipID = equipID;
+    }
 
-	public String getPayType() {
-		return payType;
-	}
+    public String getCustID() {
+        return custID;
+    }
 
-	public void setPayType(String payType) {
-		this.payType = payType;
-	}
+    public void setCustID(String custID) {
+        this.custID = custID;
+    }
 
-	public Date getPayDate() {
-		return payDate;
-	}
+    public String getPayType() {
+        return payType;
+    }
 
-	public void setPayDate(Date payDate) {
-		this.payDate = payDate;
-	}
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
 
-	public double getPayAmt() {
-		return payAmt;
-	}
+    public Date getPayDate() {
+        return payDate;
+    }
 
-	public void setPayAmt(double payAmt) {
-		this.payAmt = payAmt;
-	}
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
 
-	@Override
-	public String toString() {
-		logger.info("Receipt Information returned");
-		return "Receipt Number: " + receiptNum + " | Payment Type: " + payType + " | Payment Date: " + payDate
-				+ " | Payment Amount: " + payAmt;
-	}
+    public double getPayAmt() {
+        return payAmt;
+    }
 
-	public Receipt[] selectReceiptByCustomerID(String customerID) {
-		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt WHERE custIDfk = " + customerID + ";";
+
+    public void setPayAmt(double payAmt) {
+        this.payAmt = payAmt;
+    }
+    
+    @Override
+    public String toString() {
+        logger.info("Receipt Information returned");
+        return "Receipt Number: " + receiptNum + " | Equipment ID: " + equipID + " | Customer ID: " + custID
+                + " | Payment Type: " + payType + " | Payment Date: " + payDate + " | Payment Amount: " + payAmt;
+    }
+    
+    public Receipt[] selectAllReceipts() {
+		String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt;";
 		Receipt[] receiptList = null;
 		try {
-
 			stmt = dbConn.createStatement();
 			result = stmt.executeQuery(sql);
 			int count = 0;
-			//If it checks and doesnt have a next in beginning 
-			if(!result.next()) {
-				receiptList = null;
-			}else{
-				result.close();
-				result = stmt.executeQuery(sql);
-				while(result.next()) {
-					count++;
-				}
-				result.close();
-				result = stmt.executeQuery(sql);
-				receiptList = new Receipt[count];
-				int i = 0;
-				while (result.next()) {
-					String receiptNum = result.getString("receiptNum");
-					String payType = result.getString("payType");
-					Date payDate = result.getDate("payDate");
-					double payAmt = result.getDouble("payAmt");
-					String CustomerId = result.getString("custIDfk");
-					String EquipID = result.getString("equipIDfk");
-
-					System.out.println("Receipt Number: " + receiptNum + "\nPayment Type: " + payType +
-							"\nPayment Date: " + payDate + "\nPayment Amount: " + payAmt + "\n");
-					receiptList[i] = new Receipt(receiptNum, payType, payDate, payAmt,CustomerId, EquipID); // initialize object
-					i++;
-				}
+			while (result.next()) {
+				count++;
 			}
+			result.close();
+			result = stmt.executeQuery(sql);
+			receiptList = new Receipt[count];
+			int i = 0;
+			while (result.next()) {
+                String receiptNum = result.getString("receiptNum");
+                String equipID = result.getString("equipIDfk");  
+                String custID = result.getString("custIDfk");   
+                String payType = result.getString("payType");
+                Date payDate = result.getDate("payDate");
+                double payAmt = result.getDouble("payAmt");
+
+                System.out.println("Receipt Number: " + receiptNum + "\nEquipment ID: " + equipID +
+                        "\nCustomer ID: " + custID + "\nPayment Type: " + payType +
+                        "\nPayment Date: " + payDate + "\nPayment Amount: " + payAmt + "\n");
+                receiptList[i] = new Receipt(receiptNum, equipID, custID, payType, payDate, payAmt); // initialize object
+                i++;
+            }
+		} catch (SQLException e) {
+			System.err.println("SQL Exception: " + e.getMessage());
+			logger.error("SQL Exception while selecting receipt: " + e.getMessage());
+		} finally {
+			try {
+				stmt.close();
+				result.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement/result: " + e.getMessage());
+				logger.error("Error while closing statement/result: " + e.getMessage());
+			}
+		}
+		return receiptList;
+	}
+    
+    public Receipt[] selectReceiptByCustomerID(String customerID) {
+    	String sql = "SELECT * FROM grizzly’sentertainmentequipmentrental.receipt WHERE custIDfk = " + customerID + ";";
+		Receipt[] receiptList = null;
+		try {
+			stmt = dbConn.createStatement();
+			result = stmt.executeQuery(sql);
+			int count = 0;
+			while (result.next()) {
+				count++;
+			} 
+			result.close();
+			result = stmt.executeQuery(sql);
+			receiptList = new Receipt[count];
+			int i = 0;
+			while (result.next()) {
+				String receiptNum1 = result.getString("receiptNum");
+                String equipID = result.getString("equipIDfk");  
+                String custID = result.getString("custIDfk");   
+                String payType = result.getString("payType");
+                Date payDate = result.getDate("payDate");
+                double payAmt = result.getDouble("payAmt");
+
+                System.out.println("Receipt Number: " + receiptNum + "\nEquipment ID: " + equipID +
+                        "\nCustomer ID: " + custID + "\nPayment Type: " + payType +
+                        "\nPayment Date: " + payDate + "\nPayment Amount: " + payAmt + "\n");
+                receiptList[i] = new Receipt(receiptNum1, equipID, custID, payType, payDate, payAmt); // initialize object
+                i++;
+            }
 		} catch (SQLException e) {
 			System.err.println("SQL Exception: " + e.getMessage());
 			logger.error("SQL Exception while selecting receipt by receiptNum: " + e.getMessage());
@@ -154,95 +191,90 @@ public class Receipt implements Serializable{
 		}
 		return receiptList;
 	}
+    
+    
+    public boolean insertReceipt(String receiptNum, String equipIDfk, String custIDfk, String payType, double payAmt, Connection Conn) {
+        String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.receipt (receiptNum, equipIDfk, custIDfk, payType, payDate, payAmt) VALUES "
+                + "('" + receiptNum + "', '" + equipIDfk + "', '" + custIDfk + "', '" + payType + "', CURRDATE() , " + payAmt + ");";
+        try {
+        	dbConn = Conn;
+            stmt = dbConn.createStatement();
+            int inserted = stmt.executeUpdate(sql);
 
-	public boolean insertReceipt(String recieptID, String custID, String equipID, String payType, double payAmt, Connection Conn) {
-		String sql = "INSERT INTO grizzly’sentertainmentequipmentrental.receipt (receiptNum, payType, payDate, payAmt, custIDfk ,equipIDfk) VALUES "
-				+ "('" + recieptID + "', '" + payType + "', CURDATE(), " + payAmt +  ",'" + custID + "', '"+ equipID + "');";
-		try {
-			dbConn = Conn;
-			stmt = dbConn.createStatement();
-			int inserted = stmt.executeUpdate(sql);
-
-			if (inserted == 1) {
-				String Transsql = "INSERT INTO grizzly’sentertainmentequipmentrental.transaction (receiptNum,equipID,custID ) VALUES "
-						+ "('" + recieptID + "', '" + equipID + "'," + custID + ");";
-				transStmt =  dbConn.createStatement();
-				int Transinserted = stmt.executeUpdate(Transsql);
-				if(Transinserted == 1) {
-					System.out.print("Added to transaction");
-				}
-				logger.info("Receipt Record Inserted Successfully");
-				return true;
-			} else {
-				logger.error("Receipt Record Insertion Failed");
-				return false;
-			}
-		} catch (SQLException e) {
-			System.err.println("SQL Exception: " + e.getMessage());
-			logger.error("SQL Exception while inserting Receipt Record: " + e.getMessage());
-		} finally {
-			try {
-				stmt.close();
-				transStmt.close();
-			} catch (SQLException e) {
-				System.err.println("Error while closing statement: " + e.getMessage());	
-				logger.error("Error while closing statement: " + e.getMessage());
-			}
-		}
-		return false;
-	}
-
-	public void updateReceipt(String receiptNum, double newPayAmt) {
-		String sql = "UPDATE grizzly’sentertainmentequipmentrental.receipt SET payAmt = " + newPayAmt + " WHERE receiptNum = " + receiptNum + ";";
-
-		try {
-			stmt = dbConn.createStatement();
-			int updated = stmt.executeUpdate(sql);
-
-			if (updated == 1) {
-				JOptionPane.showMessageDialog(null, "Receipt Record Updated Successfully!", "Update Status", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Receipt Record (Number: " + receiptNum + ") Updated Successfully");
-			} else {
-				JOptionPane.showMessageDialog(null, "Receipt Record Update Failed.", "Update Status", JOptionPane.ERROR_MESSAGE);
-				logger.error("Receipt Record (Number: " + receiptNum + ") Update Failed");
-			}
-		} catch (SQLException e) {
-			System.err.println("SQL Exception: " + e.getMessage());
-			logger.error("SQL Exception while updating Receipt Record (Number: " + receiptNum + "): " + e.getMessage());
-		} finally {
-			try {
+            if (inserted == 1) {
+                JOptionPane.showMessageDialog(null, "Receipt Record Inserted Successfully!", "Insert Status", JOptionPane.INFORMATION_MESSAGE);
+                logger.info("Receipt Record Inserted Successfully");
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Receipt Record Insertion Failed.", "Insert Status", JOptionPane.ERROR_MESSAGE);
+                logger.error("Receipt Record Insertion Failed");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            logger.error("SQL Exception while inserting Receipt Record: " + e.getMessage());
+        } finally {
+        	try {
 				stmt.close();
 			} catch (SQLException e) {
 				System.err.println("Error while closing statement: " + e.getMessage());	
 				logger.error("Error while closing statement: " + e.getMessage());
 			}
-		}
-	}
+        }
+        return false;
+    }
 
-	public void deleteReceipt(String receiptNum) {
-		String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.receipt WHERE receiptNum = " + receiptNum + ";";
+    public void updateReceipt(String receiptNum, double newPayAmt) {
+        String sql = "UPDATE grizzly’sentertainmentequipmentrental.receipt SET payAmt = " + newPayAmt + " WHERE receiptNum = " + receiptNum + ";";
 
-		try {
-			stmt = dbConn.createStatement();
-			int deleted = stmt.executeUpdate(sql);
+        try {
+            stmt = dbConn.createStatement();
+            int updated = stmt.executeUpdate(sql);
 
-			if (deleted == 1) {
-				JOptionPane.showMessageDialog(null, "Receipt Record Deleted Successfully!", "Delete Status", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Receipt Record (Number: " + receiptNum + ") Deleted Successfully");
-			} else {
-				JOptionPane.showMessageDialog(null, "Receipt Record Deletion Failed.", "Delete Status", JOptionPane.ERROR_MESSAGE);
-				logger.error("Receipt Record (Number: " + receiptNum + ") Deletion Failed");
-			}
-		} catch (SQLException e) {
-			System.err.println("SQL Exception: " + e.getMessage());
-			logger.error("SQL Exception while deleting Receipt Record (Number: " + receiptNum + "): " + e.getMessage());
-		} finally {
-			try {
+            if (updated == 1) {
+                JOptionPane.showMessageDialog(null, "Receipt Record Updated Successfully!", "Update Status", JOptionPane.INFORMATION_MESSAGE);
+                logger.info("Receipt Record (Number: " + receiptNum + ") Updated Successfully");
+            } else {
+                JOptionPane.showMessageDialog(null, "Receipt Record Update Failed.", "Update Status", JOptionPane.ERROR_MESSAGE);
+                logger.error("Receipt Record (Number: " + receiptNum + ") Update Failed");
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            logger.error("SQL Exception while updating Receipt Record (Number: " + receiptNum + "): " + e.getMessage());
+        } finally {
+        	try {
 				stmt.close();
 			} catch (SQLException e) {
 				System.err.println("Error while closing statement: " + e.getMessage());	
 				logger.error("Error while closing statement: " + e.getMessage());
 			}
-		}
-	}
+        }
+    }
+
+    public void deleteReceipt(String receiptNum) {
+        String sql = "DELETE FROM grizzly’sentertainmentequipmentrental.receipt WHERE receiptNum = " + receiptNum + ";";
+
+        try {
+            stmt = dbConn.createStatement();
+            int deleted = stmt.executeUpdate(sql);
+
+            if (deleted == 1) {
+                JOptionPane.showMessageDialog(null, "Receipt Record Deleted Successfully!", "Delete Status", JOptionPane.INFORMATION_MESSAGE);
+                logger.info("Receipt Record (Number: " + receiptNum + ") Deleted Successfully");
+            } else {
+                JOptionPane.showMessageDialog(null, "Receipt Record Deletion Failed.", "Delete Status", JOptionPane.ERROR_MESSAGE);
+                logger.error("Receipt Record (Number: " + receiptNum + ") Deletion Failed");
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            logger.error("SQL Exception while deleting Receipt Record (Number: " + receiptNum + "): " + e.getMessage());
+        } finally {
+        	try {
+				stmt.close();
+			} catch (SQLException e) {
+				System.err.println("Error while closing statement: " + e.getMessage());	
+				logger.error("Error while closing statement: " + e.getMessage());
+			}
+        }
+    }
 }
